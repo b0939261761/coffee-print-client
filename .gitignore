@@ -1,0 +1,14 @@
+node_modules
+/dist
+
+.travis/id_rsa
+
+# local env files
+.env.develpment
+
+# Log files
+npm-debug.log*
+
+# Editor directories and files
+.vscode
+
