@@ -2,7 +2,7 @@ language: node_js
 
 env:
   SSH_USER: root
-  DELPOY_PATH: /root/coffee-print/coffee-print-client
+  DEPLOY_PATH: /root/coffee-print/coffee-print-client
   SERVICE_NAME: coffee-print
 
 sudo: false
