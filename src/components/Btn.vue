@@ -1,7 +1,9 @@
 <template>
-  <button class='btn'>
-    {{ label }}
-  </button>
+  <button
+    v-on=$listeners
+    class='btn'
+    v-text='label'
+  />
 </template>
 
 <script>

@@ -8,7 +8,13 @@ const messages = {
     shopCode: 'Код кофепринтера',
     shopName: 'Наименование кофепринтера',
     next: 'Далее',
-    addPicture: 'Добавить изображение'
+    addPicture: 'Добавить изображение',
+    scale: 'Маштаб',
+    offsetX: 'Смещение по Х',
+    offsetY: 'Смещение по Y',
+    contrast: 'Контрасность',
+    brightness: 'Яркость',
+    sendInDevice: 'Отправить в устройство'
   }
 };
 

@@ -3,6 +3,9 @@ import Router from 'vue-router';
 import store from '@/store/index';
 import Shop from '@/views/Shop.vue';
 import SelectPicture from '@/views/SelectPicture.vue';
+import EditorPicture from '@/views/EditorPicture.vue';
+
+import { getBase64 } from '@/utils/file';
 
 Vue.use(Router);
 
@@ -12,6 +15,29 @@ const beforeEnterSelectPicture = async (to, from, next) => {
   }
   next();
 };
+
+const beforeEnterEditorPicture = async (to, from, next) => {
+  const routerPath = {};
+  const { originalFile } = store.state.file;
+  if (originalFile) {
+    if (!store.state.file.fileUrl) {
+      const fileUrl = await getBase64(originalFile);
+      store.commit('file/setFileUrl', { url: fileUrl });
+    }
+  } else {
+    const shopCode = store.state.shop.code;
+
+    if (shopCode) {
+      routerPath.name = 'selectPicture';
+      routerPath.params = { code: shopCode };
+    } else {
+      routerPath.name = 'shop';
+    }
+  }
+
+  next(routerPath);
+};
+
 
 export default new Router({
   mode: 'history',
@@ -31,6 +57,12 @@ export default new Router({
       name: 'selectPicture',
       component: SelectPicture,
       beforeEnter: beforeEnterSelectPicture
+    },
+    {
+      path: '/editor',
+      name: 'editorPicture',
+      component: EditorPicture,
+      beforeEnter: beforeEnterEditorPicture
     }
 
     // {

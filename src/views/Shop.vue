@@ -12,6 +12,7 @@
         :label='$t("shopCode")'
       />
       <Btn
+        :disabled='!shopCode'
         :label='$t("next")'
       />
     </form>
@@ -33,8 +34,9 @@ export default {
   }),
   methods: {
     onSubmit() {
+      if (!this.shopCode) return;
       this.$store.dispatch('shop/getShop', { code: this.shopCode });
-      this.$router.push({ name: 'selectPicture' });
+      this.$router.push({ name: 'selectPicture', params: { code: this.shopCode } });
     }
   }
 };
