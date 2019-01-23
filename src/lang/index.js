@@ -8,17 +8,19 @@ const messages = {
     shopCode: 'Код кофепринтера',
     shopName: 'Наименование кофепринтера',
     next: 'Далее',
+    back: 'Назад',
     addPicture: 'Добавить изображение',
     scale: 'Маштаб',
     offsetX: 'Смещение по Х',
     offsetY: 'Смещение по Y',
     contrast: 'Контрасность',
     brightness: 'Яркость',
-    sendInDevice: 'Отправить в устройство'
+    rotate: 'Вращение',
+    balanceColor: 'Баланс цвета',
+    sendOnDevice: 'Отправить в устройство'
   }
 };
 
-// Create VueI18n instance with options
 const i18n = new VueI18n({
   locale: 'ru', // set locale
   messages // set locale messages

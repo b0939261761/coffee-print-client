@@ -15,6 +15,19 @@ export const loadImage = src => new Promise((resolve, reject) => {
   }
 });
 
+export const b64ToUint8Array = b64Image => {
+  const img = atob(b64Image.split(',')[1]);
+
+  const imgBuffer = [];
+
+  for (let i = 0; i < img.length; ++i) {
+    imgBuffer.push(img.charCodeAt(i));
+  }
+  return new Uint8Array(imgBuffer);
+};
+
 export default {
-  getBase64
+  getBase64,
+  loadImage,
+  b64ToUint8Array
 };

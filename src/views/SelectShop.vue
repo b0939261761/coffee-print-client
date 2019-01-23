@@ -24,7 +24,7 @@ import InputText from '@/components/InputText.vue';
 import Btn from '@/components/Btn.vue';
 
 export default {
-  name: 'Shop',
+  name: 'SelectShop',
   components: {
     InputText,
     Btn

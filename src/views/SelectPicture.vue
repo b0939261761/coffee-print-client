@@ -19,7 +19,7 @@
       <input type='file'
              ref='file'
              @change='selectedPicture'
-             accept=".jpg, .jpeg, .png"/>
+             :accept='allowedTypes.join(",")'/>
     </div>
   </div>
 </template>
@@ -27,7 +27,6 @@
 <script>
 import Btn from '@/components/Btn.vue';
 import { mapState } from 'vuex';
-import http from '@/utils/http';
 
 export default {
   name: 'SelectPicture',
@@ -35,7 +34,7 @@ export default {
     Btn
   },
   data: () => ({
-
+    allowedTypes: ['image/jpeg', 'image/png']
   }),
   computed: mapState('shop', {
     shopCode: state => state.code,
@@ -47,9 +46,14 @@ export default {
     },
     selectedPicture(event) {
       const { files } = event.target;
-      if (files.length) {
+      const file = files[0];
+
+      if (file && this.allowedTypes.includes(file.type)) {
         this.$store.commit('file/setOriginalFile', { file: files[0] });
-        this.$router.push({ name: 'editorPicture' });
+        this.$store.commit('file/setFileUrl', { url: null });
+        this.$router.push({ name: 'editPicture' });
+      } else {
+        console.log('Только изображения можно выбирать!');
       }
     }
   }

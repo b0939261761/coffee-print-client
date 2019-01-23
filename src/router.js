@@ -1,9 +1,9 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import store from '@/store/index';
-import Shop from '@/views/Shop.vue';
+import SelectShop from '@/views/SelectShop.vue';
 import SelectPicture from '@/views/SelectPicture.vue';
-import EditorPicture from '@/views/EditorPicture.vue';
+import EditPicture from '@/views/EditPicture.vue';
 
 import { getBase64 } from '@/utils/file';
 
@@ -16,7 +16,7 @@ const beforeEnterSelectPicture = async (to, from, next) => {
   next();
 };
 
-const beforeEnterEditorPicture = async (to, from, next) => {
+const beforeEnterEditPicture = async (to, from, next) => {
   const routerPath = {};
   const { originalFile } = store.state.file;
   if (originalFile) {
@@ -45,12 +45,12 @@ export default new Router({
   routes: [
     {
       path: '/',
-      redirect: { name: 'shop' }
+      redirect: { name: 'selectShop' }
     },
     {
       path: '/shop',
-      name: 'shop',
-      component: Shop
+      name: 'selectShop',
+      component: SelectShop
     },
     {
       path: '/shop/:code',
@@ -59,10 +59,10 @@ export default new Router({
       beforeEnter: beforeEnterSelectPicture
     },
     {
-      path: '/editor',
-      name: 'editorPicture',
-      component: EditorPicture,
-      beforeEnter: beforeEnterEditorPicture
+      path: '/edit',
+      name: 'editPicture',
+      component: EditPicture,
+      beforeEnter: beforeEnterEditPicture
     }
 
     // {

@@ -4,7 +4,7 @@
       class='label'
       for='input'
       v-text='label'
-    />
+    ></label>
     <input
       :value='value'
       @change='onChange'
@@ -13,6 +13,7 @@
       id='input'
       :min='min'
       :max='max'
+      :step='step'
     />
 
 
@@ -37,7 +38,11 @@ export default {
     },
     max: {
       type: Number,
-      default: 0
+      default: 10
+    },
+    step: {
+      type: Number,
+      default: 1
     },
     label: {
       type: String,
@@ -54,6 +59,4 @@ export default {
 </script>
 
 <style scoped>
-
-
 </style>

@@ -19,6 +19,10 @@ module.exports = {
       props: true,
       ignorePropertyModificationsFor: ['state']
     }],
+
+    // disallow the unary operators ++ and -- (no-plusplus)
+    'no-plusplus': 'off',
+
   },
   parserOptions: {
     parser: 'babel-eslint'
