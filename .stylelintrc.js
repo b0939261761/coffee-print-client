@@ -38,10 +38,10 @@ module.exports = {
     'suitcss/selector-root-no-composition': true,
 
     // https://github.com/suitcss/stylelint-suitcss/blob/master/rules/custom-property-no-outside-root/README.md
-    'suitcss/custom-property-no-outside-root': true,
+    'suitcss/custom-property-no-outside-root': null,
 
     // https://github.com/csstools/stylelint-value-no-unknown-custom-properties
-    'csstools/value-no-unknown-custom-properties': true,
+    'csstools/value-no-unknown-custom-properties': null,
 
     // https://github.com/kristerkari/stylelint-z-index-value-constraint
     'plugin/z-index-value-constraint': {

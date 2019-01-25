@@ -1,86 +1,99 @@
 <template>
   <div class="edit-picture">
-    <div class='settings'>
-
-      <InputRange
-        :label='$t("scale")'
-        v-model='scale'
-        @change='renderImage'
-        :min='1'
-        :max='100'
-      />
-
-      <InputRange
-        :label='$t("offsetX")'
-        v-model='offsetX'
-        @change='renderImage'
-        :min='-100'
-        :max='100'
-      />
-
-      <InputRange
-        :label='$t("offsetY")'
-        v-model='offsetY'
-        @change='renderImage'
-        :min='-100'
-        :max='100'
-      />
-
-      <InputRange
-        :label='$t("contrast")'
-        v-model='contrast'
-        @change='renderImage'
-        :min='0'
-        :max='200'
-      />
-
-      <InputRange
-        :label='$t("brightness")'
-        v-model='brightness'
-        @change='renderImage'
-        :min='0'
-        :max='200'
-      />
-
-      <InputRange
-        :label='$t("rotate")'
-        v-model='rotate'
-        @change='renderImage'
-        :min='-360'
-        :max='360'
-      />
-
-      <InputRange
-        :label='$t("balanceColor")'
-        v-model='balanceColor'
-        @change='renderImage'
-        :min='0'
-        :max='255'
-        :step='0.5'
-      />
-
-      <Btn :label='$t("sendOnDevice")'
-            @click='sendFile' />
-
-      <Btn
-        :label='$t("back")'
-        @click='onBack'
-      />
-
-      <div v-if='fileNameOnServer'>
-        <a :href='fileNameOnServer'
-            v-text='fileNameOnServer'
-        ></a>
-
-      </div>
-
-    </div>
     <div class="wrapper-img">
       <canvas
         class='img-viewer'
         ref='canvas'
-      />
+    />
     </div>
+
+    <section class='controls'>
+      <header class='controls-header'>
+
+        <Btn
+          :label='$t("rollUp")'
+           @click='controlsMainVisible = !controlsMainVisible'
+           size='small'
+           colorTheme='dark'
+        >
+          <span class='rollup-icon'>&nbsp;</span>
+        </Btn>
+      </header>
+
+      <div :class='["controls-main", { "controls-main--visible": controlsMainVisible } ]'>
+        <InputRange
+          :label='$t("scale")'
+          v-model='scale'
+          @change='renderImage'
+          :min='1'
+          :max='100'
+        />
+
+        <InputRange
+          :label='$t("offsetX")'
+          v-model='offsetX'
+          @change='renderImage'
+          :min='-50'
+          :max='50'
+          :step='0.5'
+        />
+
+        <InputRange
+          :label='$t("offsetY")'
+          v-model='offsetY'
+          @change='renderImage'
+          :min='-50'
+          :max='50'
+          :step='0.5'
+        />
+
+        <InputRange
+          :label='$t("rotate")'
+          v-model='rotate'
+          @change='renderImage'
+          :min='-360'
+          :max='360'
+        />
+
+        <InputRange
+          :label='$t("contrast")'
+          v-model='contrast'
+          @change='renderImage'
+          :min='0'
+          :max='200'
+        />
+
+        <InputRange
+          :label='$t("brightness")'
+          v-model='brightness'
+          @change='renderImage'
+          :min='0'
+          :max='200'
+        />
+
+        <InputRange
+          :label='$t("balanceColor")'
+          v-model='balanceColor'
+          @change='renderImage'
+          :min='0'
+          :max='255'
+        />
+
+      </div>
+
+      <footer class='controls-footer'>
+        <Btn
+          :label='$t("back")'
+          @click='onBack'
+        />
+
+        <Btn
+          :label='$t("sendOnDevice")'
+           @click='sendFile'
+        />
+
+      </footer>
+    </section>
   </div>
 </template>
 
@@ -105,8 +118,8 @@ export default {
     contrast: 100,
     brightness: 100,
     rotate: 0,
-    balanceColor: 122.5,
-    fileNameOnServer: null
+    balanceColor: 123,
+    controlsMainVisible: true
   }),
   computed: mapState('file', {
     fileUrl: state => state.fileUrl
@@ -123,7 +136,7 @@ export default {
       formData.append('description', 'Описание файла');
 
       const result = await http.post('/upload', formData);
-      this.fileNameOnServer = `${process.env.VUE_APP_BASE_URL}/file/${result.data.fileName}`;
+      console.log(`${process.env.VUE_APP_BASE_URL}/file/${result.data.fileName}`);
     },
     renderImage() {
       const canvasSize = this.canvas.clientWidth;
@@ -149,18 +162,18 @@ export default {
         this.context.rotate(this.rotate * Math.PI / 180);
       }
 
-      // Смещение изображения
-      const offsetX = this.offsetX + -offsetRotate;
-      const offsetY = this.offsetY + -offsetRotate;
-
       // Маштабирование
       const scale = this.scale / 50;
       const scaleSize = canvasSize / scale;
 
+      // Смещение изображения
+      const offsetX = this.offsetX * this.image.width / 100 * scale;
+      const offsetY = this.offsetY * this.image.height / 100 * scale;
+
       this.context.drawImage(
         this.image,
-        0, 0, scaleSize, scaleSize,
-        offsetX, offsetY, canvasSize, canvasSize
+        offsetX, offsetY, scaleSize, scaleSize,
+        -offsetRotate, -offsetRotate, canvasSize, canvasSize
       );
 
       // Делаем картинку черно-белой
@@ -197,7 +210,6 @@ export default {
       this.context.fill();
     },
     onBack() {
-      console.log(1);
       this.$router.push({ name: 'selectPicture', params: { code: this.$store.state.shop.code } });
     }
   },
@@ -216,23 +228,116 @@ export default {
 </script>
 
 <style scoped>
+.app {
+  background-image: url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2 2"><path d="M1 2V0h1v1H0v1z" fill-opacity=".025"/></svg>');
+  background-repeat: repeat;
+  background-size: 1.25rem 1.25rem;
+}
 
 .edit-picture {
   width: 100%;
-  height: 100vh;
-  background-color: rgba(255, 255, 255, .8);
+  max-width: 64rem;
+  height: 100%;
+  margin: 0 auto;
 }
 
-.settings {
-  background-color: rgba(0, 0, 0, .2);
+@media (min-width: 768px) {
+  .edit-picture {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+.controls {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 31.25rem;
+  max-width: 100%;
+  max-height: 100%;
+  margin: auto;
+  padding: .5rem  .9375rem 0;
+  overflow-y: auto;
+  background-color: rgba(0, 0, 0, .6);
+  border-radius: .25rem .25rem 0 0;
+}
+
+@media (min-width: 768px) {
+  .controls {
+    position: static;
+    flex-shrink: 3;
+    padding-bottom: 1rem;
+    border-radius: .25rem 0 0 .25rem;
+  }
+}
+
+@media (min-width: 64rem) {
+  .controls {
+    border-radius: .25rem;
+  }
+}
+
+.controls-header {
+  text-align: right;
+}
+
+/* Иконка на кнопке */
+.rollup-icon {
+  position: relative;
+  display: inline-block;
+  width: 1rem;
+  margin-left: .5rem;
+  pointer-events: none;
+}
+
+.rollup-icon::before {
+  content: '';
+  position: absolute;
+  width: .75rem;
+  height: .75rem;
+  border: 0 solid #fff;
+  border-width: 0 0 3px 3px;
+  transform: rotate(-45deg);
+}
+
+.controls-main {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition:
+    max-height .5s ease-out,
+    opacity .7s ease-out;
+}
+
+.controls-main--visible {
+  max-height: 800px;
+  overflow: visible;
+  opacity: 1;
+}
+
+.controls-footer {
+  display: flex;
+  justify-content: space-between;
 }
 
 .wrapper-img {
   position: relative;
   display: block;
-  width: 500px;
-  max-width: 100%;
+  width: 31.25rem;
+  max-width: calc(100% - .625rem);
+  margin: .3125rem;
+  overflow: hidden;
   background-color: white;
+  border-radius: 50%;
+  box-shadow: 0 0 5px 3px #333;
+}
+
+@media (min-width: 768px) {
+  .wrapper-img {
+    margin-right: .8rem;
+  }
 }
 
 .wrapper-img::before {

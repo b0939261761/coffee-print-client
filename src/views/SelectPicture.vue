@@ -1,5 +1,5 @@
 <template>
-  <div class='home'>
+  <div class='select-picture'>
     <div class='coffee-text'>
       <div class='coffee-text__cell'>
         <span v-text='$t("shopCode")' />
@@ -61,10 +61,15 @@ export default {
 </script>
 
 <style scoped>
-.home {
+
+.select-picture {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
+  background-image: url('../assets/background.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .coffee-text {

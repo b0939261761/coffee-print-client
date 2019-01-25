@@ -2,9 +2,7 @@ export const addOnResize = callback => {
   let running = false;
 
   const runCallbacks = () => {
-    console.log(1);
     callback();
-
     running = false;
   };
 

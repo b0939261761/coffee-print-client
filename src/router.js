@@ -31,7 +31,7 @@ const beforeEnterEditPicture = async (to, from, next) => {
       routerPath.name = 'selectPicture';
       routerPath.params = { code: shopCode };
     } else {
-      routerPath.name = 'shop';
+      routerPath.name = 'selectShop';
     }
   }
 

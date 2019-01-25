@@ -27,9 +27,10 @@ export default {
 
 html {
   box-sizing: border-box;
+  height: 100%;
   font-size: 16px;
   line-height: 1.5;
-  font-family: 'Roboto', sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica', sans-serif;
   text-align: center;
   color: #2c3e50;
   -webkit-font-smoothing: antialiased;
@@ -38,16 +39,14 @@ html {
 }
 
 body {
+  height: 100%;
   margin: 0;
-  background-image: url('assets/background.jpg');
-  background-repeat: no-repeat;
-  background-position: top left;
-  background-size: cover;
-  background-attachment: fixed;
+  padding: 0;
 }
 
 .app {
+  display: flex;
   width: 100%;
-  padding: 0 15px;
+  height: 100%;
 }
 </style>

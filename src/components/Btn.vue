@@ -1,9 +1,11 @@
 <template>
   <button
-    v-on=$listeners
-    class='btn'
-    v-text='label'
-  />
+    v-on='$listeners'
+    :class='["btn", classSize, classColorTheme ]'
+  >
+    {{ label }}
+    <slot></slot>
+  </button>
 </template>
 
 <script>
@@ -13,6 +15,24 @@ export default {
     label: {
       type: String || null,
       default: ''
+    },
+    size: {
+      type: String || null,
+      validator: value => ['normal', 'small'].includes(value),
+      default: 'normal'
+    },
+    colorTheme: {
+      type: String || null,
+      validator: value => ['primary', 'dark'].includes(value),
+      default: 'primary'
+    }
+  },
+  computed: {
+    classSize() {
+      return `btn--${this.size}`;
+    },
+    classColorTheme() {
+      return `btn--${this.colorTheme}`;
     }
   }
 };
@@ -20,7 +40,6 @@ export default {
 
 
 <style scoped>
-
 .btn {
   position: relative;
   min-width: 5.5rem;
@@ -96,4 +115,14 @@ export default {
 .btn:focus::before {
   opacity: .12;
 }
+
+.btn--small {
+  min-height: 1.5rem;
+  padding: .2rem 1rem;
+}
+
+.btn--dark {
+  background-color: rgba(0, 0, 0, .3);
+}
+
 </style>

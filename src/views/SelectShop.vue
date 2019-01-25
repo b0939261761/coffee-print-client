@@ -46,7 +46,11 @@ export default {
 .home {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
+  background-image: url('../assets/background.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .coffee-text {

@@ -17,7 +17,8 @@ const messages = {
     brightness: 'Яркость',
     rotate: 'Вращение',
     balanceColor: 'Баланс цвета',
-    sendOnDevice: 'Отправить в устройство'
+    sendOnDevice: 'Отправить',
+    rollUp: 'Свернуть'
   }
 };
 
