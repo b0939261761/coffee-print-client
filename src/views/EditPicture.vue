@@ -1,18 +1,15 @@
 <template>
-  <div class="edit-picture">
-    <div class="wrapper-img">
-      <canvas
-        class='img-viewer'
-        ref='canvas'
+  <div class = 'edit-picture'>
+    <PreviewPicture
+      v-bind = 'settingsPicture'
+      @setupCanvas = 'canvas = $event'
     />
-    </div>
 
     <section class='controls'>
       <header class='controls-header'>
-
         <Btn
           :label='$t("rollUp")'
-           @click='controlsMainVisible = !controlsMainVisible'
+           @click='settingsPictureVisible = !settingsPictureVisible'
            size='small'
            colorTheme='dark'
         >
@@ -20,209 +17,56 @@
         </Btn>
       </header>
 
-      <div :class='["controls-main", { "controls-main--visible": controlsMainVisible } ]'>
-        <InputRange
-          :label='$t("scale")'
-          v-model='scale'
-          @change='renderImage'
-          :min='1'
-          :max='100'
-        />
-
-        <InputRange
-          :label='$t("offsetX")'
-          v-model='offsetX'
-          @change='renderImage'
-          :min='-50'
-          :max='50'
-          :step='0.5'
-        />
-
-        <InputRange
-          :label='$t("offsetY")'
-          v-model='offsetY'
-          @change='renderImage'
-          :min='-50'
-          :max='50'
-          :step='0.5'
-        />
-
-        <InputRange
-          :label='$t("rotate")'
-          v-model='rotate'
-          @change='renderImage'
-          :min='-360'
-          :max='360'
-        />
-
-        <InputRange
-          :label='$t("contrast")'
-          v-model='contrast'
-          @change='renderImage'
-          :min='0'
-          :max='200'
-        />
-
-        <InputRange
-          :label='$t("brightness")'
-          v-model='brightness'
-          @change='renderImage'
-          :min='0'
-          :max='200'
-        />
-
-        <InputRange
-          :label='$t("balanceColor")'
-          v-model='balanceColor'
-          @change='renderImage'
-          :min='0'
-          :max='255'
-        />
-
-      </div>
+      <SettingsPicture
+        v-bind = 'settingsPicture'
+        :isVisible = 'settingsPictureVisible'
+        @input = 'onSettingInput'
+      />
 
       <footer class='controls-footer'>
-        <Btn
-          :label='$t("back")'
-          @click='onBack'
-        />
-
-        <Btn
-          :label='$t("sendOnDevice")'
-           @click='sendFile'
-        />
-
+        <Btn :label='$t("back")' @click='onBack' />
+        <BtnSend :canvas='canvas' />
       </footer>
+
     </section>
   </div>
 </template>
 
 <script>
-import InputRange from '@/components/InputRange.vue';
+import PreviewPicture from '@/components/PreviewPicture.vue';
+import SettingsPicture from '@/components/SettingsPicture.vue';
 import Btn from '@/components/Btn.vue';
-import { mapState } from 'vuex';
-import http from '@/utils/http';
-import { loadImage, b64ToUint8Array } from '@/utils/file';
-import { addOnResize, removeOnResize } from '@/utils/events';
+
+import BtnSend from '@/components/BtnSend.vue';
 
 export default {
   name: 'EditPicture',
   components: {
     Btn,
-    InputRange
+    BtnSend,
+    SettingsPicture,
+    PreviewPicture
   },
   data: () => ({
-    scale: 50,
-    offsetX: 0,
-    offsetY: 0,
-    contrast: 100,
-    brightness: 100,
-    rotate: 0,
-    balanceColor: 123,
-    controlsMainVisible: true
-  }),
-  computed: mapState('file', {
-    fileUrl: state => state.fileUrl
+    settingsPicture: {
+      scale: 0,
+      offsetX: 0,
+      offsetY: 0,
+      contrast: 1,
+      brightness: 1,
+      rotate: 0,
+      balanceColor: 0
+    },
+    canvas: null,
+    settingsPictureVisible: true
   }),
   methods: {
-    async sendFile() {
-      const b64Image = this.canvas.toDataURL('image/jpeg');
-      const u8Image = b64ToUint8Array(b64Image);
-
-      const formData = new FormData();
-      formData.append('file', new Blob([u8Image], { type: 'image/jpg' }));
-      formData.append('shopCode', 1);
-      // formData.append('shopCode', this.$store.state.shop.id);
-      formData.append('description', 'Описание файла');
-
-      const result = await http.post('/upload', formData);
-      console.log(`${process.env.VUE_APP_BASE_URL}/file/${result.data.fileName}`);
-    },
-    renderImage() {
-      const canvasSize = this.canvas.clientWidth;
-      const centerSize = canvasSize / 2;
-      this.canvas.width = canvasSize;
-      this.canvas.height = canvasSize;
-
-      // Clear canvas
-      this.context.clearRect(0, 0, canvasSize, canvasSize);
-      this.context.save();
-
-      // Фильтры - яркость и контрасность
-      let filter = '';
-      filter += ` contrast(${this.contrast / 100})`;
-      filter += ` brightness(${this.brightness / 100})`;
-      this.context.filter = filter;
-
-      // Вращение изображения
-      let offsetRotate = 0;
-      if (this.rotate) {
-        offsetRotate = centerSize;
-        this.context.translate(offsetRotate, offsetRotate);
-        this.context.rotate(this.rotate * Math.PI / 180);
-      }
-
-      // Маштабирование
-      const scale = this.scale / 50;
-      const scaleSize = canvasSize / scale;
-
-      // Смещение изображения
-      const offsetX = this.offsetX * this.image.width / 100 * scale;
-      const offsetY = this.offsetY * this.image.height / 100 * scale;
-
-      this.context.drawImage(
-        this.image,
-        offsetX, offsetY, scaleSize, scaleSize,
-        -offsetRotate, -offsetRotate, canvasSize, canvasSize
-      );
-
-      // Делаем картинку черно-белой
-      const imageData = this.context.getImageData(0, 0, canvasSize, canvasSize);
-
-      for (let i = 0; i < imageData.data.length; i += 4) {
-        const red = imageData.data[i];
-        const green = imageData.data[i + 1];
-        const blue = imageData.data[i + 2];
-        const alpha = imageData.data[i + 3];
-
-        const isWhite = ((red + green + blue) / 3) > this.balanceColor || alpha < this.balanceColor;
-
-        const color = isWhite ? 255 : 0;
-
-        imageData.data[i] = color;
-        imageData.data[i + 1] = color;
-        imageData.data[i + 2] = color;
-
-        if (alpha !== 255) imageData.data[i + 3] = 255;
-      }
-
-      this.context.putImageData(imageData, 0, 0);
-
-      // Берем картинку в кружочек и белый фон позади кружочка
-      this.context.restore();
-      this.context.globalCompositeOperation = 'destination-in';
-      this.context.arc(centerSize, centerSize, centerSize, 0, 2 * Math.PI);
-      this.context.fill();
-
-      this.context.globalCompositeOperation = 'destination-over';
-      this.context.rect(0, 0, canvasSize, canvasSize);
-      this.context.fillStyle = 'white';
-      this.context.fill();
+    onSettingInput({ key, value }) {
+      this.settingsPicture[key] = +value;
     },
     onBack() {
       this.$router.push({ name: 'selectPicture', params: { code: this.$store.state.shop.code } });
     }
-  },
-  created() {
-    const onResize = addOnResize(this.renderImage);
-    this.$once('hook:destroyed', () => removeOnResize(onResize));
-  },
-  async mounted() {
-    this.canvas = this.$refs.canvas;
-    this.context = this.canvas.getContext('2d');
-    this.image = await loadImage(this.fileUrl);
-    // this.image = await loadImage('http://localhost:4000/111.jpg');
-    this.renderImage();
   }
 };
 </script>
@@ -302,57 +146,8 @@ export default {
   transform: rotate(-45deg);
 }
 
-.controls-main {
-  max-height: 0;
-  overflow: hidden;
-  opacity: 0;
-  transition:
-    max-height .5s ease-out,
-    opacity .7s ease-out;
-}
-
-.controls-main--visible {
-  max-height: 800px;
-  overflow: visible;
-  opacity: 1;
-}
-
 .controls-footer {
   display: flex;
   justify-content: space-between;
 }
-
-.wrapper-img {
-  position: relative;
-  display: block;
-  width: 31.25rem;
-  max-width: calc(100% - .625rem);
-  margin: .3125rem;
-  overflow: hidden;
-  background-color: white;
-  border-radius: 50%;
-  box-shadow: 0 0 5px 3px #333;
-}
-
-@media (min-width: 768px) {
-  .wrapper-img {
-    margin-right: .8rem;
-  }
-}
-
-.wrapper-img::before {
-  content: '';
-  display: block;
-  width: 100%;
-  padding-top: 100%;
-}
-
-.img-viewer {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
-
 </style>

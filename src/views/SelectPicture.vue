@@ -44,13 +44,12 @@ export default {
     openDialog() {
       this.$refs.file.click();
     },
-    selectedPicture(event) {
+    async selectedPicture(event) {
       const { files } = event.target;
       const file = files[0];
 
       if (file && this.allowedTypes.includes(file.type)) {
-        this.$store.commit('file/setOriginalFile', { file: files[0] });
-        this.$store.commit('file/setFileUrl', { url: null });
+        await this.$store.dispatch('file/getFileUrl', { file });
         this.$router.push({ name: 'editPicture' });
       } else {
         console.log('Только изображения можно выбирать!');

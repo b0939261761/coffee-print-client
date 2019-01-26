@@ -1,29 +1,39 @@
 <template>
-  <div
-    class='input-range'
-    ref='inputRange'
-    :style='{"--min": min, "--max": max }'
+<div
+  class = 'input-range'
+  ref = 'inputRange'
+>
+  <button
+    class = 'button button--minus'
+    @click = 'onClickButton("-")'
   >
-    <div class='wrapper-label'>
+    <svg class='icon' viewBox='0 0 78 21' xmlns='http://www.w3.org/2000/svg'>
+      <rect width='78' height='21' rx='5.7' ry='5.7' />
+    </svg>
+  </button>
+
+  <div class = 'wrapper-main'>
+    <div class = 'wrapper-label'>
       <label
-        class='label'
-        :for='id'
-        v-text='label'
+        class = 'label'
+        :for = 'id'
+        v-text = 'label'
       ></label>
 
       <output
-        class='output-label'
-        v-text='value'
+        class = 'output-label'
+        v-text = 'valueFormat'
       ></output>
     </div>
 
-    <div class="wrapper-input">
+    <div class = 'wrapper-input'>
       <input
         :value='value'
         @change='$emit("change", $event.target.value)'
         @input='onInput'
         type='range'
         class='input'
+        ref='input'
         :id='id'
         :min='min'
         :max='max'
@@ -35,7 +45,19 @@
       ></output>
     </div>
 
-  </div>
+</div>
+  <button
+    class = 'button button--plus'
+    @click = 'onClickButton("+")'
+  >
+    <svg class='icon icon--plus' viewBox='0 0 78 78' xmlns='http://www.w3.org/2000/svg'>
+      <path d='M72.3 28.5H49.5V5.7A5.7 5.7 0 0 0 43.8 0h-9.6a5.7
+              5.7 0 0 0-5.7 5.7v22.8H5.7A5.7 5.7 0 0 0 0 34.2v9.6a5.7
+              5.7 0 0 0 5.7 5.7h22.8v22.8a5.7 5.7 0 0 0 5.7 5.7h9.6a5.7
+              5.7 0 0 0 5.7-5.7V49.5h22.8a5.7 5.7 0 0 0 5.7-5.7v-9.6a5.7 5.7 0 0 0-5.7-5.7z' />
+    </svg>
+  </button>
+</div>
 </template>
 
 <script>
@@ -62,30 +84,50 @@ export default {
     label: {
       type: String,
       default: ''
+    },
+    suffix: {
+      type: String,
+      default: ''
     }
   },
   data: () => ({
     id: null
   }),
+  computed: {
+    valueFormat() {
+      return `${this.value}${this.suffix}`;
+    }
+  },
+  watch: {
+    value(value) {
+      this.setValueCss(value);
+    }
+  },
   methods: {
     onInput(event) {
       const value = +event.target.value;
       this.$emit('input', +value);
-
-      this.setValueCss(value);
     },
     setValueCss(value) {
       this.$refs.inputRange.style.setProperty('--value', value);
       this.$refs.inputRange.style.setProperty('--value-width', `${value}`.length);
+    },
+    onClickButton(operator) {
+      this.$refs.input.click();
+      this.$refs.input.focus();
+      const step = this.step * (operator === '-' ? -10 : 10);
+      const value = (this.value * 10 + step) / 10;
+      this.$emit('input', value);
     }
   },
   mounted() {
     // eslint-disable-next-line
     this.id = this._uid;
 
-    this.setValueCss(this.value);
+    // Через инлайновые стили идет видимая заддержка
     this.$refs.inputRange.style.setProperty('--min', this.min);
     this.$refs.inputRange.style.setProperty('--max', this.max);
+    this.setValueCss(this.value);
   }
 };
 </script>
@@ -96,15 +138,20 @@ export default {
   --ratio: calc((var(--value) - var(--min)) / var(--range));
 
   position: relative;
+  display: flex;
   padding: .625rem 0;
   line-height: 1rem;
   text-align: left;
 }
 
+.wrapper-main {
+  flex-grow: 1;
+}
+
 .wrapper-label {
   display: flex;
   justify-content: space-between;
-  padding-bottom: .25rem;
+  padding: .25rem;
 }
 
 .label {
@@ -119,14 +166,15 @@ export default {
 
 .wrapper-input {
   position: relative;
+  display: flex;
   width: 100%;
   padding: .125rem 0;
   line-height: .75rem;
 }
 
 .input {
-  width: 100%;
-  height: .75rem;
+  flex-grow: 1;
+  height: 12px;
   margin: 0;
   padding: 0;
   font: normal 1rem / 1 sans-serif;
@@ -299,6 +347,99 @@ input::-webkit-slider-runnable-track {
 .input:focus + .output-input {
   transform: scale(1);
   opacity: 1;
+}
+
+.button {
+  position: relative;
+  flex-shrink: 0;
+  align-self: center;
+  width: 24px;
+  height: 24px;
+  overflow: hidden;
+  font-weight: bold;
+  font-size: 1rem;
+  color: white;
+  background-color: rgba(52, 185, 235, .8);
+  border: none;
+  border-radius: 50%;
+  outline: 0;
+  box-shadow:
+    0 .1875rem .3125rem -.0625rem rgba(255, 255, 255, .2),
+    0 .375rem .625rem 0 rgba(255, 255, 255, .14),
+    0 .0625rem 1.125rem 0 rgba(255, 255, 255, .12);
+  cursor: pointer;
+  appearance: button;
+  user-select: none;
+  will-change: box-shadow;
+}
+
+.button:active {
+  box-shadow:
+    0 .4375rem .5rem -.25rem rgba(255, 255, 255, .2),
+    0 .75rem 1.0625rem .125rem rgba(255, 255, 255, .14),
+    0 .3125rem 1.375rem .25rem rgba(255, 255, 255, .12);
+}
+
+.button::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  background-image: radial-gradient(circle, rgba(255, 255, 255, .5) 1%, transparent 1.01%);
+  transform: scale(0);
+  opacity: 1;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+.button:active::after {
+  transform: scale(100);
+  opacity: .1;
+  transition:
+    transform .1s ease-out,
+    opacity .2s ease-out;
+}
+
+.button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: currentColor;
+  border-radius: inherit;
+  opacity: 0;
+  transition: opacity .3s cubic-bezier(.25, .8, .5, 1);
+  pointer-events: none;
+  will-change: opacity;
+}
+
+.button:hover::before,
+.button:focus::before {
+  opacity: .12;
+}
+
+.button:focus:not(:active) {
+  box-shadow: 0 0 .125rem .1875rem rgba(255, 255, 255, .3);
+}
+
+.button--plus {
+  margin-left: 1rem;
+}
+
+.button--minus {
+  margin-right: 1rem;
+}
+
+.icon {
+  display: block;
+  width: 100%;
+  height: 100%;
+  fill: white;
 }
 
 </style>

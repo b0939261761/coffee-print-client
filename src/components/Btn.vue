@@ -69,7 +69,7 @@ export default {
 .btn:active {
   box-shadow:
     0 .3125rem .3125rem -.1875rem rgba(0, 0, 0, .2),
-    0 .5rem 10px .0625rem rgba(0, 0, 0, .14),
+    0 .5rem .625rem .0625rem rgba(0, 0, 0, .14),
     0 .1875rem .875rem .125rem rgba(0, 0, 0, .12);
 }
 

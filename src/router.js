@@ -5,8 +5,6 @@ import SelectShop from '@/views/SelectShop.vue';
 import SelectPicture from '@/views/SelectPicture.vue';
 import EditPicture from '@/views/EditPicture.vue';
 
-import { getBase64 } from '@/utils/file';
-
 Vue.use(Router);
 
 const beforeEnterSelectPicture = async (to, from, next) => {
@@ -18,21 +16,17 @@ const beforeEnterSelectPicture = async (to, from, next) => {
 
 const beforeEnterEditPicture = async (to, from, next) => {
   const routerPath = {};
-  const { originalFile } = store.state.file;
-  if (originalFile) {
-    if (!store.state.file.fileUrl) {
-      const fileUrl = await getBase64(originalFile);
-      store.commit('file/setFileUrl', { url: fileUrl });
-    }
-  } else {
-    const shopCode = store.state.shop.code;
 
-    if (shopCode) {
-      routerPath.name = 'selectPicture';
-      routerPath.params = { code: shopCode };
-    } else {
-      routerPath.name = 'selectShop';
-    }
+  const shopCode = store.state.shop.code;
+
+  if (!shopCode) {
+    next({ name: 'selectShop' });
+    return;
+  }
+
+  if (!store.state.file.fileUrl) {
+    next({ name: 'selectPicture', params: { code: shopCode } });
+    return;
   }
 
   next(routerPath);
