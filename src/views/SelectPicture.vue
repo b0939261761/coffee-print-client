@@ -1,66 +1,49 @@
 <template>
-  <div class='select-picture'>
-    <div class='coffee-text'>
-      <div class='coffee-text__cell'>
-        <span v-text='$t("shopCode")' />
-        <span class='coffee-text__value'
-              v-text='shopCode' />
-      </div>
-      <div class='coffee-text__cell'>
-        <span v-text='$t("shopName")' />
-        <span class='coffee-text__value'
-              v-text='shopName'/>
-      </div>
-    </div>
+<div class='select-picture'>
+  <header class='select-picture__header'>
+    <div class = 'shop-info'>
+      <LabelValue
+        class = 'label-value--margin'
+        :label = '$t("shopCode")'
+        :value = '$store.state.shop.code'
+      />
 
-    <div class='picture-selection'>
-      <Btn :label='$t("selectPicture")'
-            @click='openDialog' />
-      <input type='file'
-             ref='file'
-             @change='selectedPicture'
-             :accept='allowedTypes.join(",")'/>
+      <LabelValue
+        :label = '$t("shopName")'
+        :value = '$store.state.shop.name'
+      />
     </div>
+  </header>
+
+  <div class='select-picture__body'>
+    <BtnSelectPicture @change = '$router.push({ name: "editPicture" })' />
   </div>
+
+  <footer class='select-picture__footer'>
+    <Btn
+      :label = '$t("back")'
+      @click = '$router.push({ name: "selectShop" })'
+    />
+  </footer>
+</div>
 </template>
 
 <script>
+import BtnSelectPicture from '@/components/BtnSelectPicture.vue';
+import LabelValue from '@/components/LabelValue.vue';
 import Btn from '@/components/Btn.vue';
-import { mapState } from 'vuex';
 
 export default {
   name: 'SelectPicture',
   components: {
+    BtnSelectPicture,
+    LabelValue,
     Btn
-  },
-  data: () => ({
-    allowedTypes: ['image/jpeg', 'image/png']
-  }),
-  computed: mapState('shop', {
-    shopCode: state => state.code,
-    shopName: state => state.name
-  }),
-  methods: {
-    openDialog() {
-      this.$refs.file.click();
-    },
-    async selectedPicture(event) {
-      const { files } = event.target;
-      const file = files[0];
-
-      if (file && this.allowedTypes.includes(file.type)) {
-        await this.$store.dispatch('file/getFileUrl', { file });
-        this.$router.push({ name: 'editPicture' });
-      } else {
-        console.log('Только изображения можно выбирать!');
-      }
-    }
   }
 };
 </script>
 
 <style scoped>
-
 .select-picture {
   display: flex;
   flex-direction: column;
@@ -71,52 +54,46 @@ export default {
   background-size: cover;
 }
 
-.coffee-text {
-  display: flex;
-  flex-direction: row;
-  margin-top: 1.25rem;
-  padding: 1.25rem;
+.select-picture__header {
+  width: 100%;
+  padding: 1.25rem 0 0 1.25rem;
   text-align: left;
-  background-color: rgba(255, 255, 255, .8);
-  border-radius: .25rem;
+  color: white;
+  background-color: rgba(0, 0, 0, .6);
+  border-radius: 0 0 .25rem .25rem;
 }
 
-@media (max-width: 576px) {
-  .coffee-text {
-    flex-direction: column;
-  }
-
-  .coffee-text :first-child {
-    margin-bottom: .5rem;
-  }
+.shop-info {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 64rem;
+  margin: 0 auto;
 }
 
-.coffee-text__cell {
-  min-width: 50%;
-}
-
-.coffee-text__value {
-  font-weight: bold;
-  font-size: 1.125rem;
-}
-
-.picture-selection {
+.select-picture__body {
+  position: relative;
+  width: 31.25rem;
+  max-width: calc(100% - .625rem);
   margin: auto;
-  padding: 2.5rem 1.25rem;
-  background-color: rgba(255, 255, 255, .8);
+  padding: 2.9375rem 1.25rem 2rem;
+}
+
+.select-picture__body::before {
+  content: '';
+  position: absolute;
+  top: .3125rem;
+  right: .3125rem;
+  bottom: .3125rem;
+  left: .3125rem;
+  background-color: rgba(0, 0, 0, .6);
   border-radius: .25rem;
 }
 
-.input-wrapper {
-  flex-shrink: 0; /* for IE 11 для бордера */
-  align-self: center; /* for IE 11 */
-  margin: auto;
-  padding: 2.5rem 1.25rem;
-  background-color: rgba(255, 255, 255, .8);
-  border-radius: .25rem;
-}
-
-input[type=file] {
-  display: none;
+.select-picture__footer {
+  padding-top: .9375rem;
+  background-color: rgba(0, 0, 0, .6);
+  border-radius: .25rem .25rem 0 0;
 }
 </style>

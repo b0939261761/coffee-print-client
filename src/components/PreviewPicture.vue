@@ -67,7 +67,6 @@ export default {
   methods: {
     async setupImage() {
       this.image = await loadImage(this.$store.state.file.fileUrl);
-      // this.image = await loadImage('http://localhost:4000/111.jpg');
       this.renderImage();
     },
     renderImage() {

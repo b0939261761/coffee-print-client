@@ -1,30 +1,35 @@
 <template>
 <div class = 'edit-picture'>
-  <PreviewPicture
-    v-bind = 'settingsPicture'
-    @setupCanvas = 'canvas = $event'
-  />
-
-  <section class = 'controls'>
-    <header class = 'controls__header'>
-      <BtnRollUp
-        :isUp = 'settingsPictureVisible'
-        @toggle = 'settingsPictureVisible = !settingsPictureVisible'
-      />
-    </header>
-
-    <SettingsPicture
+  <div class='wrapper-editor'>
+    <PreviewPicture
       v-bind = 'settingsPicture'
-      :isVisible = 'settingsPictureVisible'
-      @input = 'onSettingInput'
+      @setupCanvas = 'canvas = $event'
     />
 
-    <footer class = 'controls__footer'>
-      <Btn :label = '$t("back")' @click = 'onBack' />
-      <BtnSend :canvas = 'canvas' />
-    </footer>
+    <section class = 'controls'>
+      <header class = 'controls__header'>
+        <BtnRollUp
+          :isUp = 'settingsPictureVisible'
+          @toggle = 'settingsPictureVisible = !settingsPictureVisible'
+        />
+      </header>
 
-  </section>
+      <SettingsPicture
+        v-bind = 'settingsPicture'
+        :isVisible = 'settingsPictureVisible'
+        @input = 'onSettingInput'
+      />
+
+      <footer class = 'controls__footer'>
+        <Btn
+          :label = '$t("back")'
+          @click = '$router.push({name: "selectPicture", params: {code: $store.state.shop.code}})'
+        />
+        <BtnSend :canvas = 'canvas' />
+      </footer>
+
+    </section>
+  </div>
 </div>
 </template>
 
@@ -34,7 +39,6 @@ import SettingsPicture from '@/components/SettingsPicture.vue';
 import Btn from '@/components/Btn.vue';
 import BtnSend from '@/components/BtnSend.vue';
 import BtnRollUp from '@/components/BtnRollUp.vue';
-
 
 export default {
   name: 'EditPicture',
@@ -61,33 +65,31 @@ export default {
   methods: {
     onSettingInput({ key, value }) {
       this.settingsPicture[key] = +value;
-    },
-    onBack() {
-      this.$router.push({
-        name: 'selectPicture',
-        params: { code: this.$store.state.shop.code }
-      });
     }
   }
 };
 </script>
 
 <style scoped>
-.app {
+.edit-picture {
+  width: 100%;
+  height: 100%;
   background-image: url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2 2"><path d="M1 2V0h1v1H0v1z" fill-opacity=".025"/></svg>');
   background-repeat: repeat;
   background-size: 1.25rem 1.25rem;
 }
 
-.edit-picture {
+.wrapper-editor {
+  position: relative;
   width: 100%;
   max-width: 64rem;
   height: 100%;
   margin: 0 auto;
+  border: .1px solid transparent; /* Что бы маржины не выпирали */
 }
 
 @media (min-width: 768px) {
-  .edit-picture {
+  .wrapper-editor {
     display: flex;
     flex-direction: row;
     justify-content: space-between;

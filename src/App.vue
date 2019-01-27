@@ -3,14 +3,23 @@
   <transition name = 'slide' >
     <router-view></router-view>
   </transition>
-  <portal-target name = 'modal'></portal-target>
+
+  <!--
+    Отдельный портал для отображения успешной отправки, потому что
+    там есть выбор файла который может гененировать ошибку
+  -->
+  <portal-target name = 'FormModalSendSuccess'></portal-target>
+  <portal-target name = 'formModal'></portal-target>
 </div>
 </template>
 
 
 <script>
 export default {
-  name: 'App'
+  name: 'App',
+  data: () => ({
+    preloader: false
+  })
 };
 </script>
 
@@ -55,6 +64,7 @@ body {
   height: 100%;
   margin: 0;
   padding: 0;
+  overflow: hidden;
 }
 
 .app {

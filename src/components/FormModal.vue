@@ -1,7 +1,10 @@
 <template>
 <transition name = 'form-modal'>
-  <div class = 'wrapper-form-modal'>
-    <div class = 'backdrop'></div>
+  <div
+    class = 'wrapper-form-modal'
+    ref = 'formModal'
+    tabindex = '-1'
+    >
     <div class = 'form-modal'>
       <header class = 'modal-header'>
         <button
@@ -27,7 +30,17 @@
 
 <script>
 export default {
-  name: 'ModalForm'
+  name: 'ModalForm',
+  mounted() {
+    // Если задавать через событие на элементе @keydown
+    // и открыто 2 модальных окна - то закрываются оба
+    const escapeHandler = ({ key }) => {
+      if (key === 'Escape') this.$emit('cancel');
+    };
+
+    this.$refs.formModal.focus();
+    this.$refs.formModal.addEventListener('keydown', escapeHandler);
+  }
 };
 </script>
 
@@ -52,7 +65,6 @@ export default {
 .form-modal-leave-active {
   transition: transform .75s ease-in-out;
 }
-
 
 /* ********************* */
 .wrapper-form-modal {

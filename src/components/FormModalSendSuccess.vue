@@ -1,11 +1,11 @@
 <template>
-<FormModal>
+<FormModal @cancel = '$emit("cancel")'>
   <template slot = 'header'>
-    {{ $t('sendPictureSuccess') }}
+    {{ $t('FormModalSendSuccessTitle') }}
   </template>
 
   <template slot = 'body'>
-    {{ $t('sendPictureSelect')}}
+    {{ $t('FormModalSendSuccessBody')}}
   </template>
 
   <template slot ='footer'>
@@ -20,7 +20,6 @@
       @click = '$emit("cancel")'
     />
   </template>
-
 </FormModal>
 </template>
 
@@ -30,7 +29,7 @@ import BtnSelectPicture from '@/components/BtnSelectPicture.vue';
 import FormModal from '@/components/FormModal.vue';
 
 export default {
-  name: 'ModalFormSend',
+  name: 'FormModalSendSuccess',
   components: {
     Btn,
     BtnSelectPicture,

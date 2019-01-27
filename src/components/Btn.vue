@@ -1,7 +1,7 @@
 <template>
   <button
-    v-on='$listeners'
-    :class='["btn", classSize, classColorTheme ]'
+    v-on = '$listeners'
+    :class = '["btn", classSize, classColorTheme ]'
   >
     {{ label }}
     <slot></slot>

@@ -19,9 +19,12 @@ const messages = {
     balanceColor: 'Баланс цвета',
     sendOnDevice: 'Отправить',
     rollUp: 'Свернуть',
-    sendPictureSuccess: 'Изображение передано на устройство.',
-    sendPictureSelect: 'Выбрать новое изображение или продолжить редактировать?',
-    cancel: 'Отмена'
+    FormModalSendSuccessTitle: 'Изображение передано на устройство.',
+    FormModalSendSuccessBody: 'Выбрать новое изображение или продолжить редактировать?',
+    cancel: 'Отмена',
+    ok: 'ok',
+    selectPictureErrorTitle: 'Ошибка открытия файла',
+    selectPictureErrorBody: 'Поддерживаются изображения только PNG и JPEG'
   }
 };
 

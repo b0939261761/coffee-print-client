@@ -1,22 +1,33 @@
 <template>
-  <div class='home'>
-    <form
-      class='input-wrapper'
-      @submit.prevent='onSubmit'
-    >
-      <InputText
-        v-model='shopCode'
-        type='text'
-        placeholder='XXXXX'
-        class='input-text'
-        :label='$t("shopCode")'
-      />
-      <Btn
-        :disabled='!shopCode'
-        :label='$t("next")'
-      />
-    </form>
-  </div>
+<div class='select-shop'>
+  <form
+    class='select-shop__body'
+    @submit.prevent='onSubmit'
+  >
+    <InputText
+      v-model='shopCode'
+      class = 'select-shop__shop-code'
+      type='text'
+      placeholder='XXXXX'
+      :label='$t("shopCode")'
+    />
+
+    <Btn
+      :disabled='!shopCode'
+      :label='$t("next")'
+    />
+  </form>
+
+  <footer
+    v-if = '$store.state.shop.code'
+    class='select-shop__footer'
+  >
+    <Btn
+      :label = '$t("back")'
+      @click = '$router.push({name: "selectPicture", params: {code: $store.state.shop.code}})'
+    />
+  </footer>
+</div>
 </template>
 
 <script>
@@ -43,7 +54,7 @@ export default {
 </script>
 
 <style scoped>
-.home {
+.select-shop {
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -53,48 +64,32 @@ export default {
   background-size: cover;
 }
 
-.coffee-text {
-  display: flex;
-  flex-direction: row;
-  margin-top: 1.25rem;
-  padding: 1.25rem;
-  text-align: left;
-  background-color: rgba(255, 255, 255, .8);
-  border-radius: .25rem;
-}
-
-@media (max-width: 576px) {
-  .coffee-text {
-    flex-direction: column;
-  }
-
-  .coffee-text :first-child {
-    margin-bottom: .5rem;
-  }
-}
-
-.coffee-text__cell {
-  min-width: 50%;
-}
-
-.coffee-text__value {
-  font-weight: bold;
-  font-size: 1.125rem;
-}
-
-.picture-selection {
+.select-shop__body {
+  position: relative;
+  width: 31.25rem;
+  max-width: calc(100% - .625rem);
   margin: auto;
-  padding: 2.5rem 1.25rem;
-  background-color: rgba(255, 255, 255, .8);
+  padding: 2.9375rem 1.25rem 2rem;
+}
+
+.select-shop__body::before {
+  content: '';
+  position: absolute;
+  top: .3125rem;
+  right: .3125rem;
+  bottom: .3125rem;
+  left: .3125rem;
+  background-color: rgba(0, 0, 0, .6);
   border-radius: .25rem;
 }
 
-.input-wrapper {
-  flex-shrink: 0; /* for IE 11 для бордера */
-  align-self: center; /* for IE 11 */
-  margin: auto;
-  padding: .9375rem 1.25rem 0;
-  background-color: rgba(255, 255, 255, .8);
-  border-radius: .25rem;
+.select-shop__shop-code {
+  width: 250px;
+}
+
+.select-shop__footer {
+  padding-top: .9375rem;
+  background-color: rgba(0, 0, 0, .6);
+  border-radius: .25rem .25rem 0 0;
 }
 </style>

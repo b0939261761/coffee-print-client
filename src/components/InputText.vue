@@ -63,9 +63,44 @@ export default {
 <style scoped>
 .input-text {
   position: relative;
+  margin: 0 auto;
   padding-top: .9375rem;
   text-align: left;
 }
+
+/*
+.input {
+  display: block;
+  width: 100%;
+  font-size: 1rem;
+  border: none;
+  padding: 10px 0;
+  border-bottom: solid 1px  #1abc9c;
+  transition: all 0.3s cubic-bezier( .64, .09, .08, 1);
+  background: linear-gradient(to bottom, rgba(255,255,255,0) 96%,  #1abc9c 4%);
+  background-position: -200px 0;
+  background-size: 200px 100%;
+  background-repeat: no-repeat;
+  color:  #1abc9c
+
+}
+
+
+.input:focus {
+    box-shadow: none;
+    outline: none;
+    background-position: 0 0;
+
+  }
+
+
+.input:focus::-webkit-input-placeholder {
+      color: #1abc9c;
+      font-size: 11px;
+      transform: translateY(-20px);
+      visibility: visible;
+    } */
+
 
 .input,
 .label {
@@ -80,7 +115,7 @@ export default {
   left: 0;
   width: 125%;
   overflow: hidden;
-  color: #212529;
+  color: white;
   white-space: nowrap;
   text-overflow: ellipsis;
   transform: translateY(-1.4rem) scale(.8);

@@ -4,7 +4,7 @@ export default {
   namespaced: true,
   state: {
     id: 0,
-    code: '1',
+    code: '',
     name: ''
   },
   mutations: {

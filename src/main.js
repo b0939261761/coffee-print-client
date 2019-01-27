@@ -11,7 +11,7 @@ Vue.use(PortalVue);
 
 Vue.config.productionTip = false;
 
-new Vue({
+export default new Vue({
   router,
   store,
   i18n,

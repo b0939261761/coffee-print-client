@@ -3,7 +3,7 @@ import { getBase64 } from '@/utils/file';
 export default {
   namespaced: true,
   state: {
-    fileUrl: null
+    fileUrl: 'http://localhost:4000/111.jpg'
   },
   mutations: {
     setFileUrl(state, { url }) {
