@@ -14,7 +14,7 @@
     </div>
 
     <div class='picture-selection'>
-      <Btn :label='$t("addPicture")'
+      <Btn :label='$t("selectPicture")'
             @click='openDialog' />
       <input type='file'
              ref='file'

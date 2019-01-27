@@ -9,7 +9,7 @@ const messages = {
     shopName: 'Наименование кофепринтера',
     next: 'Далее',
     back: 'Назад',
-    addPicture: 'Добавить изображение',
+    selectPicture: 'Выбрать изображение',
     scale: 'Маштаб',
     offsetX: 'Смещение по Х',
     offsetY: 'Смещение по Y',
@@ -18,7 +18,10 @@ const messages = {
     rotate: 'Вращение',
     balanceColor: 'Баланс цвета',
     sendOnDevice: 'Отправить',
-    rollUp: 'Свернуть'
+    rollUp: 'Свернуть',
+    sendPictureSuccess: 'Изображение передано на устройство.',
+    sendPictureSelect: 'Выбрать новое изображение или продолжить редактировать?',
+    cancel: 'Отмена'
   }
 };
 

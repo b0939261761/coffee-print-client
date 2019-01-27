@@ -1,49 +1,47 @@
 <template>
-  <div class = 'edit-picture'>
-    <PreviewPicture
+<div class = 'edit-picture'>
+  <PreviewPicture
+    v-bind = 'settingsPicture'
+    @setupCanvas = 'canvas = $event'
+  />
+
+  <section class = 'controls'>
+    <header class = 'controls__header'>
+      <BtnRollUp
+        :isUp = 'settingsPictureVisible'
+        @toggle = 'settingsPictureVisible = !settingsPictureVisible'
+      />
+    </header>
+
+    <SettingsPicture
       v-bind = 'settingsPicture'
-      @setupCanvas = 'canvas = $event'
+      :isVisible = 'settingsPictureVisible'
+      @input = 'onSettingInput'
     />
 
-    <section class='controls'>
-      <header class='controls-header'>
-        <Btn
-          :label='$t("rollUp")'
-           @click='settingsPictureVisible = !settingsPictureVisible'
-           size='small'
-           colorTheme='dark'
-        >
-          <span class='rollup-icon'>&nbsp;</span>
-        </Btn>
-      </header>
+    <footer class = 'controls__footer'>
+      <Btn :label = '$t("back")' @click = 'onBack' />
+      <BtnSend :canvas = 'canvas' />
+    </footer>
 
-      <SettingsPicture
-        v-bind = 'settingsPicture'
-        :isVisible = 'settingsPictureVisible'
-        @input = 'onSettingInput'
-      />
-
-      <footer class='controls-footer'>
-        <Btn :label='$t("back")' @click='onBack' />
-        <BtnSend :canvas='canvas' />
-      </footer>
-
-    </section>
-  </div>
+  </section>
+</div>
 </template>
 
 <script>
 import PreviewPicture from '@/components/PreviewPicture.vue';
 import SettingsPicture from '@/components/SettingsPicture.vue';
 import Btn from '@/components/Btn.vue';
-
 import BtnSend from '@/components/BtnSend.vue';
+import BtnRollUp from '@/components/BtnRollUp.vue';
+
 
 export default {
   name: 'EditPicture',
   components: {
     Btn,
     BtnSend,
+    BtnRollUp,
     SettingsPicture,
     PreviewPicture
   },
@@ -65,7 +63,10 @@ export default {
       this.settingsPicture[key] = +value;
     },
     onBack() {
-      this.$router.push({ name: 'selectPicture', params: { code: this.$store.state.shop.code } });
+      this.$router.push({
+        name: 'selectPicture',
+        params: { code: this.$store.state.shop.code }
+      });
     }
   }
 };
@@ -117,36 +118,17 @@ export default {
   }
 }
 
-@media (min-width: 64rem) {
+@media (min-width: 1024px) {
   .controls {
     border-radius: .25rem;
   }
 }
 
-.controls-header {
+.controls__header {
   text-align: right;
 }
 
-/* Иконка на кнопке */
-.rollup-icon {
-  position: relative;
-  display: inline-block;
-  width: 1rem;
-  margin-left: .5rem;
-  pointer-events: none;
-}
-
-.rollup-icon::before {
-  content: '';
-  position: absolute;
-  width: .75rem;
-  height: .75rem;
-  border: 0 solid #fff;
-  border-width: 0 0 3px 3px;
-  transform: rotate(-45deg);
-}
-
-.controls-footer {
+.controls__footer {
   display: flex;
   justify-content: space-between;
 }

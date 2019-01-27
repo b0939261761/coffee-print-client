@@ -58,12 +58,18 @@ export default {
   async mounted() {
     this.canvas = this.$refs.canvas;
     this.context = this.canvas.getContext('2d');
-    this.image = await loadImage(this.$store.state.file.fileUrl);
-    // this.image = await loadImage('http://localhost:4000/111.jpg');
-    this.renderImage();
+    await this.setupImage();
     this.$emit('setupCanvas', this.canvas);
   },
+  watch: {
+    '$store.state.file.fileUrl': 'setupImage'
+  },
   methods: {
+    async setupImage() {
+      this.image = await loadImage(this.$store.state.file.fileUrl);
+      // this.image = await loadImage('http://localhost:4000/111.jpg');
+      this.renderImage();
+    },
     renderImage() {
       const {
         image, canvas, context,

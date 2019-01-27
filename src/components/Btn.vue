@@ -23,7 +23,7 @@ export default {
     },
     colorTheme: {
       type: String || null,
-      validator: value => ['primary', 'dark'].includes(value),
+      validator: value => ['primary', 'dark', 'outline'].includes(value),
       default: 'primary'
     }
   },
@@ -125,4 +125,8 @@ export default {
   background-color: rgba(0, 0, 0, .3);
 }
 
+.btn--outline {
+  color: rgba(0, 0, 0, .87);
+  background-color: #f5f5f5;
+}
 </style>

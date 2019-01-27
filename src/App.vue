@@ -1,7 +1,10 @@
 <template>
-  <div class='app'>
+<div class = 'app'>
+  <transition name = 'slide' >
     <router-view></router-view>
-  </div>
+  </transition>
+  <portal-target name = 'modal'></portal-target>
+</div>
 </template>
 
 
@@ -12,6 +15,16 @@ export default {
 </script>
 
 <style>
+
+.slide-enter { transform: translateX(100%); }
+.slide-enter-to { transform: translateX(0); }
+.slide-enter-active { position: absolute; }
+
+.slide-leave { transform: translateX(0); }
+.slide-leave-to { transform: translateX(-100%); }
+
+.slide-enter-active,
+.slide-leave-active { transition: transform .75s ease-in-out; }
 
 *,
 ::before,
