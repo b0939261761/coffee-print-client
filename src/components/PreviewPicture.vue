@@ -47,8 +47,7 @@ export default {
     const debounceRenderImage = debounce(this.renderImage, 500);
 
     this.$watch(
-      vm => [vm.scale, vm.offsetX, vm.offsetY, vm.rotate,
-        vm.contrast, vm.brightness, vm.balanceColor].join(),
+      vm => Object.values(vm.$props).join(),
       () => debounceRenderImage()
     );
 
@@ -101,11 +100,11 @@ export default {
 
       // Маштабирование
       const scaleKoef = (10 + scale) / 10;
-      const scaleSize = canvasSize / scaleKoef;
+      const scaleSize = canvasSize / scaleKoef * Math.sqrt(2);
 
       // Смещение изображения
-      const offsetXMain = offsetX * image.width / 100 * scaleKoef;
-      const offsetYMain = offsetY * image.height / 100 * scaleKoef;
+      const offsetXMain = -offsetX * image.width / 100 * scaleKoef;
+      const offsetYMain = -offsetY * image.height / 100 * scaleKoef;
 
       context.drawImage(
         image,
