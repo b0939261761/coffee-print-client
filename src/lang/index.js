@@ -12,7 +12,7 @@ const messages = {
     selectPicture: 'Выбрать изображение',
     scale: 'Маштаб',
     offsetX: 'Смещение Влево/Вправо',
-    offsetY: 'Смещение Вверх/Внизп',
+    offsetY: 'Смещение Вверх/Вниз',
     contrast: 'Контрасность',
     brightness: 'Яркость',
     rotate: 'Вращение',
