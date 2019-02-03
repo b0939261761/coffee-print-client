@@ -54,8 +54,8 @@ export default {
       scale: 0,
       offsetX: 0,
       offsetY: 0,
-      contrast: 1,
-      brightness: 1,
+      contrast: 0,
+      brightness: 0,
       rotate: 0,
       balanceColor: 0
     },

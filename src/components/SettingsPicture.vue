@@ -4,10 +4,10 @@
     :label = '$t("scale")'
     :value = 'scale'
     @input = 'onInput("scale", $event)'
-    :min = '-10'
-    :max = '10'
+    :min = '-5'
+    :max = '5'
     :step = '0.1'
-    suffix = ''
+    suffix = 'X'
   />
 
   <InputRange
@@ -43,18 +43,20 @@
     :label = '$t("contrast")'
     :value = 'contrast'
     @input = 'onInput("contrast", $event)'
-    :min = '0'
+    :min = '-20'
     :max = '20'
-    :step = '0.1'
+    :step = '0.5'
+    suffix = 'X'
   />
 
   <InputRange
     :label = '$t("brightness")'
     :value = 'brightness'
     @input = 'onInput("brightness", $event)'
-    :min = '0'
-    :max = '20'
-    :step = '0.1'
+    :min = '-10'
+    :max = '10'
+    :step = '0.5'
+    suffix = 'X'
   />
 
   <InputRange

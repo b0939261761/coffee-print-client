@@ -11,6 +11,9 @@
 import { loadImage } from '@/utils/file';
 import { addOnResize, removeOnResize, debounce } from '@/utils/events';
 
+const MAX_SIZE = 1024;
+const MIN_SIZE = 400;
+
 export default {
   name: 'PreviewPicture',
   props: {
@@ -75,6 +78,8 @@ export default {
         contrast, brightness, balanceColor
       } = this;
 
+      const { width: imageWidth, height: imageHeight } = image;
+
       const canvasSize = canvas.clientWidth;
       const centerSize = canvasSize / 2;
       canvas.width = canvasSize;
@@ -86,8 +91,8 @@ export default {
 
       // Фильтры - яркость и контрасность
       let filter = '';
-      filter += ` contrast(${contrast})`;
-      filter += ` brightness(${brightness})`;
+      filter += ` contrast(${20 ** (contrast / 20)})`;
+      filter += ` brightness(${10 ** (brightness / 10)})`;
       context.filter = filter;
 
       // Вращение изображения
@@ -98,18 +103,31 @@ export default {
         context.rotate(rotate * Math.PI / 180);
       }
 
+      // Матшабирование картинки под оптимальный размер
+      let scaleOptimal = 1;
+      if (imageWidth > MAX_SIZE || imageHeight > MAX_SIZE) {
+        scaleOptimal = MAX_SIZE / (imageWidth > imageHeight ? imageWidth : imageHeight);
+      } else if (imageWidth < MIN_SIZE || imageHeight < MIN_SIZE) {
+        scaleOptimal = MIN_SIZE / (imageWidth > imageHeight ? imageWidth : imageHeight);
+      }
+
       // Маштабирование
-      const scaleKoef = (10 + scale) / 10;
-      const scaleSize = canvasSize / scaleKoef * Math.sqrt(2);
+      const ratio = (5 ** (scale / 5)) * scaleOptimal;
+
+      const scaledImageWidth = imageWidth * ratio;
+      const scaledImageHeight = imageHeight * ratio;
+
+      const offsetXCenter = (canvasSize - scaledImageWidth) / 2;
+      const offsetYCenter = (canvasSize - scaledImageHeight) / 2;
 
       // Смещение изображения
-      const offsetXMain = -offsetX * image.width / 100 * scaleKoef;
-      const offsetYMain = -offsetY * image.height / 100 * scaleKoef;
+      const offsetXMain = offsetXCenter - offsetRotate + offsetX * offsetXCenter / 50;
+      const offsetYMain = offsetYCenter - offsetRotate + offsetY * offsetYCenter / 50;
 
       context.drawImage(
         image,
-        offsetXMain, offsetYMain, scaleSize, scaleSize,
-        -offsetRotate, -offsetRotate, canvasSize, canvasSize
+        0, 0, imageWidth, imageHeight,
+        offsetXMain, offsetYMain, scaledImageWidth, scaledImageHeight
       );
 
       // Делаем картинку черно-белой
