@@ -16,6 +16,7 @@ const messages = {
     contrast: 'Контрасность',
     brightness: 'Яркость',
     rotate: 'Вращение',
+    noise: 'Шум',
     balanceColor: 'Баланс цвета',
     sendOnDevice: 'Отправить',
     rollUp: 'Свернуть',

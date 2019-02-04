@@ -41,6 +41,10 @@ export default {
       type: Number,
       required: true
     },
+    noise: {
+      type: Number,
+      required: true
+    },
     balanceColor: {
       type: Number,
       required: true
@@ -75,7 +79,8 @@ export default {
       const {
         image, canvas, context,
         scale, offsetX, offsetY, rotate,
-        contrast, brightness, balanceColor
+        contrast, brightness, noise,
+        balanceColor
       } = this;
 
       const { width: imageWidth, height: imageHeight } = image;
@@ -130,10 +135,11 @@ export default {
         offsetXMain, offsetYMain, scaledImageWidth, scaledImageHeight
       );
 
-      // Делаем картинку черно-белой
+      // Делаем картинку черно-белой и делаем шум
       const imageData = context.getImageData(0, 0, canvasSize, canvasSize);
 
       const balanceColorKoef = 122.5 + balanceColor * 1.225;
+      const noiseKoef = noise / 100;
       for (let i = 0; i < imageData.data.length; i += 4) {
         const red = imageData.data[i];
         const green = imageData.data[i + 1];
@@ -142,7 +148,7 @@ export default {
 
         const isWhite = ((red + green + blue) / 3) > balanceColorKoef || alpha < balanceColorKoef;
 
-        const color = isWhite ? 255 : 0;
+        const color = isWhite || Math.random() < noiseKoef ? 255 : 0;
 
         imageData.data[i] = color;
         imageData.data[i + 1] = color;

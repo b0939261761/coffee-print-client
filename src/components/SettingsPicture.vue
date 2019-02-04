@@ -60,6 +60,15 @@
   />
 
   <InputRange
+    :label = '$t("noise")'
+    :value = 'noise'
+    @input = 'onInput("noise", $event)'
+    :min = '0'
+    :max = '100'
+    suffix = 'X'
+  />
+
+  <InputRange
     :label = '$t("balanceColor")'
     :value = 'balanceColor'
     @input = 'onInput("balanceColor", $event)'
@@ -104,6 +113,10 @@ export default {
       required: true
     },
     brightness: {
+      type: Number,
+      required: true
+    },
+    noise: {
       type: Number,
       required: true
     },

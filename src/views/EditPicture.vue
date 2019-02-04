@@ -57,7 +57,8 @@ export default {
       contrast: 0,
       brightness: 0,
       rotate: 0,
-      balanceColor: 0
+      balanceColor: 0,
+      noise: 20
     },
     canvas: null,
     settingsPictureVisible: true
