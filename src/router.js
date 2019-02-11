@@ -1,15 +1,15 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import store from '@/store/index';
-import SelectShop from '@/views/SelectShop.vue';
+import SelectDevice from '@/views/SelectDevice.vue';
 import SelectPicture from '@/views/SelectPicture.vue';
 import EditPicture from '@/views/EditPicture.vue';
 
 Vue.use(Router);
 
 const beforeEnterSelectPicture = async (to, from, next) => {
-  if (!store.state.shop.id) {
-    await store.dispatch('shop/getShop', { code: to.params.code });
+  if (!store.state.device.id) {
+    await store.dispatch('device/getdevice', { code: to.params.code });
   }
   next();
 };
@@ -17,15 +17,15 @@ const beforeEnterSelectPicture = async (to, from, next) => {
 const beforeEnterEditPicture = async (to, from, next) => {
   const routerPath = {};
 
-  const shopCode = store.state.shop.code;
+  const deviceCode = store.state.device.code;
 
-  if (!shopCode) {
-    next({ name: 'selectShop' });
+  if (!deviceCode) {
+    next({ name: 'selectDevice' });
     return;
   }
 
   if (!store.state.file.fileUrl) {
-    next({ name: 'selectPicture', params: { code: shopCode } });
+    next({ name: 'selectPicture', params: { code: deviceCode } });
     return;
   }
 
@@ -39,15 +39,15 @@ export default new Router({
   routes: [
     {
       path: '/',
-      redirect: { name: 'selectShop' }
+      redirect: { name: 'selectDevice' }
     },
     {
-      path: '/shop',
-      name: 'selectShop',
-      component: SelectShop
+      path: '/devices',
+      name: 'selectDevice',
+      component: SelectDevice
     },
     {
-      path: '/shop/:code',
+      path: '/devices/:code',
       name: 'selectPicture',
       component: SelectPicture,
       beforeEnter: beforeEnterSelectPicture

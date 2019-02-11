@@ -23,7 +23,7 @@
       <footer class = 'controls__footer'>
         <Btn
           :label = '$t("back")'
-          @click = '$router.push({name: "selectPicture", params: {code: $store.state.shop.code}})'
+          @click = '$router.push({name: "selectPicture", params: {code: $store.state.device.code}})'
         />
         <BtnSend :canvas = 'canvas' />
       </footer>

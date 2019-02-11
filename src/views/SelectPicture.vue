@@ -1,16 +1,16 @@
 <template>
 <div class='select-picture'>
   <header class='select-picture__header'>
-    <div class = 'shop-info'>
+    <div class = 'device-info'>
       <LabelValue
         class = 'label-value--margin'
-        :label = '$t("shopCode")'
-        :value = '$store.state.shop.code'
+        :label = '$t("deviceCode")'
+        :value = '$store.state.device.code'
       />
 
       <LabelValue
-        :label = '$t("shopName")'
-        :value = '$store.state.shop.name'
+        :label = '$t("deviceName")'
+        :value = '$store.state.device.name'
       />
     </div>
   </header>
@@ -22,7 +22,7 @@
   <footer class='select-picture__footer'>
     <Btn
       :label = '$t("back")'
-      @click = '$router.push({ name: "selectShop" })'
+      @click = '$router.push({ name: "selectDevice" })'
     />
   </footer>
 </div>
@@ -63,7 +63,7 @@ export default {
   border-radius: 0 0 .25rem .25rem;
 }
 
-.shop-info {
+.device-info {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;

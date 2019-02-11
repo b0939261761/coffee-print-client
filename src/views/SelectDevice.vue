@@ -1,30 +1,30 @@
 <template>
-<div class='select-shop'>
+<div class='select-device'>
   <form
-    class='select-shop__body'
+    class='select-device__body'
     @submit.prevent='onSubmit'
   >
     <InputText
-      v-model='shopCode'
-      class = 'select-shop__shop-code'
+      v-model='deviceCode'
+      class = 'select-device__device-code'
       type='text'
       placeholder='XXXXX'
-      :label='$t("shopCode")'
+      :label='$t("deviceCode")'
     />
 
     <Btn
-      :disabled='!shopCode'
+      :disabled='!deviceCode'
       :label='$t("next")'
     />
   </form>
 
   <footer
-    v-if = '$store.state.shop.code'
-    class='select-shop__footer'
+    v-if = '$store.state.device.code'
+    class='select-device__footer'
   >
     <Btn
       :label = '$t("back")'
-      @click = '$router.push({name: "selectPicture", params: {code: $store.state.shop.code}})'
+      @click = '$router.push({name: "selectPicture", params: {code: $store.state.device.code}})'
     />
   </footer>
 </div>
@@ -35,26 +35,26 @@ import InputText from '@/components/InputText.vue';
 import Btn from '@/components/Btn.vue';
 
 export default {
-  name: 'SelectShop',
+  name: 'SelectDevice',
   components: {
     InputText,
     Btn
   },
   data: () => ({
-    shopCode: ''
+    deviceCode: ''
   }),
   methods: {
     onSubmit() {
-      if (!this.shopCode) return;
-      this.$store.dispatch('shop/getShop', { code: this.shopCode });
-      this.$router.push({ name: 'selectPicture', params: { code: this.shopCode } });
+      if (!this.deviceCode) return;
+      this.$store.dispatch('device/getdevice', { code: this.deviceCode });
+      this.$router.push({ name: 'selectPicture', params: { code: this.deviceCode } });
     }
   }
 };
 </script>
 
 <style scoped>
-.select-shop {
+.select-device {
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -64,7 +64,7 @@ export default {
   background-size: cover;
 }
 
-.select-shop__body {
+.select-device__body {
   position: relative;
   width: 31.25rem;
   max-width: calc(100% - .625rem);
@@ -72,7 +72,7 @@ export default {
   padding: 2.9375rem 1.25rem 2rem;
 }
 
-.select-shop__body::before {
+.select-device__body::before {
   content: '';
   position: absolute;
   top: .3125rem;
@@ -83,11 +83,11 @@ export default {
   border-radius: .25rem;
 }
 
-.select-shop__shop-code {
+.select-device__device-code {
   width: 250px;
 }
 
-.select-shop__footer {
+.select-device__footer {
   padding-top: .9375rem;
   background-color: rgba(0, 0, 0, .6);
   border-radius: .25rem .25rem 0 0;

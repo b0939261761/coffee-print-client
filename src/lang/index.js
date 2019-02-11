@@ -5,8 +5,8 @@ Vue.use(VueI18n);
 
 const messages = {
   ru: {
-    shopCode: 'Код кофепринтера',
-    shopName: 'Наименование кофепринтера',
+    deviceCode: 'Код кофепринтера',
+    deviceName: 'Наименование кофепринтера',
     next: 'Далее',
     back: 'Назад',
     selectPicture: 'Выбрать изображение',

@@ -35,7 +35,7 @@ export default {
       const formData = new FormData();
       formData.append('file', new Blob([u8Image], { type: 'image/jpg' }));
 
-      await http.post(`/shops/${this.$store.state.shop.id}/pictures`, formData);
+      await http.post(`/devices/${this.$store.state.device.id}/pictures`, formData);
       this.modalOpen = true;
     }
   }
