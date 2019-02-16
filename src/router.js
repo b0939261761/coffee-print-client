@@ -39,15 +39,11 @@ export default new Router({
   routes: [
     {
       path: '/',
-      redirect: { name: 'selectDevice' }
-    },
-    {
-      path: '/devices',
       name: 'selectDevice',
       component: SelectDevice
     },
     {
-      path: '/devices/:code',
+      path: '/:code',
       name: 'selectPicture',
       component: SelectPicture,
       beforeEnter: beforeEnterSelectPicture

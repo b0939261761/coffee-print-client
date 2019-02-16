@@ -20,7 +20,6 @@ export const addOnResize = callback => {
 
 export const removeOnResize = eventCb => window.removeEventListener('resize', eventCb);
 
-
 // as long as it continues to be invoked, it will not be triggered
 export const debounce = (func, interval = 200) => {
   let timeout;
