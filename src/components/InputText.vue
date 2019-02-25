@@ -129,7 +129,7 @@ export default {
 
 .input {
   display: block;
-  height: calc(2.25rem + 2px);
+  height: calc(36px + 2px);
   margin: 0 0 .9375rem 0;
   color: #495057;
   background-color: #fff;

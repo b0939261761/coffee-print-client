@@ -30,8 +30,25 @@ export const debounce = (func, interval = 200) => {
   };
 };
 
+export const debounceRAF = func => {
+  let running = false;
+
+  const runCallbacks = () => {
+    func();
+    running = false;
+  };
+
+  return () => {
+    if (!running) {
+      running = true;
+      window.requestAnimationFrame(runCallbacks);
+    }
+  };
+};
+
 export default {
   addOnResize,
   removeOnResize,
-  debounce
+  debounce,
+  debounceRAF
 };

@@ -3,6 +3,8 @@
     v-on = '$listeners'
     :class = '["btn", classSize, classColorTheme ]'
   >
+      <slot name = 'icon' class = 'btn__icon'></slot>
+
     {{ label }}
     <slot></slot>
   </button>
@@ -43,7 +45,7 @@ export default {
 .btn {
   position: relative;
   min-width: 5.5rem;
-  min-height: 2.25rem;
+  min-height: 36px;
   margin: 0 0 .9375rem 0;
   padding: .5rem 1rem;
   overflow: hidden;
@@ -128,5 +130,11 @@ export default {
 .btn--outline {
   color: rgba(0, 0, 0, .87);
   background-color: #f5f5f5;
+}
+
+.btn__icon {
+  display: inline-block;
+  max-height: 36px;
+  fill: white;
 }
 </style>

@@ -43,16 +43,16 @@ export default new Router({
       component: SelectDevice
     },
     {
-      path: '/:code',
-      name: 'selectPicture',
-      component: SelectPicture,
-      beforeEnter: beforeEnterSelectPicture
-    },
-    {
       path: '/edit',
       name: 'editPicture',
       component: EditPicture,
       beforeEnter: beforeEnterEditPicture
+    },
+    {
+      path: '/:code',
+      name: 'selectPicture',
+      component: SelectPicture,
+      beforeEnter: beforeEnterSelectPicture
     }
 
     // {

@@ -10,7 +10,7 @@
     suffix = 'X'
   />
 
-  <InputRange
+  <!-- <InputRange
     :label = '$t("offsetX")'
     :value = 'offsetX'
     @input = 'onInput("offsetX", $event)'
@@ -28,16 +28,7 @@
     :max = '50'
     :step = '0.5'
     suffix = '%'
-  />
-
-  <InputRange
-    :label = '$t("rotate")'
-    :value = 'rotate'
-    @input = 'onInput("rotate", $event)'
-    :min = '-360'
-    :max = '360'
-    suffix = '°'
-  />
+  /> -->
 
   <InputRange
     :label = '$t("contrast")'
@@ -57,24 +48,6 @@
     :max = '10'
     :step = '0.5'
     suffix = 'X'
-  />
-
-  <InputRange
-    :label = '$t("noise")'
-    :value = 'noise'
-    @input = 'onInput("noise", $event)'
-    :min = '0'
-    :max = '100'
-    suffix = 'X'
-  />
-
-  <InputRange
-    :label = '$t("balanceColor")'
-    :value = 'balanceColor'
-    @input = 'onInput("balanceColor", $event)'
-    :min = '-100'
-    :max = '100'
-    suffix = '%'
   />
 </div>
 </template>
@@ -104,23 +77,11 @@ export default {
       type: Number,
       required: true
     },
-    rotate: {
-      type: Number,
-      required: true
-    },
     contrast: {
       type: Number,
       required: true
     },
     brightness: {
-      type: Number,
-      required: true
-    },
-    noise: {
-      type: Number,
-      required: true
-    },
-    balanceColor: {
       type: Number,
       required: true
     }
@@ -144,8 +105,7 @@ export default {
 }
 
 .settings-picture--visible {
-  max-height: 800px;
-  overflow: visible;
+  max-height: 500px;
   opacity: 1;
 }
 </style>

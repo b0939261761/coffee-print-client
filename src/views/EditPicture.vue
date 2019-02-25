@@ -3,6 +3,7 @@
   <div class='wrapper-editor'>
     <PreviewPicture
       v-bind = 'settingsPicture'
+      @input = 'onSettingInput'
       @setupCanvas = 'canvas = $event'
     />
 
@@ -55,10 +56,7 @@ export default {
       offsetX: 0,
       offsetY: 0,
       contrast: 0,
-      brightness: 0,
-      rotate: 0,
-      balanceColor: 0,
-      noise: 0
+      brightness: 0
     },
     canvas: null,
     settingsPictureVisible: true
