@@ -4,7 +4,7 @@ export default {
   namespaced: true,
   state: {
     fileUrl: ''
-    // fileUrl: 'http://192.168.6.141:4000/111.jpg'
+    // fileUrl: 'http://192.168.6.141:4000/222.jpg'
   },
   mutations: {
     setFileUrl(state, { url }) {

@@ -64,6 +64,10 @@ export default {
   methods: {
     onSettingInput({ key, value }) {
       this.settingsPicture[key] = +value;
+    },
+    onZoomScale(value) {
+      const zoomMax = +process.env.VUE_APP_ZOOM_RANGE;
+      this.scale = Math.log(value) / Math.log(zoomMax) * zoomMax;
     }
   }
 };

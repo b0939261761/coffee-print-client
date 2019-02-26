@@ -6,6 +6,7 @@
   <button
     class = 'button button--minus'
     @click = 'onClickButton("-")'
+    :disabled = 'value <= min'
   >
     <svg class='icon' viewBox='0 0 78 21' xmlns='http://www.w3.org/2000/svg'>
       <rect width='78' height='21' rx='5.7' ry='5.7' />
@@ -49,6 +50,7 @@
   <button
     class = 'button button--plus'
     @click = 'onClickButton("+")'
+    :disabled = 'value >= max'
   >
     <svg class='icon icon--plus' viewBox='0 0 78 78' xmlns='http://www.w3.org/2000/svg'>
       <path d='M72.3 28.5H49.5V5.7A5.7 5.7 0 0 0 43.8 0h-9.6a5.7

@@ -21,7 +21,7 @@ export default {
       try {
         response = await http.get(`/devices/${incomeCode}`);
       } catch (e) {
-        console.log(e);
+        console.error(e);
       }
       if (response.data) ({ id, code, name } = response.data);
       commit('setdevice', { id, code, name });

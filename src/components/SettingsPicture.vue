@@ -4,31 +4,12 @@
     :label = '$t("scale")'
     :value = 'scale'
     @input = 'onInput("scale", $event)'
-    :min = '-5'
-    :max = '5'
+    :min = '-3'
+    :max = '3'
     :step = '0.1'
     suffix = 'X'
+    class = 'input-range-scale'
   />
-
-  <!-- <InputRange
-    :label = '$t("offsetX")'
-    :value = 'offsetX'
-    @input = 'onInput("offsetX", $event)'
-    :min = '-50'
-    :max = '50'
-    :step = '0.5'
-    suffix = '%'
-  />
-
-  <InputRange
-    :label = '$t("offsetY")'
-    :value = 'offsetY'
-    @input = 'onInput("offsetY", $event)'
-    :min = '-50'
-    :max = '50'
-    :step = '0.5'
-    suffix = '%'
-  /> -->
 
   <InputRange
     :label = '$t("contrast")'
@@ -69,14 +50,6 @@ export default {
       type: Number,
       required: true
     },
-    offsetX: {
-      type: Number,
-      required: true
-    },
-    offsetY: {
-      type: Number,
-      required: true
-    },
     contrast: {
       type: Number,
       required: true
@@ -85,6 +58,10 @@ export default {
       type: Number,
       required: true
     }
+  },
+  created() {
+    this.$options.zoomRangeMin = -process.env.VUE_APP_ZOOM_RANGE;
+    this.$options.zoomRangeMax = +process.env.VUE_APP_ZOOM_RANGE;
   },
   methods: {
     onInput(key, $event) {
@@ -97,7 +74,6 @@ export default {
 <style scoped>
 .settings-picture {
   max-height: 0;
-  overflow: hidden;
   opacity: 0;
   transition:
     max-height .5s ease-out,
@@ -107,5 +83,11 @@ export default {
 .settings-picture--visible {
   max-height: 500px;
   opacity: 1;
+}
+
+@media (hover: none) {
+  .input-range-scale {
+    display: none;
+  }
 }
 </style>

@@ -3,24 +3,22 @@
   <canvas
     class = 'preview-picture__canvas'
     ref = 'canvas'
-    @mouseup = 'onMouseup'
-    @mousemove = 'onMousemove'
-    @mousedown = 'onMousedown'
-    @mouseout = 'onMouseout'
+    @mouseup.stop.prevent = 'onMouseup'
+    @mousemove.stop.prevent = 'onMousemove'
+    @mousedown.stop.prevent = 'onMousedown'
+    @mouseout.stop.prevent = 'onMouseout'
 
-    @touchstart = 'onTouchstart'
-    @touchmove = 'onTouchmove'
-    @touchend = 'onTouchend'
-    @touchcancel = 'onTouchcancel'
+    @touchstart.stop.prevent = 'onTouchstart'
+    @touchmove.stop.prevent = 'onTouchmove'
+    @touchend.stop.prevent = 'onTouchend'
+    @touchcancel.stop.prevent = 'onTouchcancel'
   />
 </div>
 </template>
 
 <script>
 import { loadImage } from '@/utils/file';
-import {
-  addOnResize, removeOnResize, debounce, debounceRAF
-} from '@/utils/events';
+import { addOnResize, removeOnResize, debounceRAF } from '@/utils/events';
 
 const MAX_SIZE = 1024;
 const MIN_SIZE = 400;
@@ -33,14 +31,6 @@ export default {
       type: Number,
       required: true
     },
-    // offsetX: {
-    //   type: Number,
-    //   required: true
-    // },
-    // offsetY: {
-    //   type: Number,
-    //   required: true
-    // },
     contrast: {
       type: Number,
       required: true
@@ -51,16 +41,16 @@ export default {
     }
   },
   created() {
-    // const debounceRenderImage = debounce(this.renderImage, 0);
+    this.zoomMin = 1 / +process.env.VUE_APP_ZOOM_RANGE;
+    this.zoomMax = +process.env.VUE_APP_ZOOM_RANGE;
 
-    this.prevOffsetX = 0;
-    this.prevOffsetY = 0;
+    this.lastOffsetX = 0;
+    this.lastOffsetY = 0;
 
     this.offsetX = 0;
     this.offsetY = 0;
 
     this.debounceRenderImage = debounceRAF(this.renderImage);
-
 
     this.$watch(
       vm => Object.values(vm.$props).join(),
@@ -80,6 +70,9 @@ export default {
     '$store.state.file.fileUrl': 'setupImage'
   },
   methods: {
+    distance(x1, x2, y1, y2) {
+      return Math.sqrt(((x1 - x2) ** 2) + ((y1 - y2) ** 2));
+    },
     moveStart(x, y) {
       this.isMoving = true;
       this.moveStartPosX = x;
@@ -88,15 +81,15 @@ export default {
     moveStop() {
       if (this.isMoving) {
         this.isMoving = false;
-        this.prevOffsetX = this.offsetX;
-        this.prevOffsetY = this.offsetY;
+        this.lastOffsetX = this.offsetX;
+        this.lastOffsetY = this.offsetY;
       }
     },
     move(x, y) {
       if (!this.isMoving) return;
 
-      let offsetX = this.prevOffsetX + x - this.moveStartPosX;
-      let offsetY = this.prevOffsetY + y - this.moveStartPosY;
+      let offsetX = this.lastOffsetX + x - this.moveStartPosX;
+      let offsetY = this.lastOffsetY + y - this.moveStartPosY;
 
       const { offsetXCenter, offsetYCenter } = this;
 
@@ -123,50 +116,86 @@ export default {
         this.debounceRenderImage();
       }
     },
+    zoomStart(x1, y1, x2, y2) {
+      this.isZooming = true;
+      this.lastZoomScale = this.zoomMax ** (this.scale / this.zoomMax);
+      this.zoomDistanceStart = this.distance(x1, y1, x2, y2);
+    },
+    zoom(x1, y1, x2, y2) {
+      if (!this.isZooming) return;
+
+      const zoomDistance = this.distance(x1, y1, x2, y2);
+      let zoomScale = this.lastZoomScale + (zoomDistance - this.zoomDistanceStart) / 100;
+
+      if (zoomScale > this.zoomMax) {
+        zoomScale = this.zoomMax;
+      } else if (zoomScale < this.zoomMin) {
+        zoomScale = this.zoomMin;
+      }
+
+      const scale = Math.log(zoomScale) / Math.log(this.zoomMax) * this.zoomMax;
+      const scaleRound = Math.round(scale * 10) / 10;
+      this.$emit('input', { key: 'scale', value: scaleRound });
+    },
+    zoomStop() {
+      if (this.isZooming) {
+        this.isZooming = false;
+        this.lastZoomScale = this.zoomMax ** (this.scale / this.zoomMax);
+      }
+    },
     onMousedown(event) {
-      event.preventDefault();
-      event.stopPropagation();
       this.moveStart(event.clientX, event.clientY);
     },
     onMousemove(event) {
-      event.preventDefault();
-      event.stopPropagation();
       this.move(event.clientX, event.clientY);
     },
-    onMouseup(event) {
-      event.preventDefault();
-      event.stopPropagation();
+    onMouseup() {
       this.moveStop();
     },
-    onMouseout(event) {
-      event.preventDefault();
-      event.stopPropagation();
+    onMouseout() {
       this.moveStop();
     },
     onTouchstart(event) {
-      event.preventDefault();
-      event.stopPropagation();
-      const { clientX, clientY } = event.targetTouches[0];
-      this.moveStart(clientX, clientY);
+      const touchesLength = event.targetTouches.length;
+      if (touchesLength === 1) {
+        const { 0: { clientX: x, clientY: y } } = event.targetTouches;
+        this.moveStart(x, y);
+      } else if (touchesLength === 2) {
+        const {
+          0: { clientX: x1, clientY: y1 },
+          1: { clientX: x2, clientY: y2 }
+        } = event.targetTouches;
+
+        this.zoomStart(x1, y1, x2, y2);
+      }
     },
     onTouchmove(event) {
-      event.preventDefault();
-      event.stopPropagation();
-      const { clientX, clientY } = event.targetTouches[0];
-      this.move(clientX, clientY);
+      const touchesLength = event.targetTouches.length;
 
-      console.log(this.canvas.clientTop, this.canvas.clientLeft);
-      console.log(clientX, clientY);
+      if (touchesLength >= 1) {
+        const { 0: { clientX: x, clientY: y } } = event.targetTouches;
+        this.move(x, y);
+      }
+
+      if (touchesLength >= 2) {
+        const {
+          0: { clientX: x1, clientY: y1 },
+          1: { clientX: x2, clientY: y2 }
+        } = event.targetTouches;
+
+        this.zoom(x1, y1, x2, y2);
+      }
     },
     onTouchend(event) {
-      event.preventDefault();
-      event.stopPropagation();
-      this.moveStop();
+      const touchesLength = event.targetTouches.length;
+
+      if (!touchesLength || event.targetTouches[0].identifier !== 0) this.moveStop();
+
+      this.zoomStop();
     },
-    onTouchcancel(event) {
-      event.preventDefault();
-      event.stopPropagation();
+    onTouchcancel() {
       this.moveStop();
+      this.zoomStop();
     },
     async setupImage() {
       this.image = await loadImage(this.$store.state.file.fileUrl);
@@ -174,8 +203,8 @@ export default {
     },
     renderImage() {
       const {
-        image, canvas, context,
-        scale, offsetX, offsetY, contrast, brightness
+        image, canvas, context, scale, contrast, brightness, zoomMax,
+        offsetX, offsetY
       } = this;
 
       const { width: imageWidth, height: imageHeight } = image;
@@ -203,7 +232,7 @@ export default {
       }
 
       // Маштабирование
-      const ratio = (5 ** (scale / 5)) * scaleOptimal;
+      const ratio = (zoomMax ** (scale / zoomMax)) * scaleOptimal;
 
       const scaledImageWidth = imageWidth * ratio;
       const scaledImageHeight = imageHeight * ratio;
@@ -212,8 +241,8 @@ export default {
       this.offsetYCenter = (canvasSize - scaledImageHeight) / 2;
 
       // Смещение изображения
-      const offsetXMain = this.offsetXCenter + this.offsetX;
-      const offsetYMain = this.offsetYCenter + this.offsetY;
+      const offsetXMain = this.offsetXCenter + offsetX;
+      const offsetYMain = this.offsetYCenter + offsetY;
 
       context.drawImage(
         image,
@@ -272,7 +301,6 @@ export default {
   background-color: white;
   border-radius: 50%;
   box-shadow: 0 0 5px 3px #333;
-  margin-top: 20px;
 }
 
 @media (min-width: 768px) {
