@@ -1,5 +1,5 @@
 <template>
-<div :class = '["settings-picture", { "settings-picture--visible": isVisible }]'>
+<div class = 'settings-picture'>
   <InputRange
     :label = '$t("scale")'
     :value = 'scale'
@@ -42,10 +42,6 @@ export default {
     InputRange
   },
   props: {
-    isVisible: {
-      type: Boolean,
-      default: true
-    },
     scale: {
       type: Number,
       required: true
@@ -72,19 +68,6 @@ export default {
 </script>
 
 <style scoped>
-.settings-picture {
-  max-height: 0;
-  opacity: 0;
-  transition:
-    max-height .5s ease-out,
-    opacity .7s ease-out;
-}
-
-.settings-picture--visible {
-  max-height: 500px;
-  opacity: 1;
-}
-
 @media (hover: none) {
   .input-range-scale {
     display: none;

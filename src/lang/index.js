@@ -19,7 +19,6 @@ const messages = {
     noise: 'Шум',
     balanceColor: 'Баланс цвета',
     sendOnDevice: 'Отправить',
-    rollUp: 'Свернуть',
     FormModalSendSuccessTitle: 'Изображение передано на устройство.',
     FormModalSendSuccessBody: 'Выбрать новое изображение или продолжить редактировать?',
     cancel: 'Отмена',

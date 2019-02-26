@@ -8,16 +8,8 @@
     />
 
     <section class = 'controls'>
-      <header class = 'controls__header'>
-        <BtnRollUp
-          :isUp = 'settingsPictureVisible'
-          @toggle = 'settingsPictureVisible = !settingsPictureVisible'
-        />
-      </header>
-
       <SettingsPicture
         v-bind = 'settingsPicture'
-        :isVisible = 'settingsPictureVisible'
         @input = 'onSettingInput'
       />
 
@@ -39,35 +31,26 @@ import PreviewPicture from '@/components/PreviewPicture.vue';
 import SettingsPicture from '@/components/SettingsPicture.vue';
 import Btn from '@/components/Btn.vue';
 import BtnSend from '@/components/BtnSend.vue';
-import BtnRollUp from '@/components/BtnRollUp.vue';
 
 export default {
   name: 'EditPicture',
   components: {
     Btn,
     BtnSend,
-    BtnRollUp,
     SettingsPicture,
     PreviewPicture
   },
   data: () => ({
     settingsPicture: {
       scale: 0,
-      offsetX: 0,
-      offsetY: 0,
       contrast: 0,
       brightness: 0
     },
-    canvas: null,
-    settingsPictureVisible: true
+    canvas: null
   }),
   methods: {
     onSettingInput({ key, value }) {
       this.settingsPicture[key] = +value;
-    },
-    onZoomScale(value) {
-      const zoomMax = +process.env.VUE_APP_ZOOM_RANGE;
-      this.scale = Math.log(value) / Math.log(zoomMax) * zoomMax;
     }
   }
 };
@@ -127,10 +110,6 @@ export default {
   .controls {
     border-radius: .25rem;
   }
-}
-
-.controls__header {
-  text-align: right;
 }
 
 .controls__footer {
