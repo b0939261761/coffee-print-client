@@ -201,6 +201,11 @@ export default {
       this.image = await loadImage(this.$store.state.file.fileUrl);
       this.renderImage();
     },
+    truncateColor(value) {
+      if (value < 0) return 0;
+      if (value > 255) return 255;
+      return Math.round(value);
+    },
     renderImage() {
       const {
         image, canvas, context, scale, contrast, brightness, zoomMax,
@@ -216,12 +221,6 @@ export default {
       // Clear canvas
       context.clearRect(0, 0, canvasSize, canvasSize);
       context.save();
-
-      // Фильтры - яркость и контрасность
-      let filter = '';
-      filter += ` contrast(${20 ** (contrast / 20)})`;
-      filter += ` brightness(${10 ** (brightness / 10)})`;
-      context.filter = filter;
 
       // Матшабирование картинки под оптимальный размер
       let scaleOptimal = 1;
@@ -252,12 +251,25 @@ export default {
 
       // Делаем картинку черно-белой
       const imageData = context.getImageData(0, 0, canvasSize, canvasSize);
+      const brightnessRatio = brightness / 100;
+      const contrastRatio = contrast / 100;
+      const contrastIntercept = 127.5 * (1 - contrastRatio);
 
       for (let i = 0; i < imageData.data.length; i += 4) {
-        const red = imageData.data[i];
-        const green = imageData.data[i + 1];
-        const blue = imageData.data[i + 2];
+        let red = imageData.data[i];
+        let green = imageData.data[i + 1];
+        let blue = imageData.data[i + 2];
         const alpha = imageData.data[i + 3];
+
+        // Brightness
+        red = this.truncateColor(red * brightnessRatio);
+        green = this.truncateColor(green * brightnessRatio);
+        blue = this.truncateColor(blue * brightnessRatio);
+
+        // Contrast
+        red = this.truncateColor(red * contrastRatio + contrastIntercept);
+        green = this.truncateColor(green * contrastRatio + contrastIntercept);
+        blue = this.truncateColor(blue * contrastRatio + contrastIntercept);
 
         const isWhite = ((red + green + blue) / 3) > BALANCE_COLOR_RATIO
           || alpha < BALANCE_COLOR_RATIO;

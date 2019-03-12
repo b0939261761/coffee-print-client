@@ -15,9 +15,9 @@
     :label = '$t("contrast")'
     :value = 'contrast'
     @input = 'onInput("contrast", $event)'
-    :min = '-20'
-    :max = '20'
-    :step = '0.5'
+    :min = '0'
+    :max = '100'
+    :step = '1'
     suffix = 'X'
   />
 
@@ -25,9 +25,9 @@
     :label = '$t("brightness")'
     :value = 'brightness'
     @input = 'onInput("brightness", $event)'
-    :min = '-10'
-    :max = '10'
-    :step = '0.5'
+    :min = '0'
+    :max = '500'
+    :step = '10'
     suffix = 'X'
   />
 </div>
