@@ -1,29 +1,28 @@
 <template>
-<div class = 'edit-picture'>
-  <div class='wrapper-editor'>
-    <PreviewPicture
-      v-bind = 'settingsPicture'
-      @input = 'onSettingInput'
-      @setupCanvas = 'canvas = $event'
-    />
-
-    <section class = 'controls'>
-      <SettingsPicture
+  <div class = 'edit-picture'>
+    <div class='wrapper-editor'>
+      <PreviewPicture
         v-bind = 'settingsPicture'
         @input = 'onSettingInput'
+        @setupCanvas = 'canvas = $event'
       />
 
-      <footer class = 'controls__footer'>
-        <Btn
-          :label = '$t("back")'
-          @click = '$router.push({name: "selectPicture", params: {code: $store.state.device.code}})'
+      <section class = 'controls'>
+        <SettingsPicture
+          v-bind = 'settingsPicture'
+          @input = 'onSettingInput'
         />
-        <BtnSend :canvas = 'canvas' />
-      </footer>
 
-    </section>
+        <footer class = 'controls__footer'>
+          <Btn
+            :label = 'backTitle'
+            @click = 'onGoSelectPicture'
+          />
+          <BtnSend :canvas = 'canvas' />
+        </footer>
+      </section>
+    </div>
   </div>
-</div>
 </template>
 
 <script>
@@ -48,7 +47,15 @@ export default {
     },
     canvas: null
   }),
+  computed: {
+    backTitle() {
+      return this.$t('back');
+    }
+  },
   methods: {
+    onGoSelectPicture() {
+      this.$router.push({ name: 'selectPicture', params: { code: this.$store.state.device.code } });
+    },
     onSettingInput({ key, value }) {
       this.settingsPicture[key] = +value;
     }

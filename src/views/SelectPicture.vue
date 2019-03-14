@@ -1,31 +1,31 @@
 <template>
-<div class='select-picture'>
-  <header class='select-picture__header'>
-    <div class = 'device-info'>
-      <LabelValue
-        class = 'label-value--margin'
-        :label = '$t("deviceCode")'
-        :value = '$store.state.device.code'
-      />
+  <div class='select-picture'>
+    <header class='select-picture__header'>
+      <div class = 'device-info'>
+        <LabelValue
+          class = 'label-value--margin'
+          :label = 'deviceCodeTitle'
+          :value = '$store.state.device.code'
+        />
 
-      <LabelValue
-        :label = '$t("deviceName")'
-        :value = '$store.state.device.name'
-      />
+        <LabelValue
+          :label = 'deviceNameTitle'
+          :value = '$store.state.device.name'
+        />
+      </div>
+    </header>
+
+    <div class='select-picture__body'>
+      <BtnSelectPicture @change = 'onGoEditPicture' />
     </div>
-  </header>
 
-  <div class='select-picture__body'>
-    <BtnSelectPicture @change = '$router.push({ name: "editPicture" })' />
+    <footer class='select-picture__footer'>
+      <Btn
+        :label = 'backTitle'
+        @click = 'onGoSelectDevice'
+      />
+    </footer>
   </div>
-
-  <footer class='select-picture__footer'>
-    <Btn
-      :label = '$t("back")'
-      @click = '$router.push({ name: "selectDevice" })'
-    />
-  </footer>
-</div>
 </template>
 
 <script>
@@ -39,6 +39,25 @@ export default {
     BtnSelectPicture,
     LabelValue,
     Btn
+  },
+  computed: {
+    deviceCodeTitle() {
+      return this.$t('deviceCode');
+    },
+    deviceNameTitle() {
+      return this.$t('deviceName');
+    },
+    backTitle() {
+      return this.$t('back');
+    }
+  },
+  methods: {
+    onGoSelectDevice() {
+      this.$router.push({ name: 'selectDevice' });
+    },
+    onGoEditPicture() {
+      this.$router.push({ name: 'editPicture' });
+    }
   }
 };
 </script>

@@ -1,44 +1,55 @@
 <template>
-<div class='select-device'>
-  <form
-    class='select-device__body'
-    @submit.prevent='onSubmit'
-  >
-    <InputText
-      v-model='deviceCode'
-      class = 'select-device__device-code'
-      type='text'
-      placeholder='XXXXX'
-      :label='$t("deviceCode")'
-    />
+  <div class='select-device'>
+    <form
+      class='select-device__body'
+      @submit.prevent='onSubmit'
+    >
+      <InputRange
+        label = 'contrastTitle'
+        :value = '50'
+        :min = '0'
+        :max = '100'
+        :step = '1'
+        suffix = 'X'
+      />
 
-    <Btn
-      :disabled='!deviceCode'
-      :label='$t("next")'
-    />
-  </form>
+      <InputText
+        v-model='deviceCode'
+        class = 'select-device__device-code'
+        type='text'
+        placeholder='XXXXX'
+        :label='$t("deviceCode")'
+      />
 
-  <footer
-    v-if = '$store.state.device.code'
-    class='select-device__footer'
-  >
-    <Btn
-      :label = '$t("back")'
-      @click = '$router.push({name: "selectPicture", params: {code: $store.state.device.code}})'
-    />
-  </footer>
-</div>
+      <Btn
+        :disabled='!deviceCode'
+        :label='$t("next")'
+      />
+    </form>
+
+    <footer
+      v-if = '$store.state.device.code'
+      class='select-device__footer'
+    >
+      <Btn
+        :label = '$t("back")'
+        @click = '$router.push({ name: "selectPicture", params: { code: $store.state.device.code } })'
+      />
+    </footer>
+  </div>
 </template>
 
 <script>
 import InputText from '@/components/InputText.vue';
 import Btn from '@/components/Btn.vue';
+import InputRange from '@/components/InputRange.vue';
 
 export default {
   name: 'SelectDevice',
   components: {
     InputText,
-    Btn
+    Btn,
+    InputRange
   },
   data: () => ({
     deviceCode: ''

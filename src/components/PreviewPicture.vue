@@ -1,28 +1,24 @@
 <template>
-<div class = 'preview-picture'>
-  <canvas
-    class = 'preview-picture__canvas'
-    ref = 'canvas'
-    @mouseup.stop.prevent = 'onMouseup'
-    @mousemove.stop.prevent = 'onMousemove'
-    @mousedown.stop.prevent = 'onMousedown'
-    @mouseout.stop.prevent = 'onMouseout'
+  <div class='preview-picture'>
+    <canvas
+      ref = 'canvas'
+      class = 'preview-picture__canvas'
+      @mouseup.stop.prevent = 'onMouseup'
+      @mousemove.stop.prevent = 'onMousemove'
+      @mousedown.stop.prevent = 'onMousedown'
+      @mouseout.stop.prevent = 'onMouseout'
 
-    @touchstart.stop.prevent = 'onTouchstart'
-    @touchmove.stop.prevent = 'onTouchmove'
-    @touchend.stop.prevent = 'onTouchend'
-    @touchcancel.stop.prevent = 'onTouchcancel'
-  />
-</div>
+      @touchstart.stop.prevent = 'onTouchstart'
+      @touchmove.stop.prevent = 'onTouchmove'
+      @touchend.stop.prevent = 'onTouchend'
+      @touchcancel.stop.prevent = 'onTouchcancel'
+    />
+  </div>
 </template>
 
 <script>
 import { loadImage } from '@/utils/file';
 import { addOnResize, removeOnResize, debounceRAF } from '@/utils/events';
-
-const MAX_SIZE = 1024;
-const MIN_SIZE = 400;
-const BALANCE_COLOR_RATIO = 122.5;
 
 export default {
   name: 'PreviewPicture',
@@ -39,6 +35,9 @@ export default {
       type: Number,
       required: true
     }
+  },
+  watch: {
+    '$store.state.file.fileUrl': 'setupImage'
   },
   created() {
     this.zoomMin = 1 / +process.env.VUE_APP_ZOOM_RANGE;
@@ -66,9 +65,6 @@ export default {
     await this.setupImage();
     this.$emit('setupCanvas', this.canvas);
   },
-  watch: {
-    '$store.state.file.fileUrl': 'setupImage'
-  },
   methods: {
     distance(x1, x2, y1, y2) {
       return Math.sqrt(((x1 - x2) ** 2) + ((y1 - y2) ** 2));
@@ -85,29 +81,24 @@ export default {
         this.lastOffsetY = this.offsetY;
       }
     },
+    truncatePosition(value, center) {
+      let newValue = value;
+      if (center > 0) {
+        if (value < -center) newValue = -center;
+        if (value > center) newValue = center;
+      } else {
+        if (value > -center) newValue = -center;
+        if (value < center) newValue = center;
+      }
+      return newValue;
+    },
     move(x, y) {
       if (!this.isMoving) return;
 
-      let offsetX = this.lastOffsetX + x - this.moveStartPosX;
-      let offsetY = this.lastOffsetY + y - this.moveStartPosY;
-
-      const { offsetXCenter, offsetYCenter } = this;
-
-      if (this.offsetXCenter > 0) {
-        if (offsetX < -offsetXCenter) offsetX = -offsetXCenter;
-        if (offsetX > offsetXCenter) offsetX = offsetXCenter;
-      } else {
-        if (offsetX > -offsetXCenter) offsetX = -offsetXCenter;
-        if (offsetX < offsetXCenter) offsetX = offsetXCenter;
-      }
-
-      if (offsetYCenter > 0) {
-        if (offsetY < -offsetYCenter) offsetY = -offsetYCenter;
-        if (offsetY > offsetYCenter) offsetY = offsetYCenter;
-      } else {
-        if (offsetY > -offsetYCenter) offsetY = -offsetYCenter;
-        if (offsetY < offsetYCenter) offsetY = offsetYCenter;
-      }
+      const offsetX = this.truncatePosition(this.lastOffsetX + x - this.moveStartPosX,
+        this.offsetXCenter);
+      const offsetY = this.truncatePosition(this.lastOffsetY + y - this.moveStartPosY,
+        this.offsetYCenter);
 
       if (this.offsetX !== offsetX || this.offsetY !== offsetY) {
         this.offsetX = offsetX;
@@ -198,7 +189,37 @@ export default {
       this.zoomStop();
     },
     async setupImage() {
-      this.image = await loadImage(this.$store.state.file.fileUrl);
+      const image = await loadImage(this.$store.state.file.fileUrl);
+
+      const { width, height } = image;
+
+      const { orientation } = this.$store.state.file;
+
+      const canvasRotate = document.createElement('canvas');
+      const context = canvasRotate.getContext('2d');
+
+      if (orientation > 4 && orientation < 9) {
+        canvasRotate.width = height;
+        canvasRotate.height = width;
+      } else {
+        canvasRotate.width = width;
+        canvasRotate.height = height;
+      }
+
+      switch (orientation) {
+        case 2: context.transform(-1, 0, 0, 1, width, 0); break;
+        case 3: context.transform(-1, 0, 0, -1, width, height); break;
+        case 4: context.transform(1, 0, 0, -1, 0, height); break;
+        case 5: context.transform(0, 1, 1, 0, 0, 0); break;
+        case 6: context.transform(0, 1, -1, 0, height, 0); break;
+        case 7: context.transform(0, -1, -1, 0, height, width); break;
+        case 8: context.transform(0, -1, 1, 0, 0, width); break;
+        default: break;
+      }
+
+      context.drawImage(image, 0, 0);
+      this.canvasRotate = canvasRotate;
+
       this.renderImage();
     },
     truncateColor(value) {
@@ -208,13 +229,15 @@ export default {
     },
     renderImage() {
       const {
-        image, canvas, context, scale, contrast, brightness, zoomMax,
-        offsetX, offsetY
+        canvasRotate, canvas, context, scale, contrast, brightness, zoomMax,
+        offsetX, offsetY,
+        truncateColor
       } = this;
 
-      const { width: imageWidth, height: imageHeight } = image;
+      const { width: imageWidth, height: imageHeight } = canvasRotate;
 
       const canvasSize = canvas.clientWidth;
+      const centerSize = canvasSize / 2;
       canvas.width = canvasSize;
       canvas.height = canvasSize;
 
@@ -222,12 +245,16 @@ export default {
       context.clearRect(0, 0, canvasSize, canvasSize);
       context.save();
 
+      const maxSize = +process.env.VUE_APP_MAX_SIZE;
+      const minSize = +process.env.VUE_APP_MIN_SIZE;
+      const balanceColorRatio = +process.env.VUE_APP_BALANCE_COLOR_RATIO;
+
       // Матшабирование картинки под оптимальный размер
       let scaleOptimal = 1;
-      if (imageWidth > MAX_SIZE || imageHeight > MAX_SIZE) {
-        scaleOptimal = MAX_SIZE / (imageWidth > imageHeight ? imageWidth : imageHeight);
-      } else if (imageWidth < MIN_SIZE || imageHeight < MIN_SIZE) {
-        scaleOptimal = MIN_SIZE / (imageWidth > imageHeight ? imageWidth : imageHeight);
+      if (imageWidth > maxSize || imageHeight > maxSize) {
+        scaleOptimal = maxSize / (imageWidth > imageHeight ? imageWidth : imageHeight);
+      } else if (imageWidth < minSize || imageHeight < minSize) {
+        scaleOptimal = minSize / (imageWidth > imageHeight ? imageWidth : imageHeight);
       }
 
       // Маштабирование
@@ -244,7 +271,7 @@ export default {
       const offsetYMain = this.offsetYCenter + offsetY;
 
       context.drawImage(
-        image,
+        canvasRotate,
         0, 0, imageWidth, imageHeight,
         offsetXMain, offsetYMain, scaledImageWidth, scaledImageHeight
       );
@@ -262,17 +289,17 @@ export default {
         const alpha = imageData.data[i + 3];
 
         // Brightness
-        red = this.truncateColor(red * brightnessRatio);
-        green = this.truncateColor(green * brightnessRatio);
-        blue = this.truncateColor(blue * brightnessRatio);
+        red = truncateColor(red * brightnessRatio);
+        green = truncateColor(green * brightnessRatio);
+        blue = truncateColor(blue * brightnessRatio);
 
         // Contrast
-        red = this.truncateColor(red * contrastRatio + contrastIntercept);
-        green = this.truncateColor(green * contrastRatio + contrastIntercept);
-        blue = this.truncateColor(blue * contrastRatio + contrastIntercept);
+        red = truncateColor(red * contrastRatio + contrastIntercept);
+        green = truncateColor(green * contrastRatio + contrastIntercept);
+        blue = truncateColor(blue * contrastRatio + contrastIntercept);
 
-        const isWhite = ((red + green + blue) / 3) > BALANCE_COLOR_RATIO
-          || alpha < BALANCE_COLOR_RATIO;
+        const isWhite = ((red + green + blue) / 3) > balanceColorRatio
+          || alpha < balanceColorRatio;
 
         const color = isWhite ? 255 : 0;
 
@@ -284,8 +311,6 @@ export default {
       }
 
       context.putImageData(imageData, 0, 0);
-
-      const centerSize = canvasSize / 2;
 
       // Берем картинку в кружочек и белый фон позади кружочка
       context.restore();
@@ -342,8 +367,7 @@ export default {
   height: 100%;
 
   /* Глюк, почему-то на канвасе mousemove срабатывает и на скрытых частях
-     https://toster.ru/q/607750
-  */
+     https://toster.ru/q/607750 */
   border-radius: inherit;
   cursor: pointer;
 }

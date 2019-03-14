@@ -1,36 +1,36 @@
 <template>
-<div class = 'settings-picture'>
-  <InputRange
-    :label = '$t("scale")'
-    :value = 'scale'
-    @input = 'onInput("scale", $event)'
-    :min = '-3'
-    :max = '3'
-    :step = '0.1'
-    suffix = 'X'
-    class = 'input-range-scale'
-  />
+  <div class = 'settings-picture'>
+    <InputRange
+      :label = 'scaleTitle'
+      :value = 'scale'
+      :min = '-3'
+      :max = '3'
+      :step = '0.1'
+      suffix = 'X'
+      class = 'input-range-scale'
+      @input = 'onInputScale'
+    />
 
-  <InputRange
-    :label = '$t("contrast")'
-    :value = 'contrast'
-    @input = 'onInput("contrast", $event)'
-    :min = '0'
-    :max = '100'
-    :step = '1'
-    suffix = 'X'
-  />
+    <InputRange
+      :label = 'brightnessTitle'
+      :value = 'brightness'
+      :min = '0'
+      :max = '500'
+      :step = '10'
+      suffix = 'X'
+      @input = 'onInputBrightness'
+    />
 
-  <InputRange
-    :label = '$t("brightness")'
-    :value = 'brightness'
-    @input = 'onInput("brightness", $event)'
-    :min = '0'
-    :max = '500'
-    :step = '10'
-    suffix = 'X'
-  />
-</div>
+    <InputRange
+      :label = 'contrastTitle'
+      :value = 'contrast'
+      :min = '0'
+      :max = '100'
+      :step = '1'
+      suffix = 'X'
+      @input = 'onInputContrast'
+    />
+  </div>
 </template>
 
 <script>
@@ -55,13 +55,33 @@ export default {
       required: true
     }
   },
+  computed: {
+    scaleTitle() {
+      return this.$t('scale');
+    },
+    contrastTitle() {
+      return this.$t('contrast');
+    },
+    brightnessTitle() {
+      return this.$t('contrast');
+    }
+  },
   created() {
     this.$options.zoomRangeMin = -process.env.VUE_APP_ZOOM_RANGE;
     this.$options.zoomRangeMax = +process.env.VUE_APP_ZOOM_RANGE;
   },
   methods: {
-    onInput(key, $event) {
-      this.$emit('input', { key, value: $event });
+    onInput(key, event) {
+      this.$emit('input', { key, value: event });
+    },
+    onInputScale(event) {
+      this.onInput('scale', event);
+    },
+    onInputContrast(event) {
+      this.onInput('contrast', event);
+    },
+    onInputBrightness(event) {
+      this.onInput('brightness', event);
     }
   }
 };

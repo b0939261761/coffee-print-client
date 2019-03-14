@@ -1,9 +1,12 @@
 <template>
   <Btn
-    :label = '$t("sendOnDevice")'
+    :label = 'buttonTitle'
     @click = 'sendFile'
   >
-    <portal to = 'FormModalSendSuccess' v-if = 'modalOpen'>
+    <portal
+      v-if = 'modalOpen'
+      to = 'FormModalSendSuccess'
+    >
       <FormModalSendSuccess
         @cancel = 'modalOpen = false'
       />
@@ -19,14 +22,24 @@ import { b64ToUint8Array } from '@/utils/file';
 
 export default {
   name: 'BtnSend',
-  props: ['canvas'],
   components: {
     Btn,
     FormModalSendSuccess
   },
+  props: {
+    canvas: {
+      required: true,
+      validator: prop => prop === null || typeof prop === 'object'
+    }
+  },
   data: () => ({
     modalOpen: false
   }),
+  computed: {
+    buttonTitle() {
+      return this.$t('sendOnDevice');
+    }
+  },
   methods: {
     async sendFile() {
       const b64Image = this.canvas.toDataURL('image/jpeg');

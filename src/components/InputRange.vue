@@ -1,65 +1,84 @@
 <template>
-<div
-  class = 'input-range'
-  ref = 'inputRange'
->
-  <button
-    class = 'button button--minus'
-    @click = 'onClickButton("-")'
-    :disabled = 'value <= min'
+  <div
+    ref = 'inputRange'
+    class = 'input-range'
   >
-    <svg class='icon' viewBox='0 0 78 21' xmlns='http://www.w3.org/2000/svg'>
-      <rect width='78' height='21' rx='5.7' ry='5.7' />
-    </svg>
-  </button>
+    <button
+      class = 'button button--minus'
+      :disabled = 'value <= min'
+      @click = 'onClickMinus'
+    >
+      <svg
+        class = 'icon'
+        viewBox = '0 0 78 21'
+        xmlns = 'http://www.w3.org/2000/svg'
+        x='0px'
+        y='0px'
+        height = '30px'
+        width = '30px'
+        fill = '#ffffff'
+      >
+        <rect
+          width='78'
+          height='21'
+          rx='5.7'
+          ry='5.7'
+        />
+      </svg>
+    </button>
 
-  <div class = 'wrapper-main'>
-    <div class = 'wrapper-label'>
-      <label
-        class = 'label'
-        :for = 'id'
-        v-text = 'label'
-      ></label>
+    <div class = 'wrapper-main'>
+      <div class = 'wrapper-label'>
+        <label
+          class = 'label'
+          :for = 'id'
+          v-text = 'label'
+        />
 
-      <output
-        class = 'output-label'
-        v-text = 'valueFormat'
-      ></output>
+        <output
+          class = 'output-label'
+          v-text = 'valueFormat'
+        />
+      </div>
+
+      <div class = 'wrapper-input'>
+        <input
+          :id='id'
+          ref='input'
+          :value='value'
+          type='range'
+          class='input'
+          :min='min'
+          :max='max'
+          :step='step'
+          @change='onRangeChange'
+          @input='onInput'
+        >
+        <output
+          class='output-input'
+          v-text='value'
+        />
+      </div>
     </div>
-
-    <div class = 'wrapper-input'>
-      <input
-        :value='value'
-        @change='$emit("change", $event.target.value)'
-        @input='onInput'
-        type='range'
-        class='input'
-        ref='input'
-        :id='id'
-        :min='min'
-        :max='max'
-        :step='step'
-      />
-      <output
-        class='output-input'
-        v-text='value'
-      ></output>
-    </div>
-
-</div>
-  <button
-    class = 'button button--plus'
-    @click = 'onClickButton("+")'
-    :disabled = 'value >= max'
-  >
-    <svg class='icon icon--plus' viewBox='0 0 78 78' xmlns='http://www.w3.org/2000/svg'>
-      <path d='M72.3 28.5H49.5V5.7A5.7 5.7 0 0 0 43.8 0h-9.6a5.7
+    <button
+      class = 'button button--plus'
+      :disabled = 'value >= max'
+      @click = 'onClickPlus'
+    >
+      <svg
+        class='icon icon--plus'
+        viewBox='0 0 78 78'
+        xmlns='http://www.w3.org/2000/svg'
+      >
+        <path
+          d='M72.3 28.5H49.5V5.7A5.7 5.7 0 0 0 43.8 0h-9.6a5.7
               5.7 0 0 0-5.7 5.7v22.8H5.7A5.7 5.7 0 0 0 0 34.2v9.6a5.7
               5.7 0 0 0 5.7 5.7h22.8v22.8a5.7 5.7 0 0 0 5.7 5.7h9.6a5.7
-              5.7 0 0 0 5.7-5.7V49.5h22.8a5.7 5.7 0 0 0 5.7-5.7v-9.6a5.7 5.7 0 0 0-5.7-5.7z' />
-    </svg>
-  </button>
-</div>
+              5.7 0 0 0 5.7-5.7V49.5h22.8a5.7 5.7 0 0 0 5.7-5.7v-9.6a5.7 5.7 0 0 0-5.7-5.7z'
+        />
+      </svg>
+    </button>
+  </div>
 </template>
 
 <script>
@@ -105,6 +124,15 @@ export default {
       this.setValueCss(value);
     }
   },
+  mounted() {
+    // eslint-disable-next-line
+    this.id = this._uid;
+
+    // Через инлайновые стили идет видимая заддержка
+    this.$refs.inputRange.style.setProperty('--min', this.min);
+    this.$refs.inputRange.style.setProperty('--max', this.max);
+    this.setValueCss(this.value);
+  },
   methods: {
     onInput(event) {
       const value = +event.target.value;
@@ -120,16 +148,16 @@ export default {
       const step = this.step * (operator === '-' ? -10 : 10);
       const value = (this.value * 10 + step) / 10;
       this.$emit('input', value);
+    },
+    onClickMinus() {
+      this.onClickButton('-');
+    },
+    onClickPlus() {
+      this.onClickButton('+');
+    },
+    onRangeChange(event) {
+      this.$emit('change', event.target.value);
     }
-  },
-  mounted() {
-    // eslint-disable-next-line
-    this.id = this._uid;
-
-    // Через инлайновые стили идет видимая заддержка
-    this.$refs.inputRange.style.setProperty('--min', this.min);
-    this.$refs.inputRange.style.setProperty('--max', this.max);
-    this.setValueCss(this.value);
   }
 };
 </script>
@@ -357,6 +385,7 @@ input::-webkit-slider-runnable-track {
   align-self: center;
   width: 24px;
   height: 24px;
+  padding: 1px 6px;
   overflow: hidden;
   font-weight: bold;
   font-size: 1rem;
@@ -443,5 +472,4 @@ input::-webkit-slider-runnable-track {
   height: 100%;
   fill: white;
 }
-
 </style>
