@@ -4,26 +4,18 @@
       class='select-device__body'
       @submit.prevent='onSubmit'
     >
-      <InputRange
-        label = 'contrastTitle'
-        :value = '50'
-        :min = '0'
-        :max = '100'
-        :step = '1'
-        suffix = 'X'
-      />
-
       <InputText
-        v-model='deviceCode'
+        v-model = 'deviceCode'
         class = 'select-device__device-code'
-        type='text'
-        placeholder='XXXXX'
-        :label='$t("deviceCode")'
+        type = 'text'
+        placeholder = 'XXXXX'
+        :label='deviceCodeTitle'
+        inputmode = 'numeric'
       />
 
       <Btn
         :disabled='!deviceCode'
-        :label='$t("next")'
+        :label='nextTitle'
       />
     </form>
 
@@ -32,8 +24,8 @@
       class='select-device__footer'
     >
       <Btn
-        :label = '$t("back")'
-        @click = '$router.push({ name: "selectPicture", params: { code: $store.state.device.code } })'
+        :label = 'backTitle'
+        @click = 'onGoSelectPicture'
       />
     </footer>
   </div>
@@ -42,19 +34,31 @@
 <script>
 import InputText from '@/components/InputText.vue';
 import Btn from '@/components/Btn.vue';
-import InputRange from '@/components/InputRange.vue';
 
 export default {
   name: 'SelectDevice',
   components: {
     InputText,
-    Btn,
-    InputRange
+    Btn
   },
   data: () => ({
     deviceCode: ''
   }),
+  computed: {
+    deviceCodeTitle() {
+      return this.$t('deviceCode');
+    },
+    nextTitle() {
+      return this.$t('next');
+    },
+    backTitle() {
+      return this.$t('back');
+    }
+  },
   methods: {
+    onGoSelectPicture() {
+      this.$router.push({ name: 'selectPicture', params: { code: this.$store.state.device.code } });
+    },
     onSubmit() {
       if (!this.deviceCode) return;
       this.$store.dispatch('device/getdevice', { code: this.deviceCode });

@@ -1,18 +1,19 @@
 <template>
   <div class='input-text'>
     <input
-      :value='value'
-      @input='$emit("input", $event.target.value)'
-      :type='type'
-      :placeholder='placeholder'
-      class='input'
-      id='input'
+      id = 'input'
+      :value = 'value'
+      :type = 'type'
+      :placeholder = 'placeholder'
+      :inputmode = 'inputmode'
+      class = 'input'
+      @input = 'onInput'
     >
     <label
-      class='label'
-      for='input'
-    >{{ label }}</label>
-
+      class = 'label'
+      for = 'input'
+      v-text = 'label'
+    />
   </div>
 </template>
 
@@ -39,9 +40,17 @@ export default {
     mask: {
       type: Array || null,
       default: null
+    },
+    inputmode: {
+      type: String,
+      default: null
     }
   },
   methods: {
+    onInput(event) {
+      this.$emit('input', event.target.value);
+    }
+
     // onKeypress(event) {
     // const { target, key } = event;
 
@@ -85,7 +94,6 @@ export default {
 
 }
 
-
 .input:focus {
     box-shadow: none;
     outline: none;
@@ -93,14 +101,13 @@ export default {
 
   }
 
-
 .input:focus::-webkit-input-placeholder {
       color: #1abc9c;
       font-size: 11px;
       transform: translateY(-20px);
       visibility: visible;
-    } */
-
+    }
+*/
 
 .input,
 .label {
