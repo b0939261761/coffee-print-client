@@ -63,7 +63,7 @@ export default {
       return this.$t('contrast');
     },
     brightnessTitle() {
-      return this.$t('contrast');
+      return this.$t('brightness');
     }
   },
   created() {
