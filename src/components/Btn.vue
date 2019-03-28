@@ -44,24 +44,24 @@ export default {
 <style scoped>
 .btn {
   position: relative;
-  min-width: 5.5rem;
-  min-height: 36px;
-  margin: 0 0 .9375rem 0;
-  padding: .5rem 1rem;
+  min-width: 8.8rem;
+  min-height: 3.6rem;
+  margin: 0 0 1.5rem 0;
+  padding: .8rem 1.6rem;
   overflow: hidden;
   font-weight: bold;
-  font-size: .875rem;
+  font-size: 1.4rem;
   color: white;
   text-transform: uppercase;
   text-decoration: none;
   background-color: #2196f3;
   border: none;
-  border-radius: .125rem;
+  border-radius: .2rem;
   outline: 0;
   box-shadow:
-    0 .1875rem .0625rem -.125rem rgba(0, 0, 0, .2),
-    0 .125rem .125rem 0 rgba(0, 0, 0, .14),
-    0 .0625rem .3125rem 0 rgba(0, 0, 0, .12);
+    0 .3rem .1rem -.2rem rgba(0, 0, 0, .2),
+    0 .2rem .2rem 0 rgba(0, 0, 0, .14),
+    0 .1rem .5rem 0 rgba(0, 0, 0, .12);
   cursor: pointer;
   appearance: button;
   user-select: none;
@@ -70,9 +70,9 @@ export default {
 
 .btn:active {
   box-shadow:
-    0 .3125rem .3125rem -.1875rem rgba(0, 0, 0, .2),
-    0 .5rem .625rem .0625rem rgba(0, 0, 0, .14),
-    0 .1875rem .875rem .125rem rgba(0, 0, 0, .12);
+    0 .5rem .5rem -.3rem rgba(0, 0, 0, .2),
+    0 .8rem 1rem .1rem rgba(0, 0, 0, .14),
+    0 .3rem 1.4rem .2rem rgba(0, 0, 0, .12);
 }
 
 .btn::after {
@@ -119,8 +119,8 @@ export default {
 }
 
 .btn--small {
-  min-height: 1.5rem;
-  padding: .2rem 1rem;
+  min-height: 2.4rem;
+  padding: .32rem 1.6rem;
 }
 
 .btn--dark {
@@ -134,7 +134,7 @@ export default {
 
 .btn__icon {
   display: inline-block;
-  max-height: 36px;
+  max-height: 3.6rem;
   fill: white;
 }
 </style>

@@ -75,11 +75,11 @@ export default {
 
 .select-picture__header {
   width: 100%;
-  padding: 1.25rem 0 0 1.25rem;
+  padding: 2rem 0 0 2rem;
   text-align: left;
   color: white;
   background-color: rgba(0, 0, 0, .6);
-  border-radius: 0 0 .25rem .25rem;
+  border-radius: 0 0 .4rem .4rem;
 }
 
 .device-info {
@@ -87,32 +87,32 @@ export default {
   flex-wrap: wrap;
   justify-content: space-between;
   width: 100%;
-  max-width: 64rem;
+  max-width: 102.4rem;
   margin: 0 auto;
 }
 
 .select-picture__body {
   position: relative;
-  width: 31.25rem;
-  max-width: calc(100% - .625rem);
+  width: 50rem;
+  max-width: calc(100% - 1rem);
   margin: auto;
-  padding: 2.9375rem 1.25rem 2rem;
+  padding: 4.7rem 2rem 3.2rem;
 }
 
 .select-picture__body::before {
   content: '';
   position: absolute;
-  top: .3125rem;
-  right: .3125rem;
-  bottom: .3125rem;
-  left: .3125rem;
+  top: .5rem;
+  right: .5rem;
+  bottom: .5rem;
+  left: .5rem;
   background-color: rgba(0, 0, 0, .6);
-  border-radius: .25rem;
+  border-radius: .4rem;
 }
 
 .select-picture__footer {
-  padding-top: .9375rem;
+  padding-top: 1.5rem;
   background-color: rgba(0, 0, 0, .6);
-  border-radius: .25rem .25rem 0 0;
+  border-radius: .4rem .4rem 0 0;
 }
 </style>

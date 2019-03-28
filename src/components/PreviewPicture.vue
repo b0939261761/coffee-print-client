@@ -331,18 +331,18 @@ export default {
 .preview-picture {
   position: relative;
   display: block;
-  width: 31.25rem;
-  max-width: calc(100% - .625rem);
-  margin: .3125rem;
+  width: 50rem;
+  max-width: calc(100% - 1rem);
+  margin: .5rem;
   overflow: hidden;
   background-color: white;
   border-radius: 50%;
-  box-shadow: 0 0 5px 3px #333;
+  box-shadow: 0 0 .5rem .3rem #333;
 }
 
 @media (min-width: 768px) {
   .preview-picture {
-    margin-right: .8rem;
+    margin-right: 1.3rem;
   }
 }
 

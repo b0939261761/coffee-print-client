@@ -73,59 +73,27 @@ export default {
 .input-text {
   position: relative;
   margin: 0 auto;
-  padding-top: .9375rem;
+  padding-top: 1.5rem;
   text-align: left;
 }
-
-/*
-.input {
-  display: block;
-  width: 100%;
-  font-size: 1rem;
-  border: none;
-  padding: 10px 0;
-  border-bottom: solid 1px  #1abc9c;
-  transition: all 0.3s cubic-bezier( .64, .09, .08, 1);
-  background: linear-gradient(to bottom, rgba(255,255,255,0) 96%,  #1abc9c 4%);
-  background-position: -200px 0;
-  background-size: 200px 100%;
-  background-repeat: no-repeat;
-  color:  #1abc9c
-
-}
-
-.input:focus {
-    box-shadow: none;
-    outline: none;
-    background-position: 0 0;
-
-  }
-
-.input:focus::-webkit-input-placeholder {
-      color: #1abc9c;
-      font-size: 11px;
-      transform: translateY(-20px);
-      visibility: visible;
-    }
-*/
 
 .input,
 .label {
   width: 100%;
-  padding: .375rem .75rem;
-  font-size: 1rem;
+  padding: .6rem 1.2rem;
+  font-size: 1.6rem;
 }
 
 .label {
   position: absolute;
-  top: .9375rem;
+  top: 1.5rem;
   left: 0;
   width: 125%;
   overflow: hidden;
   color: white;
   white-space: nowrap;
   text-overflow: ellipsis;
-  transform: translateY(-1.4rem) scale(.8);
+  transform: translateY(-2.3rem) scale(.8);
   transform-origin: 0 0;
   transition:
     transform .3s cubic-bezier(.25, .8, .5, 1),
@@ -136,13 +104,13 @@ export default {
 
 .input {
   display: block;
-  height: calc(36px + 2px);
-  margin: 0 0 .9375rem 0;
+  height: calc(3.6rem + .2rem);
+  margin: 0 0 1.5rem 0;
   color: #495057;
   background-color: #fff;
   background-clip: padding-box;
-  border: 1px solid #ced4da;
-  border-radius: .25rem;
+  border: .1rem solid #ced4da;
+  border-radius: .4rem;
   transition:
     border-color .15s ease-in-out,
     box-shadow .15s ease-in-out;
@@ -177,6 +145,6 @@ export default {
   background-color: white;
   border-color: #80bdff;
   outline: 0;
-  box-shadow: 0 0 0 .2rem rgba(0, 123, 255, .25);
+  box-shadow: 0 0 0 .32rem rgba(0, 123, 255, .25);
 }
 </style>

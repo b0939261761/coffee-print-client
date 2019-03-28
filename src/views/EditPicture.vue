@@ -69,16 +69,16 @@ export default {
   height: 100%;
   background-image: url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2 2"><path d="M1 2V0h1v1H0v1z" fill-opacity=".025"/></svg>');
   background-repeat: repeat;
-  background-size: 1.25rem 1.25rem;
+  background-size: 2rem 2rem;
 }
 
 .wrapper-editor {
   position: relative;
   width: 100%;
-  max-width: 64rem;
+  max-width: 102.4rem;
   height: 100%;
   margin: 0 auto;
-  border: .1px solid transparent; /* Что бы маржины не выпирали */
+  border: .01rem solid transparent; /* Что бы маржины не выпирали */
 }
 
 @media (min-width: 768px) {
@@ -94,28 +94,28 @@ export default {
   position: absolute;
   right: 0;
   bottom: 0;
-  width: 31.25rem;
+  width: 50rem;
   max-width: 100%;
   max-height: 100%;
   margin: auto;
-  padding: .5rem  .9375rem 0;
+  padding: .8rem  1.5rem 0;
   overflow-y: auto;
   background-color: rgba(0, 0, 0, .6);
-  border-radius: .25rem .25rem 0 0;
+  border-radius: .4rem .4rem 0 0;
 }
 
 @media (min-width: 768px) {
   .controls {
     position: static;
     flex-shrink: 3;
-    padding-bottom: 1rem;
-    border-radius: .25rem 0 0 .25rem;
+    padding-bottom: 1.6rem;
+    border-radius: .4rem 0 0 .4rem;
   }
 }
 
 @media (min-width: 1024px) {
   .controls {
-    border-radius: .25rem;
+    border-radius: .4rem;
   }
 }
 

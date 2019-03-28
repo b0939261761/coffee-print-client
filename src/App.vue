@@ -50,7 +50,7 @@ export default {
 html {
   box-sizing: border-box;
   height: 100%;
-  font-size: 16px;
+  font-size: 10px;
   line-height: 1.5;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica', sans-serif;
   text-align: center;

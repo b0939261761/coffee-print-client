@@ -41,6 +41,6 @@ export default {
 
 <style scoped>
 .btn-selected-picture--margin {
-  margin-right: 1rem;
+  margin-right: 1.6rem;
 }
 </style>

@@ -74,37 +74,44 @@ export default {
   flex-direction: column;
   width: 100%;
   height: 100%;
-  background-image: url('../assets/background.jpg');
-  background-repeat: no-repeat;
-  background-size: cover;
+  background-color: #f7796a;
 }
 
 .select-device__body {
-  position: relative;
-  width: 31.25rem;
-  max-width: calc(100% - .625rem);
-  margin: auto;
-  padding: 2.9375rem 1.25rem 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 50rem;
+  max-width: calc(100% - 4rem);
+  height: calc(100% - 2rem);
+  margin: auto auto 0;
+  padding: 4.7rem 2rem 3.2rem;
+  background-color: rgba(255, 255, 255, .44);
+  background-image: url('../assets/background-bottom.png');
+  background-repeat: no-repeat;
+  background-position: center bottom;
+  background-size: calc(100% - 2rem) auto;
 }
-
+/*
 .select-device__body::before {
   content: '';
   position: absolute;
-  top: .3125rem;
-  right: .3125rem;
-  bottom: .3125rem;
-  left: .3125rem;
+  top: .5rem;
+  right: .5rem;
+  bottom: .5rem;
+  left: .5rem;
   background-color: rgba(0, 0, 0, .6);
-  border-radius: .25rem;
-}
+  border-radius: .4rem;
+} */
 
 .select-device__device-code {
-  width: 250px;
+  width: 25rem;
 }
 
 .select-device__footer {
-  padding-top: .9375rem;
+  padding-top: 1.5rem;
   background-color: rgba(0, 0, 0, .6);
-  border-radius: .25rem .25rem 0 0;
+  border-radius: .4rem .4rem 0 0;
 }
 </style>

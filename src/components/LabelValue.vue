@@ -31,14 +31,14 @@ export default {
 .label-value {
   display: flex;
   flex-wrap: wrap;
-  margin: 0 1.25rem 1.25rem 0;
-  font-size: 1.125rem;
+  margin: 0 2rem 2rem 0;
+  font-size: 1.8rem;
   text-align: left;
   color: inherit;
 }
 
 .label-value__label {
-  margin-right: 1rem;
+  margin-right: 1.6rem;
 }
 
 .label-value__value {

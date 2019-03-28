@@ -76,7 +76,7 @@ export default {
   align-items: center;
   width: 100%;
   height: 100%;
-  padding: .5rem;
+  padding: .8rem;
   overflow: hidden;
   background-color: rgb(33, 33, 33, .46);
 }
@@ -84,39 +84,39 @@ export default {
 .form-modal {
   position: relative;
   width: 100%;
-  max-width: 31.25rem;
-  margin: 1rem;
+  max-width: 50rem;
+  margin: 1.6rem;
   overflow-y: auto;
   text-align: left;
   background-color: white;
-  border-radius: .125rem;
+  border-radius: .2rem;
   box-shadow:
-    0 .6875rem .9375rem -.4375rem rgba(0, 0, 0, .2),
-    0 1.5rem 2.375rem .1875rem rgba(0, 0, 0, .14),
-    0 .5625rem 2.875rem .5rem rgba(0, 0, 0, .12);
+    0 1.1rem 1.5rem -.7rem rgba(0, 0, 0, .2),
+    0 2.4rem 3.8rem .3rem rgba(0, 0, 0, .14),
+    0 .9rem 4.6rem .8rem rgba(0, 0, 0, .12);
 }
 
 .modal-header {
   margin: 0;
-  padding: 1rem;
+  padding: 1.6rem;
   font-weight: normal;
-  font-size: 1.5rem;
+  font-size: 2.4rem;
   text-align: left;
 }
 
 .modal-btn-close {
   position: relative;
   float: right;
-  margin: -1rem -1rem 0 0;
-  padding: .875rem;
+  margin: -1.6rem -1.6rem 0 0;
+  padding: 1.4rem;
   font-weight: bold;
-  font-size: 1.5rem;
+  font-size: 2.4rem;
   line-height: 1;
   color: rgba(0, 0, 0, .5);
-  text-shadow: 0 .0625rem 0 #fff;
+  text-shadow: 0 .1rem 0 #fff;
   background-color: transparent;
   border: 0;
-  border-radius: .125rem;
+  border-radius: .2rem;
   outline: none;
   cursor: pointer;
 }
@@ -142,13 +142,13 @@ export default {
 }
 
 .modal-body {
-  padding: 1rem;
-  font-size: 1rem;
+  padding: 1.6rem;
+  font-size: 1.6rem;
 }
 
 .modal-footer {
   display: flex;
   justify-content: flex-end;
-  padding: 1rem;
+  padding: 1.6rem;
 }
 </style>
