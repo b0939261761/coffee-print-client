@@ -1,33 +1,64 @@
 <template>
   <div class='select-device'>
-    <form
+    <div
       class='select-device__body'
-      @submit.prevent='onSubmit'
     >
-      <InputText
-        v-model = 'deviceCode'
-        class = 'select-device__device-code'
-        type = 'text'
-        placeholder = 'XXXXX'
-        :label='deviceCodeTitle'
-        inputmode = 'numeric'
-      />
+      <form
+        class='select-device__form'
+        @submit.prevent='onSubmit'
+      >
+        <InputText
+          v-model = 'deviceCode'
+          class = 'select-device__device-code'
+          type = 'text'
+          placeholder = 'XXXXX'
+          :label='coffeePrinterTitle'
+          inputmode = 'numeric'
+        />
 
-      <Btn
-        :disabled='!deviceCode'
-        :label='nextTitle'
-      />
-    </form>
+        <Btn
+          class = 'select-device__btn-next'
+          :label='nextTitle'
+          :disabled='!deviceCode'
+        >
+          <template #icon>
+            <svg
+              xmlns = 'http://www.w3.org/2000/svg'
+              viewBox = '0 0 448 512'
+            >
+              <path
+                d = 'M190.5 66.9l22.2-22.2c9.4-9.4 24.6-9.4 33.9 0L441
+                     239c9.4 9.4 9.4 24.6 0 33.9L246.6 467.3c-9.4 9.4-24.6
+                     9.4-33.9 0l-22.2-22.2c-9.5-9.5-9.3-25 .4-34.3L311.4
+                     296H24c-13.3 0-24-10.7-24-24v-32c0-13.3 10.7-24 24-24h287.4L190.9
+                     101.2c-9.8-9.3-10-24.8-.4-34.3z'
+              />
+            </svg>
+          </template>
+        </Btn>
 
-    <footer
-      v-if = '$store.state.device.code'
-      class='select-device__footer'
-    >
-      <Btn
-        :label = 'backTitle'
-        @click = 'onGoSelectPicture'
-      />
-    </footer>
+        <Btn
+          v-if = '$store.state.device.code'
+          :label = 'backTitle'
+          @click = 'onGoSelectPicture'
+        >
+          <template #icon>
+            <svg
+              xmlns = 'http://www.w3.org/2000/svg'
+              viewBox = '0 0 448 512'
+            >
+              <path
+                d = 'M257.5 445.1l-22.2 22.2c-9.4 9.4-24.6 9.4-33.9
+                     0L7 273c-9.4-9.4-9.4-24.6 0-33.9L201.4 44.7c9.4-9.4
+                     24.6-9.4 33.9 0l22.2 22.2c9.5 9.5 9.3 25-.4
+                     34.3L136.6 216H424c13.3 0 24 10.7 24 24v32c0 13.3-10.7
+                     24-24 24H136.6l120.5 114.8c9.8 9.3 10 24.8.4 34.3z'
+              />
+            </svg>
+          </template>
+        </Btn>
+      </form>
+    </div>
   </div>
 </template>
 
@@ -45,8 +76,8 @@ export default {
     deviceCode: ''
   }),
   computed: {
-    deviceCodeTitle() {
-      return this.$t('deviceCode');
+    coffeePrinterTitle() {
+      return this.$t('coffeePrinter');
     },
     nextTitle() {
       return this.$t('next');
@@ -88,30 +119,29 @@ export default {
   margin: auto auto 0;
   padding: 4.7rem 2rem 3.2rem;
   background-color: rgba(255, 255, 255, .44);
-  background-image: url('../assets/background-bottom.png');
+  background-image:
+    url('../assets/logo-white.png'),
+    url('../assets/background-bottom.png');
   background-repeat: no-repeat;
-  background-position: center bottom;
-  background-size: calc(100% - 2rem) auto;
-}
-/*
-.select-device__body::before {
-  content: '';
-  position: absolute;
-  top: .5rem;
-  right: .5rem;
-  bottom: .5rem;
-  left: .5rem;
-  background-color: rgba(0, 0, 0, .6);
-  border-radius: .4rem;
-} */
-
-.select-device__device-code {
-  width: 25rem;
+  background-position:
+    center 2rem,
+    center bottom;
+  background-size:
+    70% auto,
+    calc(100% - 2rem) auto;
+  border-radius: .5rem .5rem 0 0;
+  box-shadow: .2rem -.2rem 1rem 0 rgba(0, 0, 0, .2);
 }
 
-.select-device__footer {
-  padding-top: 1.5rem;
-  background-color: rgba(0, 0, 0, .6);
-  border-radius: .4rem .4rem 0 0;
+@media (min-width: 400px) {
+  .select-device__body {
+    background-size:
+      25.4rem auto,
+      calc(100% - 2rem) auto;
+  }
+}
+
+.select-device__form {
+  max-width: 20rem;
 }
 </style>

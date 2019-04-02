@@ -1,36 +1,43 @@
 <template>
-<transition name = 'form-modal'>
-  <div
-    class = 'wrapper-form-modal'
-    ref = 'formModal'
-    tabindex = '-1'
+  <transition name = 'form-modal'>
+    <div
+      ref = 'formModal'
+      class = 'wrapper-form-modal'
+      tabindex = '-1'
     >
-    <div class = 'form-modal'>
-      <header class = 'modal-header'>
-        <button
-          class = 'modal-btn-close'
-          :aria-label = '$t("cancel")'
-          @click = '$emit("cancel")'
-        >&times;</button>
+      <div class = 'form-modal'>
+        <header class = 'modal-header'>
+          <button
+            class = 'modal-btn-close'
+            :aria-label = 'cancelTitle'
+            @click = 'onCancel'
+          >
+            &times;
+          </button>
 
-        <slot name = 'header'></slot>
-      </header>
+          <slot name = 'header' />
+        </header>
 
-      <div class = 'modal-body'>
-        <slot name = 'body'></slot>
+        <div class = 'modal-body'>
+          <slot name = 'body' />
+        </div>
+
+        <footer class = 'modal-footer'>
+          <slot name = 'footer' />
+        </footer>
       </div>
-
-      <footer class = 'modal-footer'>
-        <slot name = 'footer'></slot>
-      </footer>
     </div>
-  </div>
-</transition>
+  </transition>
 </template>
 
 <script>
 export default {
-  name: 'ModalForm',
+  name: 'FormModal',
+  computed: {
+    cancelTitle() {
+      return this.$t('cancel');
+    }
+  },
   mounted() {
     // Если задавать через событие на элементе @keydown
     // и открыто 2 модальных окна - то закрываются оба
@@ -40,6 +47,11 @@ export default {
 
     this.$refs.formModal.focus();
     this.$refs.formModal.addEventListener('keydown', escapeHandler);
+  },
+  methods: {
+    onCancel() {
+      this.$emit('cancel');
+    }
   }
 };
 </script>

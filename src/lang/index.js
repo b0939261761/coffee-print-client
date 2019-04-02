@@ -5,8 +5,7 @@ Vue.use(VueI18n);
 
 const messages = {
   ru: {
-    deviceCode: 'Код кофепринтера',
-    deviceName: 'Наименование кофепринтера',
+    coffeePrinter: 'Кофепринтер',
     next: 'Далее',
     back: 'Назад',
     selectPicture: 'Выбрать изображение',
@@ -14,10 +13,11 @@ const messages = {
     contrast: 'Контрасность',
     brightness: 'Яркость',
     sendOnDevice: 'Отправить',
-    FormModalSendSuccessTitle: 'Изображение передано на устройство.',
-    FormModalSendSuccessBody: 'Выбрать новое изображение или продолжить редактировать?',
+    formModalSendSuccessTitle: 'Изображение передано на устройство.',
+    formModalSendSuccessBody: 'Выбрать новое изображение или продолжить редактировать?',
     cancel: 'Отмена',
     ok: 'ok',
+    gallery: 'Галерея',
     selectPictureErrorTitle: 'Ошибка открытия файла',
     selectPictureErrorBody: 'Поддерживаются изображения только PNG и JPEG'
   }

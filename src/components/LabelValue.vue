@@ -1,14 +1,14 @@
 <template>
-<div class='label-value'>
-  <span
-    v-text = 'label'
-    class = 'label-value__label'
-  ></span>
-  <span
-    class = 'label-value__value'
-    v-text = 'value'
-  ></span>
-</div>
+  <div class='label-value'>
+    <span
+      class = 'label-value__label'
+      v-text = 'label'
+    />
+    <span
+      class = 'label-value__value'
+      v-text = 'value'
+    />
+  </div>
 </template>
 
 <script>
@@ -31,10 +31,11 @@ export default {
 .label-value {
   display: flex;
   flex-wrap: wrap;
-  margin: 0 2rem 2rem 0;
+  align-items: center;
+  margin: 0 0 2rem 0;
   font-size: 1.8rem;
   text-align: left;
-  color: inherit;
+  color: #fff;
 }
 
 .label-value__label {
@@ -43,5 +44,6 @@ export default {
 
 .label-value__value {
   font-weight: bold;
+  font-size: 2.2rem;
 }
 </style>

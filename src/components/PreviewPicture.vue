@@ -1,8 +1,12 @@
 <template>
-  <div class='preview-picture'>
+  <div
+    ref = 'container'
+    class = 'preview-picture'
+  >
     <canvas
       ref = 'canvas'
       class = 'preview-picture__canvas'
+      :style = 'styleCanvas'
       @mouseup.stop.prevent = 'onMouseup'
       @mousemove.stop.prevent = 'onMousemove'
       @mousedown.stop.prevent = 'onMousedown'
@@ -36,6 +40,17 @@ export default {
       required: true
     }
   },
+  data: () => ({
+    canvasSize: 0
+  }),
+  computed: {
+    styleCanvas() {
+      return {
+        height: `${this.canvasSize}px`,
+        width: `${this.canvasSize}px`
+      };
+    }
+  },
   watch: {
     '$store.state.file.fileUrl': 'setupImage'
   },
@@ -56,7 +71,7 @@ export default {
       () => this.renderImage()
     );
 
-    const onResize = addOnResize(this.renderImage);
+    const onResize = addOnResize(this.setCanvasSize);
     this.$once('hook:destroyed', () => removeOnResize(onResize));
   },
   async mounted() {
@@ -220,6 +235,13 @@ export default {
       context.drawImage(image, 0, 0);
       this.canvasRotate = canvasRotate;
 
+      this.setCanvasSize();
+    },
+    setCanvasSize() {
+      const { container } = this.$refs;
+      const { width: containerWidth, height: containerHeight } = container.getBoundingClientRect();
+
+      this.canvasSize = Math.min(containerWidth, containerHeight);
       this.renderImage();
     },
     truncateColor(value) {
@@ -230,13 +252,11 @@ export default {
     renderImage() {
       const {
         canvasRotate, canvas, context, scale, contrast, brightness, zoomMax,
-        offsetX, offsetY,
-        truncateColor
+        offsetX, offsetY, canvasSize, truncateColor
       } = this;
 
       const { width: imageWidth, height: imageHeight } = canvasRotate;
 
-      const canvasSize = canvas.clientWidth;
       const centerSize = canvasSize / 2;
       canvas.width = canvasSize;
       canvas.height = canvasSize;
@@ -330,45 +350,26 @@ export default {
 <style scoped>
 .preview-picture {
   position: relative;
-  display: block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 50rem;
   max-width: calc(100% - 1rem);
-  margin: .5rem;
+  height: 100%;
+  margin: .5rem .5rem 1.3rem;
   overflow: hidden;
-  background-color: white;
-  border-radius: 50%;
-  box-shadow: 0 0 .5rem .3rem #333;
 }
 
 @media (min-width: 768px) {
   .preview-picture {
-    margin-right: 1.3rem;
+    margin: .5rem 1.3rem .5rem .5rem;
   }
 }
 
-.preview-picture::before {
-  content: '';
-  display: block;
-  width: 100%;
-  padding-top: 100%;
-}
-
-.wrapper-btn-back {
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-
 .preview-picture__canvas {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-
-  /* Глюк, почему-то на канвасе mousemove срабатывает и на скрытых частях
-     https://toster.ru/q/607750 */
-  border-radius: inherit;
+  background-color: white;
+  border-radius: 50%;
+  box-shadow: 0 0 .5rem .3rem #777;
   cursor: pointer;
 }
 </style>

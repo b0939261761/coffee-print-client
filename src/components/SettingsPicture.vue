@@ -88,6 +88,10 @@ export default {
 </script>
 
 <style scoped>
+.settings-picture {
+  width: 100%;
+}
+
 @media (hover: none) {
   .input-range-scale {
     display: none;

@@ -4,27 +4,22 @@
     class = 'input-range'
   >
     <button
-      class = 'button button--minus'
+      class = 'btn btn--minus'
       :disabled = 'value <= min'
       @click = 'onClickMinus'
     >
-      <svg
-        class = 'icon'
-        viewBox = '0 0 78 21'
-        xmlns = 'http://www.w3.org/2000/svg'
-        x='0px'
-        y='0px'
-        height = '30px'
-        width = '30px'
-        fill = '#ffffff'
-      >
-        <rect
-          width='78'
-          height='21'
-          rx='5.7'
-          ry='5.7'
-        />
-      </svg>
+      <span class = 'btn__wrapper-icon'>
+        <svg
+          xmlns = 'http://www.w3.org/2000/svg'
+          viewBox='0 0 448 512'
+        >
+          <path
+            d = 'M416 208H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33
+                 32 32 32h384c17.67 0 32-14.33
+                 32-32v-32c0-17.67-14.33-32-32-32z'
+          />
+        </svg>
+      </span>
     </button>
 
     <div class = 'wrapper-main'>
@@ -60,23 +55,26 @@
         />
       </div>
     </div>
+
     <button
-      class = 'button button--plus'
+      class = 'btn btn--plus'
       :disabled = 'value >= max'
       @click = 'onClickPlus'
     >
-      <svg
-        class='icon icon--plus'
-        viewBox='0 0 78 78'
-        xmlns='http://www.w3.org/2000/svg'
-      >
-        <path
-          d='M72.3 28.5H49.5V5.7A5.7 5.7 0 0 0 43.8 0h-9.6a5.7
-              5.7 0 0 0-5.7 5.7v22.8H5.7A5.7 5.7 0 0 0 0 34.2v9.6a5.7
-              5.7 0 0 0 5.7 5.7h22.8v22.8a5.7 5.7 0 0 0 5.7 5.7h9.6a5.7
-              5.7 0 0 0 5.7-5.7V49.5h22.8a5.7 5.7 0 0 0 5.7-5.7v-9.6a5.7 5.7 0 0 0-5.7-5.7z'
-        />
-      </svg>
+      <span class = 'btn__wrapper-icon'>
+        <svg
+          xmlns = 'http://www.w3.org/2000/svg'
+          viewBox='0 0 448 512'
+        >
+          <path
+            d = 'M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67
+                 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0
+                 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32
+                 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33
+                 32-32v-32c0-17.67-14.33-32-32-32z'
+          />
+        </svg>
+      </span>
     </button>
   </div>
 </template>
@@ -220,15 +218,11 @@ input::-webkit-slider-runnable-track {
   width: 100%;
   height: .2rem;
   background-color: #eee;
-  background-image: linear-gradient(#34b9eb, #218ab1);
+  background-image: linear-gradient(#f7796a, #f7796a);
   background-repeat: no-repeat;
   background-size: var(--size-x) 100%;
   border: none;
   border-radius: .1rem;
-  box-shadow:
-    0 -.5rem rgba(0, 0, 0, .3),
-    inset 0 .5rem 0 hsla(0, 0%, 100%, .2),
-    0 .5rem 0 hsla(0, 0%, 100%, .3);
 }
 
 .input::-moz-range-track {
@@ -238,10 +232,6 @@ input::-webkit-slider-runnable-track {
   background-color: #eee;
   border: none;
   border-radius: .1rem;
-  box-shadow:
-    0 -.5rem rgba(0, 0, 0, .3),
-    inset 0 .5rem 0 hsla(0, 0%, 100%, .2),
-    0 .5rem 0 hsla(0, 0%, 100%, .3);
 }
 
 .input::-ms-track {
@@ -252,23 +242,18 @@ input::-webkit-slider-runnable-track {
   background-color: #eee;
   border: none;
   border-radius: .1rem;
-  box-shadow:
-    0 -.5rem rgba(0, 0, 0, .3),
-    inset 0 .5rem 0 hsla(0, 0%, 100%, .2),
-    0 .5rem 0 hsla(0, 0%, 100%, .3);
 }
 
 .input::-webkit-slider-thumb {
   width: 1.2rem;
   height: 1.2rem;
   margin-top: calc((.2rem - 1.2rem) * .5);
-  background-color: #34b9eb;
-  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10'%3E%3Ccircle cx='5' cy='5' r='1' fill='%235D509E'/%3E%3C/svg%3E");
+  background-color: #f7796a;
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10'%3E%3Ccircle cx='5' cy='5' r='1'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: 50%;
   border: none;
   border-radius: 50%;
-  box-shadow: 0 .5rem .2rem rgba(0, 0, 0, .3);
   transition: box-shadow .2s ease;
   -webkit-appearance: none;
   will-change: box-shadow;
@@ -278,8 +263,8 @@ input::-webkit-slider-runnable-track {
   width: 1.2rem;
   height: 1.2rem;
   margin-top: calc((.2rem - 1.2rem) * .5);
-  background-color: #34b9eb;
-  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10'%3E%3Ccircle cx='5' cy='5' r='1' fill='%235D509E'/%3E%3C/svg%3E");
+  background-color: #f7796a;
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10'%3E%3Ccircle cx='5' cy='5' r='1'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: 50%;
   border: none;
@@ -293,8 +278,8 @@ input::-webkit-slider-runnable-track {
   width: 1.2rem;
   height: 1.2rem;
   margin-top: 0;
-  background-color: #34b9eb;
-  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10'%3E%3Ccircle cx='5' cy='5' r='1' fill='%235D509E'/%3E%3C/svg%3E");
+  background-color: #f7796a;
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10'%3E%3Ccircle cx='5' cy='5' r='1'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: 50%;
   border: none;
@@ -352,11 +337,18 @@ input::-webkit-slider-runnable-track {
   width: 3.2rem;
   height: 6.2rem;
   padding-top: .8rem;
-  font-size: calc(100% - var(--value-width, 3) / 5 * .48rem);
+  font-size: calc(1.6rem - var(--value-width, 3) / 5 * .48rem);
   text-align: center;
   color: white;
-  text-shadow: 0 -.5rem 0 rgba(0, 0, 0, .4);
-  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='62' fill='none'%3E%3Cpath fill='%2334b9eb' d='M11.7 51.8C12.6 51 15 49 15 46v-3c0-7.2-8-13.4-10.3-15.7c-6.2-6.3-6.2-16.4 0-22.6c3-3 7-4.7 11.3-4.7 c8.8 0 16 7.2 16 16c0 4.2-1.7 8.3-4.7 11.3C25 29.6 17 35.8 17 43v3c0 3 2.5 5 3.2 5.8'/%3E%3C/svg%3E");
+  text-shadow: 0 -.05rem 0 rgba(0, 0, 0, .4);
+  background-image:
+    url(
+      'data:image/svg+xml;charset=utf-8,%3Csvg xmlns = "http://www.w3.org/2000/svg" \
+        width = "32" height = "62" fill = "none" %3E%3Cpath fill="%23f7796a" \
+        d = "M11.7 51.8C12.6 51 15 49 15 46v-3c0-7.2-8-13.4-10.3-15.7c-6.2-6.3-6.2-16.4 \
+        0-22.6c3-3 7-4.7 11.3-4.7 c8.8 0 16 7.2 16 16c0 4.2-1.7 8.3-4.7 11.3C25 29.6 17 \
+        35.8 17 43v3c0 3 2.5 5 3.2 5.8"/%3E%3C/svg%3E'
+    );
   background-repeat: no-repeat;
   transform: scale(.2);
   transform-origin: 50% 90%;
@@ -379,62 +371,42 @@ input::-webkit-slider-runnable-track {
   opacity: 1;
 }
 
-.button {
+.btn {
   position: relative;
-  flex-shrink: 0;
-  align-self: center;
   width: 2.4rem;
   height: 2.4rem;
-  padding: .1rem .6rem;
+  padding: 0;
   overflow: hidden;
-  font-weight: bold;
   font-size: 1.6rem;
-  color: white;
-  background-color: rgba(52, 185, 235, .8);
+  background-color: #f7796a;
   border: none;
   border-radius: 50%;
   outline: 0;
   box-shadow:
-    0 .3rem .5rem .1rem rgba(255, 255, 255, .2),
-    0 .6rem 1rem 0 rgba(255, 255, 255, .14),
-    0 .1rem 1.8rem 0 rgba(255, 255, 255, .12);
+    0 .3rem .1rem -.2rem rgba(0, 0, 0, .2),
+    0 .2rem .2rem 0 rgba(0, 0, 0, .14),
+    0 .1rem .5rem 0 rgba(0, 0, 0, .12);
   cursor: pointer;
   appearance: button;
   user-select: none;
   will-change: box-shadow;
+  fill: white;
 }
 
-.button:active {
+.btn:active {
   box-shadow:
-    0 .7rem .8rem -.4rem rgba(255, 255, 255, .2),
-    0 1.2rem 1.7rem .2rem rgba(255, 255, 255, .14),
-    0 .5rem 2.2rem .4rem rgba(255, 255, 255, .12);
+    0 .5rem .5rem -.3rem rgba(0, 0, 0, .2),
+    0 .8rem 1rem .1rem rgba(0, 0, 0, .14),
+    0 .3rem 1.4rem .2rem rgba(0, 0, 0, .12);
 }
 
-.button::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  display: block;
-  width: 100%;
-  height: 100%;
-  background-image: radial-gradient(circle, rgba(255, 255, 255, .5) 1%, transparent 1.01%);
-  transform: scale(0);
-  opacity: 1;
-  pointer-events: none;
-  will-change: transform, opacity;
+.btn:disabled {
+  color: rgba(0, 0, 0, .26);
+  background-color: rgba(0, 0, 0, .12);
+  fill: rgba(0, 0, 0, .26);
 }
 
-.button:active::after {
-  transform: scale(100);
-  opacity: .1;
-  transition:
-    transform .1s ease-out,
-    opacity .2s ease-out;
-}
-
-.button::before {
+.btn::before {
   content: '';
   position: absolute;
   top: 0;
@@ -449,27 +421,27 @@ input::-webkit-slider-runnable-track {
   will-change: opacity;
 }
 
-.button:hover::before,
-.button:focus::before {
+.btn:hover:enabled::before,
+.btn:focus:enabled::before {
   opacity: .12;
 }
 
-.button:focus:not(:active) {
-  box-shadow: 0 0 .2rem .3rem rgba(255, 255, 255, .3);
+.btn__wrapper-icon {
+  display: block;
+  height: 1.8rem;
+  pointer-events: none;
 }
 
-.button--plus {
+.btn__wrapper-icon svg {
+  height: 100%;
+}
+
+.btn--plus {
   margin-left: 1.6rem;
 }
 
-.button--minus {
+.btn--minus {
   margin-right: 1.6rem;
 }
 
-.icon {
-  display: block;
-  width: 100%;
-  height: 100%;
-  fill: white;
-}
 </style>

@@ -1,16 +1,16 @@
 <template>
-<div class = 'app'>
-  <transition name = 'slide' >
-    <router-view></router-view>
-  </transition>
+  <div class = 'app'>
+    <transition name = 'slide'>
+      <router-view />
+    </transition>
 
-  <!--
+    <!--
     Отдельный портал для отображения успешной отправки, потому что
     там есть выбор файла который может гененировать ошибку
-  -->
-  <portal-target name = 'FormModalSendSuccess'></portal-target>
-  <portal-target name = 'formModal'></portal-target>
-</div>
+    -->
+    <portal-target name = 'FormModalSendSuccess' />
+    <portal-target name = 'formModal' />
+  </div>
 </template>
 
 

@@ -1,30 +1,58 @@
 <template>
   <div class='select-picture'>
-    <header class='select-picture__header'>
-      <div class = 'device-info'>
-        <LabelValue
-          class = 'label-value--margin'
-          :label = 'deviceCodeTitle'
-          :value = '$store.state.device.code'
-        />
+    <div class = 'select-picture__body'>
+      <LabelValue
+        class = 'label-value--margin'
+        :label = 'coffeePrinterTitle'
+        :value = '$store.state.device.code'
+      />
 
-        <LabelValue
-          :label = 'deviceNameTitle'
-          :value = '$store.state.device.name'
-        />
-      </div>
-    </header>
+      <Btn
+        :label = 'galleryTitle'
+        disabled
+      >
+        <template #icon>
+          <svg
+            xmlns = 'http://www.w3.org/2000/svg'
+            viewBox = '0 0 576 512'
+          >
+            <path
+              d = 'M480 416v16c0 26.51-21.49 48-48 48H48c-26.51
+                   0-48-21.49-48-48V176c0-26.51 21.49-48 48-48h16v208c0
+                   44.112 35.888 80 80
+                   80h336zm96-80V80c0-26.51-21.49-48-48-48H144c-26.51 0-48
+                   21.49-48 48v256c0 26.51 21.49 48 48 48h384c26.51 0 48-21.49
+                   48-48zM256 128c0 26.51-21.49 48-48 48s-48-21.49-48-48 21.49-48
+                   48-48 48 21.49 48 48zm-96 144l55.515-55.515c4.686-4.686
+                   12.284-4.686 16.971 0L272 256l135.515-135.515c4.686-4.686
+                   12.284-4.686 16.971 0L512 208v112H160v-48z'
+            />
+          </svg>
+        </template>
+      </Btn>
 
-    <div class='select-picture__body'>
       <BtnSelectPicture @change = 'onGoEditPicture' />
-    </div>
 
-    <footer class='select-picture__footer'>
       <Btn
         :label = 'backTitle'
         @click = 'onGoSelectDevice'
-      />
-    </footer>
+      >
+        <template #icon>
+          <svg
+            xmlns = 'http://www.w3.org/2000/svg'
+            viewBox = '0 0 448 512'
+          >
+            <path
+              d = 'M257.5 445.1l-22.2 22.2c-9.4 9.4-24.6 9.4-33.9
+                    0L7 273c-9.4-9.4-9.4-24.6 0-33.9L201.4 44.7c9.4-9.4
+                    24.6-9.4 33.9 0l22.2 22.2c9.5 9.5 9.3 25-.4
+                    34.3L136.6 216H424c13.3 0 24 10.7 24 24v32c0 13.3-10.7
+                    24-24 24H136.6l120.5 114.8c9.8 9.3 10 24.8.4 34.3z'
+            />
+          </svg>
+        </template>
+      </Btn>
+    </div>
   </div>
 </template>
 
@@ -41,11 +69,11 @@ export default {
     Btn
   },
   computed: {
-    deviceCodeTitle() {
-      return this.$t('deviceCode');
+    coffeePrinterTitle() {
+      return this.$t('coffeePrinter');
     },
-    deviceNameTitle() {
-      return this.$t('deviceName');
+    galleryTitle() {
+      return this.$t('gallery');
     },
     backTitle() {
       return this.$t('back');
@@ -68,9 +96,40 @@ export default {
   flex-direction: column;
   width: 100%;
   height: 100%;
-  background-image: url('../assets/background.jpg');
+  background-color: #f7796a;
+}
+
+.select-picture__body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 50rem;
+  max-width: calc(100% - 4rem);
+  height: calc(100% - 2rem);
+  margin: auto auto 0;
+  padding: 4.7rem 2rem 3.2rem;
+  background-color: rgba(255, 255, 255, .44);
+  background-image:
+    url('../assets/logo-white.png'),
+    url('../assets/background-bottom.png');
   background-repeat: no-repeat;
-  background-size: cover;
+  background-position:
+    center 2rem,
+    center bottom;
+  background-size:
+    70% auto,
+    calc(100% - 2rem) auto;
+  border-radius: .5rem .5rem 0 0;
+  box-shadow: .2rem -.2rem 1rem 0 rgba(0, 0, 0, .2);
+}
+
+@media (min-width: 400px) {
+  .select-picture__body {
+    background-size:
+      25.4rem auto,
+      calc(100% - 2rem) auto;
+  }
 }
 
 .select-picture__header {
@@ -89,30 +148,5 @@ export default {
   width: 100%;
   max-width: 102.4rem;
   margin: 0 auto;
-}
-
-.select-picture__body {
-  position: relative;
-  width: 50rem;
-  max-width: calc(100% - 1rem);
-  margin: auto;
-  padding: 4.7rem 2rem 3.2rem;
-}
-
-.select-picture__body::before {
-  content: '';
-  position: absolute;
-  top: .5rem;
-  right: .5rem;
-  bottom: .5rem;
-  left: .5rem;
-  background-color: rgba(0, 0, 0, .6);
-  border-radius: .4rem;
-}
-
-.select-picture__footer {
-  padding-top: 1.5rem;
-  background-color: rgba(0, 0, 0, .6);
-  border-radius: .4rem .4rem 0 0;
 }
 </style>

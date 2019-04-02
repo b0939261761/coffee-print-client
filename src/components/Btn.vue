@@ -1,12 +1,24 @@
 <template>
   <button
+    :class = '["btn", classColorTheme]'
+    @click = 'onClick'
     v-on = '$listeners'
-    :class = '["btn", classSize, classColorTheme ]'
   >
-      <slot name = 'icon' class = 'btn__icon'></slot>
+    <span class = 'btn__wrapper-icon'>
+      <slot name = 'icon' />
+    </span>
 
-    {{ label }}
-    <slot></slot>
+    <!-- Span не разбивать потому что используется псевдокласс :empty
+    и не должно быть пробельных символов -->
+    <span class = 'btn__wrapper-text'>{{ label }}</span>
+
+    <span
+      ref = 'ripple'
+      class = 'btn__ripple'
+      :style = 'rippleStyle'
+    />
+
+    <slot />
   </button>
 </template>
 
@@ -18,43 +30,68 @@ export default {
       type: String || null,
       default: ''
     },
-    size: {
-      type: String || null,
-      validator: value => ['normal', 'small'].includes(value),
-      default: 'normal'
-    },
     colorTheme: {
       type: String || null,
       validator: value => ['primary', 'dark', 'outline'].includes(value),
       default: 'primary'
     }
   },
+  data: () => ({
+    rippleLeft: 0,
+    rippleTop: 0,
+    rippleSize: 0
+  }),
   computed: {
-    classSize() {
-      return `btn--${this.size}`;
-    },
     classColorTheme() {
       return `btn--${this.colorTheme}`;
+    },
+    rippleStyle() {
+      return {
+        left: `${this.rippleLeft}px`,
+        top: `${this.rippleTop}px`,
+        height: `${this.rippleSize}px`,
+        width: `${this.rippleSize}px`
+      };
+    }
+  },
+  methods: {
+    onClick({ pageX, pageY, target }) {
+      const {
+        top, left, width, height
+      } = target.getBoundingClientRect();
+      const size = Math.max(width, height);
+
+      this.rippleSize = size;
+      this.rippleLeft = pageX - left - size / 2;
+      this.rippleTop = pageY - top - size / 2;
+
+      const { ripple } = this.$refs;
+      ripple.classList.remove('btn__ripple--show');
+      setTimeout(() => ripple && ripple.classList.add('btn__ripple--show'), 0);
     }
   }
 };
 </script>
 
-
 <style scoped>
 .btn {
   position: relative;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
   min-width: 8.8rem;
-  min-height: 3.6rem;
-  margin: 0 0 1.5rem 0;
+  min-height: 4.4rem;
+  margin: 0 0 2rem 0;
   padding: .8rem 1.6rem;
   overflow: hidden;
   font-weight: bold;
   font-size: 1.4rem;
+  vertical-align: top;
   color: white;
   text-transform: uppercase;
   text-decoration: none;
-  background-color: #2196f3;
+  background-color: #f7796a;
   border: none;
   border-radius: .2rem;
   outline: 0;
@@ -66,6 +103,7 @@ export default {
   appearance: button;
   user-select: none;
   will-change: box-shadow;
+  fill: white;
 }
 
 .btn:active {
@@ -75,27 +113,10 @@ export default {
     0 .3rem 1.4rem .2rem rgba(0, 0, 0, .12);
 }
 
-.btn::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  display: block;
-  width: 100%;
-  height: 100%;
-  background-image: radial-gradient(circle, rgba(255, 255, 255, .5) 1%, transparent 1.01%);
-  transform: scale(0);
-  opacity: 1;
-  pointer-events: none;
-  will-change: transform, opacity;
-}
-
-.btn:active::after {
-  transform: scale(100);
-  opacity: .1;
-  transition:
-    transform .3s ease-out,
-    opacity .5s ease-out;
+.btn:disabled {
+  color: rgba(0, 0, 0, .26);
+  background-color: rgba(0, 0, 0, .12);
+  fill: rgba(0, 0, 0, .26);
 }
 
 .btn::before {
@@ -113,28 +134,53 @@ export default {
   will-change: opacity;
 }
 
-.btn:hover::before,
-.btn:focus::before {
+.btn:hover:enabled::before,
+.btn:focus:enabled::before {
   opacity: .12;
-}
-
-.btn--small {
-  min-height: 2.4rem;
-  padding: .32rem 1.6rem;
-}
-
-.btn--dark {
-  background-color: rgba(0, 0, 0, .3);
 }
 
 .btn--outline {
   color: rgba(0, 0, 0, .87);
   background-color: #f5f5f5;
+  fill: rgba(0, 0, 0, .87);
 }
 
-.btn__icon {
-  display: inline-block;
-  max-height: 3.6rem;
-  fill: white;
+.btn__wrapper-icon {
+  height: 2.5rem;
+  margin: -8px 0;
+  pointer-events: none;
+}
+
+.btn__wrapper-icon svg {
+  height: 100%;
+}
+
+.btn__wrapper-text {
+  pointer-events: none;
+}
+
+.btn__wrapper-text:not(:empty) {
+  margin-left: 10px;
+}
+
+.btn__ripple {
+  position: absolute;
+  background-color: currentColor;
+  border-radius: 50%;
+  transform: scale(0);
+  opacity: .5;
+  pointer-events: none;
+  will-change: opacity, transform;
+}
+
+.btn__ripple--show {
+  animation: btn-ripple 1s cubic-bezier(.25, .8, .5, 1);
+}
+
+@keyframes btn-ripple {
+  to {
+    transform: scale(2);
+    opacity: 0;
+  }
 }
 </style>
