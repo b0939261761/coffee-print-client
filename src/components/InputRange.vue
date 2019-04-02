@@ -343,11 +343,7 @@ input::-webkit-slider-runnable-track {
   text-shadow: 0 -.05rem 0 rgba(0, 0, 0, .4);
   background-image:
     url(
-      'data:image/svg+xml;charset=utf-8,%3Csvg xmlns = "http://www.w3.org/2000/svg" \
-        width = "32" height = "62" fill = "none" %3E%3Cpath fill="%23f7796a" \
-        d = "M11.7 51.8C12.6 51 15 49 15 46v-3c0-7.2-8-13.4-10.3-15.7c-6.2-6.3-6.2-16.4 \
-        0-22.6c3-3 7-4.7 11.3-4.7 c8.8 0 16 7.2 16 16c0 4.2-1.7 8.3-4.7 11.3C25 29.6 17 \
-        35.8 17 43v3c0 3 2.5 5 3.2 5.8"/%3E%3C/svg%3E'
+      'data:image/svg+xml;charset=utf-8,%3Csvg xmlns = "http://www.w3.org/2000/svg" width = "32" height = "62" fill = "none" %3E%3Cpath fill="%23f7796a" d = "M11.7 51.8C12.6 51 15 49 15 46v-3c0-7.2-8-13.4-10.3-15.7c-6.2-6.3-6.2-16.4 0-22.6c3-3 7-4.7 11.3-4.7 c8.8 0 16 7.2 16 16c0 4.2-1.7 8.3-4.7 11.3C25 29.6 17 35.8 17 43v3c0 3 2.5 5 3.2 5.8"/%3E%3C/svg%3E'
     );
   background-repeat: no-repeat;
   transform: scale(.2);
