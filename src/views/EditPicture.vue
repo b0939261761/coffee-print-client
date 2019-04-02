@@ -89,6 +89,14 @@ export default {
   background-color: #f7796a;
 }
 
+.wrapper-editor {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 102.4rem;
+  height: 100%;
+}
+
 @media (min-width: 768px) {
   .wrapper-editor {
     display: flex;
@@ -98,16 +106,9 @@ export default {
   }
 }
 
-.wrapper-editor {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  max-width: 102.4rem;
-  height: 100%;
-}
-
 .controls {
   display: flex;
+  flex-shrink: 0;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -121,6 +122,7 @@ export default {
 
 @media (min-width: 768px) {
   .controls {
+    flex-shrink: 1.5;
     margin-right: .5rem;
   }
 }
