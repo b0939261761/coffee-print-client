@@ -59,8 +59,8 @@ export default {
   data: () => ({
     settingsPicture: {
       scale: 0,
-      contrast: 100,
-      brightness: 100
+      brightness: 100,
+      contrast: 50
     },
     canvas: null
   }),

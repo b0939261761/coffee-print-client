@@ -14,8 +14,8 @@
     <InputRange
       :label = 'brightnessTitle'
       :value = 'brightness'
-      :min = '0'
-      :max = '500'
+      :min = '50'
+      :max = '250'
       :step = '10'
       suffix = 'X'
       @input = 'onInputBrightness'

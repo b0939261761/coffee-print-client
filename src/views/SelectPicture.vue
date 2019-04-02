@@ -7,6 +7,8 @@
         :value = '$store.state.device.code'
       />
 
+      <BtnSelectPicture @change = 'onGoEditPicture' />
+
       <Btn
         :label = 'galleryTitle'
         disabled
@@ -30,8 +32,6 @@
           </svg>
         </template>
       </Btn>
-
-      <BtnSelectPicture @change = 'onGoEditPicture' />
 
       <Btn
         :label = 'backTitle'
