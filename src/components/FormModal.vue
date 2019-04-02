@@ -1,5 +1,8 @@
 <template>
-  <transition name = 'form-modal'>
+  <transition
+    appear
+    name = 'form-modal'
+  >
     <div
       ref = 'formModal'
       class = 'wrapper-form-modal'
