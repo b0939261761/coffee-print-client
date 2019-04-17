@@ -25,7 +25,7 @@
       :label = 'contrastTitle'
       :value = 'contrast'
       :min = '0'
-      :max = '100'
+      :max = '250'
       :step = '1'
       suffix = 'X'
       @input = 'onInputContrast'

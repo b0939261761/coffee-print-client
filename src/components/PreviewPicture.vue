@@ -267,7 +267,6 @@ export default {
 
       const maxSize = +process.env.VUE_APP_MAX_SIZE;
       const minSize = +process.env.VUE_APP_MIN_SIZE;
-      const balanceColorRatio = +process.env.VUE_APP_BALANCE_COLOR_RATIO;
 
       // Матшабирование картинки под оптимальный размер
       let scaleOptimal = 1;
@@ -318,14 +317,12 @@ export default {
         green = truncateColor(green * contrastRatio + contrastIntercept);
         blue = truncateColor(blue * contrastRatio + contrastIntercept);
 
-        const isWhite = ((red + green + blue) / 3) > balanceColorRatio
-          || alpha < balanceColorRatio;
+        // GrayScale
+        const luma = truncateColor(red * 0.2126 + green * 0.7152 + blue * 0.0722);
 
-        const color = isWhite ? 255 : 0;
-
-        imageData.data[i] = color;
-        imageData.data[i + 1] = color;
-        imageData.data[i + 2] = color;
+        imageData.data[i] = luma;
+        imageData.data[i + 1] = luma;
+        imageData.data[i + 2] = luma;
 
         if (alpha !== 255) imageData.data[i + 3] = 255;
       }
