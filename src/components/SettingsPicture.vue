@@ -15,8 +15,8 @@
       :label = 'brightnessTitle'
       :value = 'brightness'
       :min = '50'
-      :max = '250'
-      :step = '10'
+      :max = '200'
+      :step = '5'
       suffix = 'X'
       @input = 'onInputBrightness'
     />
@@ -24,9 +24,9 @@
     <InputRange
       :label = 'contrastTitle'
       :value = 'contrast'
-      :min = '0'
-      :max = '250'
-      :step = '1'
+      :min = '50'
+      :max = '200'
+      :step = '5'
       suffix = 'X'
       @input = 'onInputContrast'
     />

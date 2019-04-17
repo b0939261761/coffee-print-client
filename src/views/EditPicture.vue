@@ -60,7 +60,7 @@ export default {
     settingsPicture: {
       scale: 0,
       brightness: 100,
-      contrast: 50
+      contrast: 120
     },
     canvas: null
   }),
