@@ -307,6 +307,12 @@ export default {
         let blue = imageData.data[i + 2];
         const alpha = imageData.data[i + 3];
 
+        if (!alpha) {
+          red = 255;
+          green = 255;
+          blue = 255;
+        }
+
         // Brightness
         red = truncateColor(red * brightnessRatio);
         green = truncateColor(green * brightnessRatio);
