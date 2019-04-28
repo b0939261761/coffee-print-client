@@ -120,7 +120,7 @@ export default {
       this.zoomDistanceStart = this.distance(x1, y1, x2, y2);
     },
     zoom(x1, y1, x2, y2) {
-      if (!this.standardisZooming) return;
+      if (!this.isZooming) return;
 
       const zoomDistance = this.distance(x1, y1, x2, y2);
       let zoomScale = this.lastZoomScale + (zoomDistance - this.zoomDistanceStart) / 100;
