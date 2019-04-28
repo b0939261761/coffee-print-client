@@ -2,15 +2,15 @@
   <div class = 'edit-picture'>
     <div class='wrapper-editor'>
       <PreviewPicture
-        v-bind = 'settingsPicture'
-        @input = 'onSettingInput'
+        :scale = 'scale'
+        @scale = 'onScale'
         @setupCanvas = 'canvas = $event'
       />
 
       <section class = 'controls'>
         <SettingsPicture
-          v-bind = 'settingsPicture'
-          @input = 'onSettingInput'
+          :scale = 'scale'
+          @scale = 'onScale'
         />
 
         <footer class = 'controls__footer'>
@@ -57,11 +57,7 @@ export default {
     PreviewPicture
   },
   data: () => ({
-    settingsPicture: {
-      scale: 0,
-      brightness: 100,
-      contrast: 120
-    },
+    scale: 0,
     canvas: null
   }),
   computed: {
@@ -73,8 +69,8 @@ export default {
     onGoSelectPicture() {
       this.$router.push({ name: 'selectPicture', params: { code: this.$store.state.device.code } });
     },
-    onSettingInput({ key, value }) {
-      this.settingsPicture[key] = +value;
+    onScale(event) {
+      this.scale = event;
     }
   }
 };

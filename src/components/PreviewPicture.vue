@@ -30,14 +30,6 @@ export default {
     scale: {
       type: Number,
       required: true
-    },
-    contrast: {
-      type: Number,
-      required: true
-    },
-    brightness: {
-      type: Number,
-      required: true
     }
   },
   data: () => ({
@@ -128,7 +120,7 @@ export default {
       this.zoomDistanceStart = this.distance(x1, y1, x2, y2);
     },
     zoom(x1, y1, x2, y2) {
-      if (!this.isZooming) return;
+      if (!this.standardisZooming) return;
 
       const zoomDistance = this.distance(x1, y1, x2, y2);
       let zoomScale = this.lastZoomScale + (zoomDistance - this.zoomDistanceStart) / 100;
@@ -140,8 +132,7 @@ export default {
       }
 
       const scale = Math.log(zoomScale) / Math.log(this.zoomMax) * this.zoomMax;
-      const scaleRound = Math.round(scale * 10) / 10;
-      this.$emit('input', { key: 'scale', value: scaleRound });
+      this.$emit('scale', Math.round(scale * 10) / 10);
     },
     zoomStop() {
       if (this.isZooming) {
@@ -251,19 +242,19 @@ export default {
     },
     renderImage() {
       const {
-        canvasRotate, canvas, context, scale, contrast, brightness, zoomMax,
+        canvasRotate, canvas, context, scale, zoomMax,
         offsetX, offsetY, canvasSize, truncateColor
       } = this;
 
       const { width: imageWidth, height: imageHeight } = canvasRotate;
 
-      const centerSize = canvasSize / 2;
+      // const centerSize = canvasSize / 2;
       canvas.width = canvasSize;
       canvas.height = canvasSize;
 
       // Clear canvas
       context.clearRect(0, 0, canvasSize, canvasSize);
-      context.save();
+      // context.save();
 
       const maxSize = +process.env.VUE_APP_MAX_SIZE;
       const minSize = +process.env.VUE_APP_MIN_SIZE;
@@ -297,9 +288,6 @@ export default {
 
       // Делаем картинку черно-белой
       const imageData = context.getImageData(0, 0, canvasSize, canvasSize);
-      const brightnessRatio = brightness / 100;
-      const contrastRatio = contrast / 100;
-      const contrastIntercept = 127.5 * (1 - contrastRatio);
 
       for (let i = 0; i < imageData.data.length; i += 4) {
         let red = imageData.data[i];
@@ -313,15 +301,14 @@ export default {
           blue = 255;
         }
 
-        // Brightness
-        red = truncateColor(red * brightnessRatio);
-        green = truncateColor(green * brightnessRatio);
-        blue = truncateColor(blue * brightnessRatio);
-
         // Contrast
-        red = truncateColor(red * contrastRatio + contrastIntercept);
-        green = truncateColor(green * contrastRatio + contrastIntercept);
-        blue = truncateColor(blue * contrastRatio + contrastIntercept);
+        // const contrastRatio = contrast / 100;
+        // const contrastIntercept = 127.5 * (1 - contrastRatio);
+        // color = color * contrastRatio + contrastIntercept
+
+        red = truncateColor(red * 1.2 - 22.5);
+        green = truncateColor(green * 1.2 - 22.5);
+        blue = truncateColor(blue * 1.2 - 22.5);
 
         // GrayScale
         const luma = truncateColor(red * 0.2126 + green * 0.7152 + blue * 0.0722);
@@ -336,15 +323,15 @@ export default {
       context.putImageData(imageData, 0, 0);
 
       // Берем картинку в кружочек и белый фон позади кружочка
-      context.restore();
-      context.globalCompositeOperation = 'destination-in';
-      context.arc(centerSize, centerSize, centerSize, 0, 2 * Math.PI);
-      context.fill();
+      // context.restore();
+      // context.globalCompositeOperation = 'destination-in';
+      // context.arc(centerSize, centerSize, centerSize, 0, 2 * Math.PI);
+      // context.fill();
 
-      context.globalCompositeOperation = 'destination-over';
-      context.rect(0, 0, canvasSize, canvasSize);
-      context.fillStyle = 'white';
-      context.fill();
+      // context.globalCompositeOperation = 'destination-over';
+      // context.rect(0, 0, canvasSize, canvasSize);
+      // context.fillStyle = 'white';
+      // context.fill();
     }
   }
 };
