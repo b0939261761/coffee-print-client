@@ -248,13 +248,10 @@ export default {
 
       const { width: imageWidth, height: imageHeight } = canvasRotate;
 
-      // const centerSize = canvasSize / 2;
       canvas.width = canvasSize;
       canvas.height = canvasSize;
 
-      // Clear canvas
       context.clearRect(0, 0, canvasSize, canvasSize);
-      // context.save();
 
       const maxSize = +process.env.VUE_APP_MAX_SIZE;
       const minSize = +process.env.VUE_APP_MIN_SIZE;
@@ -305,7 +302,6 @@ export default {
         // const contrastRatio = contrast / 100;
         // const contrastIntercept = 127.5 * (1 - contrastRatio);
         // color = color * contrastRatio + contrastIntercept
-
         red = truncateColor(red * 1.2 - 22.5);
         green = truncateColor(green * 1.2 - 22.5);
         blue = truncateColor(blue * 1.2 - 22.5);
@@ -321,17 +317,6 @@ export default {
       }
 
       context.putImageData(imageData, 0, 0);
-
-      // Берем картинку в кружочек и белый фон позади кружочка
-      // context.restore();
-      // context.globalCompositeOperation = 'destination-in';
-      // context.arc(centerSize, centerSize, centerSize, 0, 2 * Math.PI);
-      // context.fill();
-
-      // context.globalCompositeOperation = 'destination-over';
-      // context.rect(0, 0, canvasSize, canvasSize);
-      // context.fillStyle = 'white';
-      // context.fill();
     }
   }
 };
