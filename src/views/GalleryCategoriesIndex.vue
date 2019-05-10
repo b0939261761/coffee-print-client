@@ -8,7 +8,7 @@
       @click = 'onGoGalleryPictures'
     >
       <img
-        src = 'http://localhost:4000/2657048.png'
+        src = '/2657048.png'
         :alt = 'category.name'
         class = 'gallery-categories-index__img'
       >
