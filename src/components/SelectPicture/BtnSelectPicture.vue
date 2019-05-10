@@ -2,7 +2,7 @@
   <div class = 'btn-select-picture'>
     <Btn
       ref = 'btn'
-      :label = 'selectPictureTitle'
+      :label = 'label'
       @click = 'openDialog'
     >
       <template #icon>
@@ -25,45 +25,24 @@
     <input
       ref = 'file'
       type = 'file'
-      class = 'file'
+      class = 'btn-select-picture__file'
       :accept = '$options.accept'
       @change = 'selectedPicture'
     >
-
-    <portal
-      v-if = 'modalOpen'
-      to = 'formModal'
-    >
-      <FormModalErrorTypeFile @cancel = 'modalOpen = false' />
-    </portal>
   </div>
 </template>
 
 <script>
-import Btn from '@/components/Btn.vue';
-import FormModalErrorTypeFile from '@/components/FormModalErrorTypeFile.vue';
+import Btn from '@/components/Base/Btn.vue';
 
 export default {
   name: 'BtnSelectPicture',
   components: {
-    Btn,
-    FormModalErrorTypeFile
+    Btn
   },
-  data: () => ({
-    modalOpen: false
-  }),
   computed: {
-    selectPictureTitle() {
+    label() {
       return this.$t('selectPicture');
-    }
-  },
-  watch: {
-    modalOpen(value) {
-      // Потому что эта кнопка фактически может быть на модальной форме
-      // где может тоже быть ошибка
-      // поэтому нам нужно при закрытии модалки с ошибкой - вернуть фокус
-      // что бы по ESC можно было закрыть модалку с этой кнопкой
-      if (!value) this.$refs.btn.$el.focus();
     }
   },
   created() {
@@ -75,16 +54,15 @@ export default {
       this.$refs.file.click();
     },
     async selectedPicture(event) {
-      const { files } = event.target;
-      const file = files[0];
+      const file = event.target.files[0];
 
       if (!file) return;
 
       if (this.allowedTypes.includes(file.type)) {
         await this.$store.dispatch('file/getFileUrl', { file });
-        this.$emit('change');
+        this.$emit('click');
       } else {
-        this.modalOpen = true;
+        this.$store.commit('errors/add', { code: 'FILE_TYPE' });
       }
     }
   }
@@ -96,7 +74,7 @@ export default {
   width: 100%;
 }
 
-.file {
+.btn-select-picture__file {
   display: none;
 }
 </style>

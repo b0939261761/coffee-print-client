@@ -34,9 +34,9 @@
 </template>
 
 <script>
-import Btn from '@/components/Btn.vue';
-import FormModalSendSuccess from '@/components/FormModalSendSuccess.vue';
-import http from '@/utils/http';
+import Btn from '@/components/Base/Btn.vue';
+import FormModalSendSuccess from '@/components/EditPicture/FormModalSendSuccess.vue';
+import { sendPicture } from '@/utils/http';
 import { b64ToUint8Array } from '@/utils/file';
 
 export default {
@@ -67,7 +67,7 @@ export default {
       const formData = new FormData();
       formData.append('file', new Blob([u8Image], { type: 'image/jpg' }));
 
-      await http.post(`/devices/${this.$store.state.device.id}/pictures`, formData);
+      await sendPicture(this.$store.state.device.id, formData);
       this.modalOpen = true;
     }
   }

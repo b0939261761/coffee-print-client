@@ -31,11 +31,13 @@ export default {
 .label-value {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   align-items: center;
   margin: 0 0 2rem 0;
   font-size: 1.8rem;
   text-align: left;
   color: #fff;
+  user-select: none;
 }
 
 .label-value__label {

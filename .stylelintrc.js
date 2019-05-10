@@ -21,7 +21,8 @@ module.exports = {
         'width',
         'color',
         'border-color',
-        'box-shadow'
+        'box-shadow',
+        'background-color'
       ] }
     ],
 

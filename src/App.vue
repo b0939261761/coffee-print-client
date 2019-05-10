@@ -1,7 +1,14 @@
 <template>
   <div class = 'app'>
     <transition name = 'slide'>
-      <router-view />
+      <div
+        :key = '$router.currentRoute.name'
+        class = 'page'
+      >
+        <div class = 'page__body'>
+          <router-view />
+        </div>
+      </div>
     </transition>
 
     <!--
@@ -10,16 +17,52 @@
     -->
     <portal-target name = 'FormModalSendSuccess' />
     <portal-target name = 'formModal' />
+
+    <FormModal
+      v-if = 'currentError'
+      @cancel = 'onCloseModalError'
+    >
+      <template slot = 'header'>
+        {{ currentError.title }}
+      </template>
+
+      <template slot = 'body'>
+        {{ currentError.message }}
+      </template>
+
+      <template slot = 'footer'>
+        <BtnOk @click = 'onCloseModalError' />
+      </template>
+    </FormModal>
   </div>
 </template>
 
 
 <script>
+import FormModal from '@/components/Common/FormModal.vue';
+import BtnOk from '@/components/Common/BtnOk.vue';
+
 export default {
   name: 'App',
-  data: () => ({
-    preloader: false
-  })
+  components: {
+    FormModal,
+    BtnOk
+  },
+  computed: {
+    currentError() {
+      const error = this.$store.getters['errors/current'];
+      if (!error) return null;
+      const { code, data } = error;
+      const title = this.$t(`errors.${code}.title`);
+      const message = this.$t(`errors.${code}.message`, data);
+      return { title, message };
+    }
+  },
+  methods: {
+    onCloseModalError() {
+      this.$store.commit('errors/remove');
+    }
+  }
 };
 </script>
 
@@ -47,6 +90,24 @@ export default {
   background-color: #b3d4fc;
 }
 
+/* Стилизация scrollbar */
+::-webkit-scrollbar {
+  width: .6rem;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #f5f5f5;
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(214, 41, 41, .8);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(214, 41, 41, 1);
+}
+
 html {
   box-sizing: border-box;
   height: 100%;
@@ -71,5 +132,46 @@ body {
   display: flex;
   width: 100%;
   height: 100%;
+}
+
+.page {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  background-color: #f7796a;
+}
+
+.page__body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 50rem;
+  max-width: calc(100% - 4rem);
+  height: calc(100% - 2rem);
+  margin: auto auto 0;
+  overflow: hidden;
+  background-color: rgba(255, 255, 255, .44);
+  background-image:
+    url('./assets/logo-white.png'),
+    url('./assets/background-bottom.png');
+  background-repeat: no-repeat;
+  background-position:
+    center 2rem,
+    center bottom;
+  background-size:
+    70% auto,
+    calc(100% - 2rem) auto;
+  border-radius: .5rem .5rem 0 0;
+  box-shadow: .2rem -.2rem 1rem 0 rgba(0, 0, 0, .2);
+}
+
+@media only screen and (min-width: 400px) {
+  .page__body {
+    background-size:
+      25.4rem auto,
+      calc(100% - 2rem) auto;
+  }
 }
 </style>

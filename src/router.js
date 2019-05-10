@@ -3,35 +3,47 @@ import Router from 'vue-router';
 import store from '@/store/index';
 import SelectDevice from '@/views/SelectDevice.vue';
 import SelectPicture from '@/views/SelectPicture.vue';
+import SelectPictureIndex from '@/views/SelectPictureIndex.vue';
+import GalleryCategories from '@/views/GalleryCategories.vue';
+import GalleryCategoriesIndex from '@/views/GalleryCategoriesIndex.vue';
+import GalleryPictures from '@/views/GalleryPictures.vue';
 import EditPicture from '@/views/EditPicture.vue';
+
+import { getDevice } from '@/utils/http';
 
 Vue.use(Router);
 
 const beforeEnterSelectPicture = async (to, from, next) => {
-  if (!store.state.device.id) {
-    await store.dispatch('device/getdevice', { code: to.params.code });
+  const { code } = to.params;
+  const route = { };
+
+  if (code !== store.state.device.code || !store.state.device.id) {
+    try {
+      const response = await getDevice(code);
+      if (response.data) {
+        store.commit('device/setDevice', response.data);
+      } else {
+        store.commit('errors/add', { code: 'DEVICE_NOT_FOUND' });
+        route.name = 'selectDevice';
+      }
+    } catch (err) {
+      route.name = 'selectDevice';
+    }
   }
-  next();
+
+  next(route);
 };
 
-const beforeEnterEditPicture = async (to, from, next) => {
-  const routerPath = {};
-
-  const deviceCode = store.state.device.code;
-
-  if (!deviceCode) {
-    next({ name: 'selectDevice' });
-    return;
-  }
+const beforeEnterEditPicture = (to, from, next) => {
+  const route = { };
 
   if (!store.state.file.fileUrl) {
-    next({ name: 'selectPicture', params: { code: deviceCode } });
-    return;
+    route.name = 'selectPictureIndex';
+    route.params = { code: to.params.code };
   }
 
-  next(routerPath);
+  next(route);
 };
-
 
 export default new Router({
   mode: 'history',
@@ -43,23 +55,42 @@ export default new Router({
       component: SelectDevice
     },
     {
-      path: '/edit',
-      name: 'editPicture',
-      component: EditPicture,
-      beforeEnter: beforeEnterEditPicture
-    },
-    {
       path: '/:code',
-      name: 'selectPicture',
       component: SelectPicture,
-      beforeEnter: beforeEnterSelectPicture
+      beforeEnter: beforeEnterSelectPicture,
+      children: [
+        {
+          path: '',
+          name: 'selectPictureIndex',
+          component: SelectPictureIndex
+        },
+        {
+          path: 'edit',
+          name: 'editPicture',
+          component: EditPicture,
+          beforeEnter: beforeEnterEditPicture
+        },
+        {
+          path: 'galleries',
+          component: GalleryCategories,
+          children: [
+            {
+              path: '',
+              name: 'galleryCategoriesIndex',
+              component: GalleryCategoriesIndex
+            },
+            {
+              path: ':id',
+              name: 'galleryPictures',
+              component: GalleryPictures
+            }
+          ]
+        },
+        {
+          path: '*',
+          redirect: { name: 'selectPictureIndex' }
+        }
+      ]
     }
-
-    // {
-    //   path: "/about",
-    //   name: "about",
-    //   component: () =>
-    //     import(/* webpackChunkName: "about" */ "./views/About.vue")
-    // }
   ]
 });

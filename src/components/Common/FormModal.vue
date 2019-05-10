@@ -59,7 +59,6 @@ export default {
 };
 </script>
 
-
 <style scoped>
 /* transition */
 .form-modal-enter-to,
@@ -91,15 +90,14 @@ export default {
   align-items: center;
   width: 100%;
   height: 100%;
-  padding: .8rem;
   overflow: hidden;
   background-color: rgb(33, 33, 33, .46);
 }
 
 .form-modal {
   position: relative;
-  width: 100%;
-  max-width: 50rem;
+  width: 50rem;
+  max-width: calc(100% - 4rem);
   margin: 1.6rem;
   overflow-y: auto;
   text-align: left;

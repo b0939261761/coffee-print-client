@@ -50,21 +50,6 @@ export default {
     onInput(event) {
       this.$emit('input', event.target.value);
     }
-
-    // onKeypress(event) {
-    // const { target, key } = event;
-
-    // const targetLength = target.value.length;
-    // const maskLength = this.mask.length;
-
-    // if (targetLength > maskLength - 1) {
-    //   event.preventDefault();
-    //   return false;
-    // }
-
-    // const newValue = '';
-    // const i = targetLength - 1;
-    // }
   }
 };
 </script>

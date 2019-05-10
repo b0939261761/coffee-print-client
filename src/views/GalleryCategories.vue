@@ -4,6 +4,6 @@
 
 <script>
 export default {
-  name: 'SelectPicture'
+  name: 'GalleryCategories'
 };
 </script>

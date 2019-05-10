@@ -1,7 +1,7 @@
 <template>
   <button
     :class = '["btn", classColorTheme]'
-    @click = 'onClick'
+    @click.prevent = 'onClick'
     v-on = '$listeners'
   >
     <span class = 'btn__wrapper-icon'>
