@@ -8,7 +8,7 @@
       @click = 'onGoGalleryPictures'
     >
       <img
-        src = '/2657048.png'
+        :src = 'category.picture'
         :alt = 'category.name'
         class = 'gallery-categories-index__img'
       >
@@ -20,57 +20,19 @@
 </template>
 
 <script>
+import { getGalleryCategories } from '@/utils/http';
 
 export default {
   name: 'GalleryCategoriesIndex',
   data: () => ({
-    categories: [
-      {
-        id: 1,
-        name: '8 Березня'
-      },
-      {
-        id: 2,
-        name: '14 жовтня'
-      },
-      {
-        id: 3,
-        name: 'Для неї'
-      },
-      {
-        id: 4,
-        name: 'Для нього'
-      },
-      {
-        id: 12,
-        name: 'Великдень'
-      },
-      {
-        id: 5,
-        name: 'День Незалежності'
-      },
-      {
-        id: 6,
-        name: 'Приколи'
-      },
-      {
-        id: 7,
-        name: 'Смайли'
-      },
-      {
-        id: 8,
-        name: 'Трійця'
-      },
-      {
-        id: 9,
-        name: 'Новий Рік'
-      },
-      {
-        id: 10,
-        name: 'Різдво'
-      }
-    ]
+    categories: []
   }),
+  async created() {
+    const response = await getGalleryCategories();
+    const categories = response.data && response.data.items ? response.data.items : [];
+    const url = process.env.VUE_APP_BASE_URL;
+    this.categories = categories.map(el => ({ ...el, picture: `${url}/galleries/categories/${el.id}` }));
+  },
   methods: {
     onGoGalleryPictures(event) {
       this.$router.push({ name: 'galleryPictures', params: { id: event.currentTarget.dataset.id } });

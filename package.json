@@ -14,7 +14,7 @@
     "vue": "^2.6.10",
     "vue-i18n": "^8.11.2",
     "vue-router": "^3.0.6",
-    "vuex": "^3.1.0"
+    "vuex": "^3.1.1"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.7.0",
@@ -27,7 +27,7 @@
     "stylelint": "^10.0.1",
     "stylelint-config-standard": "^18.3.0",
     "stylelint-declaration-block-no-ignored-properties": "^2.1.0",
-    "stylelint-high-performance-animation": "^1.2.0",
+    "stylelint-high-performance-animation": "^1.2.1",
     "stylelint-no-browser-hacks": "^1.2.1",
     "stylelint-order": "^3.0.0",
     "stylelint-selector-tag-no-without-class": "^2.0.0",

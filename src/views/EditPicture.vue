@@ -21,7 +21,6 @@
       />
     </div>
 
-
     <footer class = 'edit-picture__footer'>
       <InputRange
         :label = 'scaleTitle'
@@ -78,12 +77,22 @@ const truncatePosition = (value, center) => {
   return newValue;
 };
 
+const scaleLog = (zoomScale, zoomMax) => Math.round(
+  Math.log(zoomScale) / Math.log(zoomMax) * zoomMax * 10
+) / 10;
+
 export default {
   name: 'EditPicture',
   components: {
     InputRange,
     BtnBack,
     BtnSend
+  },
+  props: {
+    autofit: {
+      type: Boolean,
+      default: false
+    }
   },
   data: () => ({
     scale: 0,
@@ -170,8 +179,7 @@ export default {
         zoomScale = this.zoomMin;
       }
 
-      const scale = Math.log(zoomScale) / Math.log(this.zoomMax) * this.zoomMax;
-      this.scale = Math.round(scale * 10) / 10;
+      this.scale = scaleLog(zoomScale, this.zoomMax);
     },
     zoomStop() {
       if (this.isZooming) {
@@ -273,6 +281,11 @@ export default {
       this.offsetY = 0;
 
       this.setCanvasSize();
+
+      if (this.autofit) {
+        this.scale = scaleLog(this.canvasSize / Math.max(height, width), this.zoomMax);
+      }
+
       this.renderImage();
     },
     setCanvasSize() {

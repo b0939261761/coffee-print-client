@@ -52,10 +52,30 @@ export const loadImage = src => new Promise((resolve, reject) => {
   try {
     const image = new Image();
     image.onload = () => resolve(image);
+    image.onerror = error => reject(error);
     image.src = src;
   } catch (error) {
     reject(error);
   }
+});
+
+// ----------------------------------------------------------
+
+export const loadImageToDataUrl = url => new Promise((resolve, reject) => {
+  const img = new Image();
+  img.crossOrigin = 'anonymous';
+  img.src = url;
+  img.onerror = error => reject(error);
+  img.onload = () => {
+    const canvas = document.createElement('canvas');
+    const context = canvas.getContext('2d');
+
+    canvas.width = img.width;
+    canvas.height = img.height;
+    context.drawImage(img, 0, 0);
+
+    resolve(canvas.toDataURL('image/jpeg'));
+  };
 });
 
 // ----------------------------------------------------------
@@ -77,5 +97,6 @@ export default {
   getOrientationImage,
   getBase64,
   loadImage,
+  loadImageToDataUrl,
   b64ToUint8Array
 };

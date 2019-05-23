@@ -68,7 +68,8 @@ export default new Router({
           path: 'edit',
           name: 'editPicture',
           component: EditPicture,
-          beforeEnter: beforeEnterEditPicture
+          beforeEnter: beforeEnterEditPicture,
+          props: route => ({ autofit: route.query.autofit })
         },
         {
           path: 'galleries',

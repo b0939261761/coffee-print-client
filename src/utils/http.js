@@ -27,11 +27,16 @@ http.interceptors.response.use(responseUse, responseError);
 
 // -------------------------
 
+export const getGalleryCategories = () => http.get('/galleries');
+export const getGalleryPictures = id => http.get(`/galleries/${id}/pictures`);
+
 export const getDevice = code => http.get(`/devices/${code}`);
 
 export const sendPicture = (id, data) => http.post(`/devices/${id}/pictures`, data);
 
 export default {
+  getGalleryCategories,
+  getGalleryPictures,
   getDevice,
   sendPicture
 };

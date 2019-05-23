@@ -4,11 +4,12 @@
       <li
         v-for = 'picture in pictures'
         :key = 'picture'
-        :data-id = 'picture'
+        :data-url = 'picture'
         class = 'gallery-pictures__item'
         @click = 'onGoGalleryPictures'
       >
         <img
+          crossOrigin='anonymous'
           :src = 'picture'
           class = 'gallery-pictures__img'
         >
@@ -18,18 +19,26 @@
 </template>
 
 <script>
+import { getGalleryPictures } from '@/utils/http';
+import { loadImageToDataUrl } from '@/utils/file';
 
 export default {
   name: 'GalleryPictures',
   data: () => ({
-    // pictures: ['/1.png', '/2.png']
-    pictures: ['/1.png', '/2.png', '/3.png', '/4.png', '/5.png', '/6.png', '/7.png', '/8.png', '/9.png']
+    pictures: []
   }),
+  async created() {
+    const response = await getGalleryPictures(this.$route.params.id);
+    const pictures = response.data && response.data.items ? response.data.items : [];
+    const url = process.env.VUE_APP_BASE_URL;
+    this.pictures = pictures.map(id => `${url}/galleries/pictures/${id}`);
+  },
   methods: {
-    onGoGalleryPictures(event) {
-      this.$store.commit('file/setFileUrl', { url: event.currentTarget.dataset.id });
+    async onGoGalleryPictures(event) {
+      const url = await loadImageToDataUrl(event.currentTarget.dataset.url);
+      this.$store.commit('file/setFileUrl', { url });
       this.$store.commit('file/setOrientation', { orientation: 0 });
-      this.$router.push({ name: 'editPicture' });
+      this.$router.push({ name: 'editPicture', query: { autofit: true } });
     }
   }
 };
