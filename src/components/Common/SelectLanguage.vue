@@ -79,9 +79,6 @@ export default {
       this.$i18n.locale = locale;
       this.$store.dispatch('app/setLocale', locale);
       this.visibleSelect = false;
-    },
-    onClick() {
-      this.$emit('click');
     }
   }
 };
@@ -109,8 +106,8 @@ export default {
     padding-top .2s ease-in;
 }
 
-.select-languag-1reme__select-locales--visible {
-  height: 130px;
+.select-language__select-locales--visible {
+  height: 13rem;
   padding-top: 1rem;
 }
 </style>
