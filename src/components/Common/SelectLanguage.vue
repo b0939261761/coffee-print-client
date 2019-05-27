@@ -99,6 +99,7 @@ export default {
 
 .select-language__select-locales {
   position: relative;
+  z-index: 1;
   height: 0;
   margin: -2rem 0 0;
   padding: 0 1rem;
