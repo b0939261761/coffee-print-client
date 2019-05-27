@@ -2,7 +2,7 @@ export default {
   coffeePrinter: 'Coffee printer',
   next: 'Next',
   back: 'Back',
-  selectPicture: 'Select an image',
+  selectPicture: 'Select image',
   scale: 'Scale',
   sendOnDevice: 'Send',
   formModalSendSuccessTitle: 'The image is transferred to the device',

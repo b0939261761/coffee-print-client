@@ -1,5 +1,5 @@
 export default {
-  coffeePrinter: 'Кавапринтер',
+  coffeePrinter: 'Кавовий принтер',
   next: 'Далі',
   back: 'Назад',
   selectPicture: 'Вибрати зображення',
