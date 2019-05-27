@@ -22,7 +22,9 @@ module.exports = {
         'color',
         'border-color',
         'box-shadow',
-        'background-color'
+        'background-color',
+        'padding-top',
+        'height'
       ] }
     ],
 

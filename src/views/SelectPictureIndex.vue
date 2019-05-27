@@ -1,19 +1,24 @@
 <template>
-  <div>
-    <LabelValue
-      :label = 'coffeePrinterTitle'
-      :value = '$store.state.device.code'
-    />
+  <div class = 'select-picture-index'>
+    <SelectLanguage />
 
-    <BtnSelectPicture @click = 'onGoEditPicture' />
+    <div>
+      <LabelValue
+        :label = 'coffeePrinterTitle'
+        :value = '$store.state.device.code'
+      />
 
-    <BtnSelectGallery @click = 'onGoGalleryCategories' />
+      <BtnSelectPicture @click = 'onGoEditPicture' />
 
-    <BtnBack @click = 'onGoSelectDevice' />
+      <BtnSelectGallery @click = 'onGoGalleryCategories' />
+
+      <BtnBack @click = 'onGoSelectDevice' />
+    </div>
   </div>
 </template>
 
 <script>
+import SelectLanguage from '@/components/Common/SelectLanguage.vue';
 import LabelValue from '@/components/SelectPicture/LabelValue.vue';
 import BtnSelectPicture from '@/components/SelectPicture/BtnSelectPicture.vue';
 import BtnSelectGallery from '@/components/SelectPicture/BtnSelectGallery.vue';
@@ -22,6 +27,7 @@ import BtnBack from '@/components/Common/BtnBack.vue';
 export default {
   name: 'SelectPictureIndex',
   components: {
+    SelectLanguage,
     LabelValue,
     BtnSelectPicture,
     BtnSelectGallery,
@@ -45,3 +51,14 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.select-picture-index {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+</style>

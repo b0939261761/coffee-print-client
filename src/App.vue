@@ -158,20 +158,12 @@ body {
     url('./assets/background-bottom.png');
   background-repeat: no-repeat;
   background-position:
-    center 2rem,
+    center 5rem,
     center bottom;
   background-size:
-    70% auto,
+    17rem auto,
     calc(100% - 2rem) auto;
   border-radius: .5rem .5rem 0 0;
   box-shadow: .2rem -.2rem 1rem 0 rgba(0, 0, 0, .2);
-}
-
-@media only screen and (min-width: 400px) {
-  .page__body {
-    background-size:
-      25.4rem auto,
-      calc(100% - 2rem) auto;
-  }
 }
 </style>

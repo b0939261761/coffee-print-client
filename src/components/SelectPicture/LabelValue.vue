@@ -36,7 +36,9 @@ export default {
   margin: 0 0 2rem 0;
   font-size: 1.8rem;
   text-align: left;
-  color: #fff;
+  color: #f7796a;
+  background-color: rgba(255, 255, 255, .7);
+  border-radius: .2rem;
   user-select: none;
 }
 
