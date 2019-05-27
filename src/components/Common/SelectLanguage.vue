@@ -2,12 +2,11 @@
   <nav class = 'select-language'>
     <Btn
       class = 'select-language__item'
-      :label = 'activeLocale.name'
       @blur = 'onBlur'
       @click = 'onVisibleSelect'
     >
       <template #icon>
-        <component :is = 'activeLocale.icon' />
+        <component :is = 'activeLocale' />
       </template>
     </Btn>
 
@@ -23,11 +22,10 @@
       >
         <Btn
           :data-locale = 'key'
-          :label = 'value.name'
           @click = 'onChangeLang'
         >
           <template #icon>
-            <component :is = 'value.icon' />
+            <component :is = 'value' />
           </template>
         </Btn>
       </li>
@@ -52,9 +50,9 @@ export default {
   data: () => ({
     visibleSelect: false,
     locales: {
-      en: { name: 'English', icon: IconFlagUs },
-      ru: { name: 'Русский', icon: IconFlagRu },
-      uk: { name: 'Українська', icon: IconFlagUk }
+      en: IconFlagUs,
+      ru: IconFlagRu,
+      uk: IconFlagUk
     }
   }),
   computed: {
@@ -92,9 +90,9 @@ export default {
 <style scoped>
 .select-language {
   position: absolute;
-  top: 10px;
-  right: 10px;
-  width: 170px;
+  top: 1rem;
+  right: 1rem;
+  width: 6rem;
 }
 
 .select-language__select-locales {
@@ -102,7 +100,7 @@ export default {
   z-index: 1;
   height: 0;
   margin: -2rem 0 0;
-  padding: 0 1rem;
+  padding: 0 .5rem;
   overflow: hidden;
   list-style: none;
   background-color: rgba(255, 255, 255, .8);
@@ -111,8 +109,8 @@ export default {
     padding-top .2s ease-in;
 }
 
-.select-language__select-locales--visible {
-  height: 150px;
-  padding-top: 2rem;
+.select-languag-1reme__select-locales--visible {
+  height: 130px;
+  padding-top: 1rem;
 }
 </style>

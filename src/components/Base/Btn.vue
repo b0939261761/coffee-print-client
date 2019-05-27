@@ -80,7 +80,6 @@ export default {
   justify-content: center;
   align-items: center;
   width: 100%;
-  min-width: 8.8rem;
   min-height: 4.4rem;
   margin: 0 0 2rem 0;
   padding: .8rem 1.6rem;
