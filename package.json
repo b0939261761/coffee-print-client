@@ -9,7 +9,7 @@
     "lint:css": "stylelint \"src/**/*.vue\" --fix"
   },
   "dependencies": {
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "portal-vue": "^2.1.4",
     "vue": "^2.6.10",
     "vue-i18n": "^8.11.2",
